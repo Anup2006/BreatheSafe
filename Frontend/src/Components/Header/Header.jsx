@@ -1,4 +1,4 @@
-import lungslogo from "../assets/lungslogo.png";
+import lungslogo from "/src/assets/lungslogo.png";
 import "./Header.css"; 
 import { useState } from "react";
 
