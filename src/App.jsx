@@ -6,7 +6,7 @@ import Content from './Footer-box1/Content.jsx'
 import ImageAnimation from './Image/imageAnimation.jsx'
 import Major from './Footer-box2/Major.jsx'
 import Dashboard from './Dashboard/Dashboard.jsx'
-
+import HealthInsights from './HealthInsights/HealthInsights.jsx'
 function App() {
   
 
@@ -17,6 +17,7 @@ function App() {
       <Major/>
       <Content/>
       <Dashboard/>
+      <HealthInsights/>
       <Footer/>
     </>
   )
