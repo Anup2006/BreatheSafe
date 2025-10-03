@@ -6,6 +6,7 @@ import Content from './Components/Footer-box1/Content.jsx'
 import ImageAnimation from './Components/Image/imageAnimation.jsx'
 import Major from './Components/Footer-box2/Major.jsx'
 import Dashboard from './Pages/Dashboard/Dashboard.jsx'
+import HealthInsights from './Pages/HealthInsights/HealthInsights.jsx'
 
 function App() {
   
@@ -17,6 +18,7 @@ function App() {
       <Major/>
       <Content/>
       <Dashboard/>
+      <HealthInsights/>
       <Footer/>
     </>
   )
