@@ -1,10 +1,10 @@
 import Description from "./Description";
 import Chatbot from "./Chatbot";
-import "./Major.css";
+import "./Content.css";
 import News from "./News";
 
 
-export default function Major(){
+export default function Conetnt(){
     return (
         <>
             <div className="major">

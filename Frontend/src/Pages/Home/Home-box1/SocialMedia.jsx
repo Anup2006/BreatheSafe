@@ -1,8 +1,8 @@
 import Tweets from "./Tweets";
 import Videos from "./Videos";
-import './Content.css';
+import './SocialMedia.css';
 
-export default function Content() {
+export default function SocialMedia() {
     return ( 
         <>
             <div className="content">

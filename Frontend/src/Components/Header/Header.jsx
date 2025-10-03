@@ -1,6 +1,7 @@
 import lungslogo from "/src/assets/lungslogo.png";
 import "./Header.css"; 
 import { useState } from "react";
+import {Link,NavLink} from "react-router-dom";
 
 export default function Header() {
   
@@ -23,14 +24,14 @@ export default function Header() {
       
       {/* Desktop Navigation  */}
       <nav class="nav">
-        <button  className="nav-link active">Home</button>
-        <button  className="nav-link">Dashboard</button>
-        <button  className="nav-link">Health Insights</button>
-        <button  className="nav-link">Air Quality</button>
+        <NavLink to="/" className="nav-link">Home</NavLink>
+        <NavLink to="/dashboard" className="nav-link">Dashboard</NavLink>
+        <NavLink to="/health-insights" className="nav-link">Health Insights</NavLink>
+        <NavLink to="/air-quality" className="nav-link">Air Quality</NavLink>
         {!isLoggedIn && (
-          <button className="nav-link" onClick={() => setIsLoggedIn(true)}>
+          <Link to="#" className="nav-link" onClick={() => setIsLoggedIn(true)}>
             Login
-          </button>
+          </Link>
         )}
         {isLoggedIn &&
             <div className="dropdown">
@@ -69,12 +70,12 @@ export default function Header() {
         {/*  Mobile Menu  */}
         {isMenuOpen && (
           <div className="mobile-menu" id="mobileMenu">
-            <a href="#" onClick={() => {  setIsMenuOpen(false) }}>Home</a>
-            <a href="#" onClick={() => { setIsMenuOpen(false) }}>Dashboard</a>
-            <a href="#" onClick={() => { setIsMenuOpen(false) }}>Health Insights</a>
-            <a href="#" onClick={() => { setIsMenuOpen(false) }}>Air Quality</a>
-            <a href="#" onClick={() => { setIsLoggedIn(!isLoggedIn); setIsMenuOpen(false); }}>
-              {isLoggedIn ? 'Logout ( User )' : 'Login'}  </a>
+            <NavLink to="/" onClick={() => {  setIsMenuOpen(false) }}>Home</NavLink>
+            <NavLink to="/dashboard" onClick={() => { setIsMenuOpen(false) }}>Dashboard</NavLink>
+            <NavLink to="/health-insights" onClick={() => { setIsMenuOpen(false) }}>Health Insights</NavLink>
+            <NavLink to="/air-quality" onClick={() => { setIsMenuOpen(false) }}>Air Quality</NavLink>
+            <Link to="#" onClick={() => { setIsLoggedIn(!isLoggedIn); setIsMenuOpen(false); }}>
+              {isLoggedIn ? 'Logout ( User )' : 'Login'}  </Link>
           </div>
         )}
       </div>

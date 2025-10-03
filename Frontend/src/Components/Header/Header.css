@@ -7,6 +7,9 @@
     top: 0;
     z-index: 50;
     width: 100%;
+    width: 1342.5px;
+    margin-top: -2rem;
+    margin-left: -4rem;
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(6px);
     border-bottom: 1px solid #e5e7eb; 
@@ -15,19 +18,7 @@
 .header-container {
   max-width: 1280px;   /* same as max-w-7xl */
   margin: 0 auto;
-  padding: 0 1rem;     
-}
-
-@media (min-width: 640px) {
-  .header-container {
-    padding: 0 1.5rem; /* sm:px-6 */
-  }
-}
-
-@media (min-width: 1024px) {
-  .header-container {
-    padding: 0 2rem;   /* lg:px-8 */
-  }
+  padding-left:-1rem;  
 }
 
 .header-inner {
@@ -67,6 +58,7 @@
 
 .nav {
   display: none;
+  padding-right: 2rem;
 }
 
 @media (min-width: 768px) {
@@ -235,6 +227,12 @@
 
   .menu-btn {
     display: block; /* show hamburger */
+    padding-top:1rem ;
+    padding-right:1rem ;
+  }
+  .header{
+    width:auto;
+    
   }
 }
 
