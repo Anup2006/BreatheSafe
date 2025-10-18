@@ -1,4 +1,5 @@
-🌍 BreatheSafeAI
+<h1>🌍 BreatheSafeAI</h1>
+<br>
 AI-Powered Health & Environmental Risk Intelligence Platform
 
 “Predict. Prevent. Protect.” — BreatheSafeAI integrates real-time environmental intelligence and personalized AI models to forecast health risks, detect environmental anomalies, and visualize future climate trends.
