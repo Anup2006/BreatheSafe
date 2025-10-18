@@ -1,0 +1,4 @@
+The Air Quality Index (AQI) is a standardized measure used by government agencies to communicate the level of air pollution and its associated health risks to the public.
+ It typically ranges from 0 to 500, with higher values indicating greater pollution and health concern.
+ The AQI is calculated based on concentrations of major pollutants such as ground-level ozone, particle pollution (PM2.5 and PM10), carbon monoxide, sulfur dioxide, and nitrogen dioxide.
+ Each AQI value corresponds to a color-coded category and health advisory: Green (0–50, Good), Yellow (51–100, Moderate), Orange (101–150, Unhealthy for Sensitive Groups), Red (151–200, Unhealthy), Purple (201–300, Very Unhealthy), and Maroon (301+, Hazardous).
