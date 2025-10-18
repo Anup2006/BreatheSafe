@@ -1,5 +1,7 @@
-.image-animation{
-    height: 200px;
-    width: 100%;
-    border: 1px solid #111827;
+.image-animation {
+  height: 200px;
+  width: 95%;
+  border: 1px solid #111827;
+  text-align: center;
+  margin: 5rem auto 2rem;
 }

@@ -1,13 +1,13 @@
 .footer {
-  background-color: #111827; 
+  background-color: #111827;
   color: white;
-  width: 97.8%;
-  padding: 4rem 1rem;
+  width: 100%;
+  padding: 1rem 1rem;
 }
 
 .container {
   max-width: 1280px;
-  margin: 0 auto;
+  margin: auto;
   padding: 0 1rem;
 }
 
@@ -23,11 +23,11 @@
   }
 }
 
-.brand{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.brand {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .brand-logo {
   display: flex;
@@ -47,7 +47,7 @@
 }
 
 .brand-text {
-  color: #9ca3af; 
+  color: #9ca3af;
   margin-bottom: 1.5rem;
   max-width: 400px;
   line-height: 1.6;
@@ -65,7 +65,7 @@
 }
 
 .social-links a:hover {
-  color: #2EC4B6;
+  color: #2ec4b6;
 }
 
 .footer-title {
@@ -93,7 +93,7 @@
 }
 
 .footer-bottom {
-  border-top: 1px solid #1f2937; 
+  border-top: 1px solid #1f2937;
   margin-top: 3rem;
   padding-top: 2rem;
   display: flex;

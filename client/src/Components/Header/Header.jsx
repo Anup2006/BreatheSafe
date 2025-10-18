@@ -1,15 +1,15 @@
 import lungslogo from "/src/assets/lungslogo.png";
-import "./Header.css";
 import { useState, useEffect } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [userName, setUserName] = useState("");
   const navigate = useNavigate();
 
-  // ✅ Load user from localStorage on page load
+  // Load user from localStorage on page load
   useEffect(() => {
     const storedUser = localStorage.getItem("userName");
     if (storedUser) {
@@ -18,7 +18,6 @@ export default function Header() {
     }
   }, []);
 
-  // ✅ Logout handler (now redirects to /auth)
   const handleLogout = () => {
     localStorage.removeItem("userName");
     setIsLoggedIn(false);
@@ -27,99 +26,149 @@ export default function Header() {
   };
 
   return (
-    <header className="header">
-      <div className="header-container">
-        <div className="header-inner">
-          {/* Logo */}
-          <div className="logo-section">
-            <div className="logo-wrapper">
-              <img src={lungslogo} alt="BreatheSafeAI" className="logo" />
-            </div>
-            <span className="title">BreatheSafeAI</span>
+    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-md border-b border-gray-200">
+      <div className="max-w-7xl mx-auto flex items-center justify-between h-20 px-4 md:px-8">
+        {/* Logo */}
+        <div className="flex items-center gap-2 cursor-pointer">
+          <div className="w-16 h-10 rounded-full overflow-hidden flex items-center justify-center">
+            <img
+              src={lungslogo}
+              alt="BreatheSafeAI"
+              className="w-32 h-16 object-cover"
+            />
           </div>
+          <span className="text-3xl font-semibold text-gray-900">
+            BreatheSafeAI
+          </span>
         </div>
-      </div>
 
-      {/* Desktop Navigation */}
-      <nav className="nav">
-        <Link to="/app">Home</Link>
-        <Link to="/app/dashboard">Dashboard</Link>
-        <Link to="/app/health-insights">Health Insights</Link>
-        <Link to="/app/air-quality">Air Quality</Link>
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center gap-8">
+          <NavLink
+            to="/app"
+            className="text-gray-700 text-xl font-medium hover:text-teal-400"
+          >
+            Home
+          </NavLink>
+          <NavLink
+            to="/app/dashboard"
+            className="text-gray-700 text-xl font-medium hover:text-teal-400"
+          >
+            Dashboard
+          </NavLink>
+          <NavLink
+            to="/app/health-insights"
+            className="text-gray-700 text-xl font-medium hover:text-teal-400"
+          >
+            Health Insights
+          </NavLink>
+          <NavLink
+            to="/app/air-quality"
+            className="text-gray-700 text-xl font-medium hover:text-teal-400"
+          >
+            Air Quality
+          </NavLink>
 
-        {!isLoggedIn ? (
-          <Link to="/auth" className="nav-link">
-            Login
-          </Link>
-        ) : (
-          <div className="dropdown">
-            <div className="avatar-btn">
-              {userName.charAt(0).toUpperCase()}
-            </div>
-            <div className="dropdown-content">
-              <div className="dropdown-header">
-                <p className="name">{userName}</p>
-                <p className="email">
-                  {userName.toLowerCase().replace(/\s+/g, "")}@gmail.com
-                </p>
-              </div>
-              <div className="dropdown-separator"></div>
-              <div className="dropdown-item" onClick={handleLogout}>
-                <span className="icon">
-                  <i className="fa-solid fa-right-from-bracket"></i>
-                </span>
-                Log out
-              </div>
-            </div>
-          </div>
-        )}
-      </nav>
-
-      {/* Mobile Menu */}
-      <div id="menu">
-        <button
-          className="menu-btn"
-          id="menuToggle"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-        >
-          {isMenuOpen ? (
-            <i className="fa-solid fa-xmark" id="xmark"></i>
+          {!isLoggedIn ? (
+            <Link
+              to="/auth"
+              className="text-gray-700  text-xl font-medium hover:text-teal-400"
+            >
+              Login
+            </Link>
           ) : (
-            <i className="fa-solid fa-bars"></i>
-          )}
-        </button>
-
-        {isMenuOpen && (
-          <div className="mobile-menu" id="mobileMenu">
-            <NavLink to="/" onClick={() => setIsMenuOpen(false)}>
-              Home
-            </NavLink>
-            <NavLink to="/dashboard" onClick={() => setIsMenuOpen(false)}>
-              Dashboard
-            </NavLink>
-            <NavLink to="/health-insights" onClick={() => setIsMenuOpen(false)}>
-              Health Insights
-            </NavLink>
-            <NavLink to="/air-quality" onClick={() => setIsMenuOpen(false)}>
-              Air Quality
-            </NavLink>
-            {isLoggedIn ? (
-              <button
-                className="mobile-link-btn"
-                onClick={() => {
-                  handleLogout();
-                  setIsMenuOpen(false);
-                }}
+            <div className="relative">
+              <div
+                className="w-12 h-10 text-xl rounded-full bg-teal-400 text-white flex items-center justify-center font-bold cursor-pointer"
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               >
-                Logout ({userName})
-              </button>
+                {userName.charAt(0).toUpperCase()}
+              </div>
+
+              {isDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-72 h-32  bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+                  <div className="p-3 border-b border-gray-100">
+                    <p className="font-semibold text-2xl">{userName}</p>
+                    <p className="text-xl text-gray-500">
+                      {userName.toLowerCase().replace(/\s+/g, "")}@gmail.com
+                    </p>
+                  </div>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
+                  >
+                    <i className="fa-solid fa-right-from-bracket"></i> Log out
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+        </nav>
+
+        {/* Mobile Menu */}
+        <div className="md:hidden flex flex-col">
+          <button
+            className="text-black text-2xl p-2"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            {isMenuOpen ? (
+              <i className="fa-solid fa-xmark"></i>
             ) : (
-              <Link to="/" onClick={() => setIsMenuOpen(false)}>
-                Login
-              </Link>
+              <i className="fa-solid fa-bars"></i>
             )}
-          </div>
-        )}
+          </button>
+          {isMenuOpen && (
+            <div className="flex flex-col bg-white border-t border-gray-200 mt-2 p-4 space-y-2">
+              <NavLink
+                to="/app"
+                onClick={() => setIsMenuOpen(false)}
+                className="text-gray-700 hover:text-teal-400"
+              >
+                Home
+              </NavLink>
+              <NavLink
+                to="/app/dashboard"
+                onClick={() => setIsMenuOpen(false)}
+                className="text-gray-700 hover:text-teal-400"
+              >
+                Dashboard
+              </NavLink>
+              <NavLink
+                to="/app/health-insights"
+                onClick={() => setIsMenuOpen(false)}
+                className="text-gray-700 hover:text-teal-400"
+              >
+                Health Insights
+              </NavLink>
+              <NavLink
+                to="/app/air-quality"
+                onClick={() => setIsMenuOpen(false)}
+                className="text-gray-700 hover:text-teal-400"
+              >
+                Air Quality
+              </NavLink>
+              {isLoggedIn ? (
+                <button
+                  className="text-gray-700 hover:text-teal-400 text-left"
+                  onClick={() => {
+                    handleLogout();
+                    setIsMenuOpen(false);
+                  }}
+                >
+                  Logout ({userName})
+                </button>
+              ) : (
+                <Link
+                  to="/auth"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="text-gray-700 hover:text-teal-400"
+                >
+                  Login
+                </Link>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </header>
   );
