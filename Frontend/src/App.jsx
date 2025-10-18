@@ -1,19 +1,18 @@
-import { useState } from 'react'
-import './App.css'
-import Header from './Components/Header/Header.jsx'
-import Footer from './Components/Footer/Footer.jsx'
-import { Outlet } from 'react-router-dom'
+// src/App.jsx
+import './App.css';
+import Header from "./Components/Header/Header.jsx";
+import Footer from './Components/Footer/Footer.jsx';
+import { Outlet } from 'react-router-dom';
 
 function App() {
-  
-
   return (
     <>
-      <Header/>
-      <Outlet/>
-      <Footer/>
+      <Header />
+      {/* This will render the child routes like Home, Dashboard, etc. */}
+      <Outlet />
+      <Footer />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
