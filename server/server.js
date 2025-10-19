@@ -1,23 +1,33 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
+import session from "express-session";
+import passport from "./config/passport.config.js";
 import ConnectDB from "./config/DB.config.js";
-
-dotenv.config();
+import userRoutes from "./routes/auth.routes.js";
 
 ConnectDB();
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 
-// Test route
-app.get("/", (req, res) => {
-  res.send("BreatheSafeAI Backend Running 🚀");
-});
+// Routes
+app.use("/api/users", userRoutes);
 
-// Start server
+// Test
+app.get("/", (req, res) => res.send("BreatheSafeAI Backend Running 🚀"));
+
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
