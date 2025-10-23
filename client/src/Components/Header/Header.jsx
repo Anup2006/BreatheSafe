@@ -1,27 +1,19 @@
 import lungslogo from "/src/assets/lungslogo.png";
 import { useState, useEffect } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [userName, setUserName] = useState("");
   const navigate = useNavigate();
+  const { user, logout } = useAuth();
+  const [imgError, setImgError] = useState(false);
 
-  // Load user from localStorage on page load
-  useEffect(() => {
-    const storedUser = localStorage.getItem("userName");
-    if (storedUser) {
-      setIsLoggedIn(true);
-      setUserName(storedUser);
-    }
-  }, []);
-
+  const fallback = user.name ? user.name.charAt(0).toUpperCase() : "?";
   const handleLogout = () => {
-    localStorage.removeItem("userName");
-    setIsLoggedIn(false);
-    setUserName("");
+    logout();
     navigate("/auth");
   };
 
@@ -69,7 +61,7 @@ export default function Header() {
             Air Quality
           </NavLink>
 
-          {!isLoggedIn ? (
+          {!user  ? (
             <Link
               to="/auth"
               className="text-gray-700  text-xl font-medium hover:text-teal-400"
@@ -82,15 +74,25 @@ export default function Header() {
                 className="w-12 h-10 text-xl rounded-full bg-teal-400 text-white flex items-center justify-center font-bold cursor-pointer"
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               >
-                {userName.charAt(0).toUpperCase()}
-              </div>
+   {user.avatarUrl && !imgError ? (
+        <img
+          src={user.avatarUrl}
+          alt={user.name}
+          onError={() => setImgError(true)} // will catch 429
+          className="w-12 h-12 rounded-full object-cover"
+        />
+      ) : (
+        <div className="w-12 h-12 rounded-full bg-teal-400 text-white flex items-center justify-center font-bold text-xl">
+          {fallback}
+        </div>
+      )}    </div>
 
               {isDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-72 h-32  bg-white rounded-lg shadow-lg border border-gray-200 z-50">
                   <div className="p-3 border-b border-gray-100">
-                    <p className="font-semibold text-2xl">{userName}</p>
+                    <p className="font-semibold text-2xl">{user.name}</p>
                     <p className="text-xl text-gray-500">
-                      {userName.toLowerCase().replace(/\s+/g, "")}@gmail.com
+                      {user.email? user.email : user.phone}
                     </p>
                   </div>
                   <button
@@ -155,7 +157,7 @@ export default function Header() {
                     setIsMenuOpen(false);
                   }}
                 >
-                  Logout ({userName})
+                  Logout ({user.name})
                 </button>
               ) : (
                 <Link

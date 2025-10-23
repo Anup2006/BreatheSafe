@@ -1,12 +1,18 @@
 import dotenv from "dotenv";
-dotenv.config();
-
+dotenv.config();  
+console.log("🔍 ENV TEST:", {
+  GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+  GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+  GOOGLE_CALLBACK_URL: process.env.GOOGLE_CALLBACK_URL,
+  SESSION_SECRET: process.env.SESSION_SECRET,
+  FRONTEND_URL: process.env.FRONTEND_URL,
+});
 import express from "express";
 import cors from "cors";
 import session from "express-session";
-import passport from "./config/passport.config.js";
-import ConnectDB from "./config/DB.config.js";
-import userRoutes from "./routes/auth.routes.js";
+const { default: passport } = await import("./config/passport.config.js");
+const { default: ConnectDB } = await import("./config/DB.config.js");
+const { default: userRoutes } = await import("./routes/auth.routes.js");
 
 ConnectDB();
 

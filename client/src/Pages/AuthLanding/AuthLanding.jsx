@@ -1,3 +1,13 @@
+
+
+
+// Old page not in used anymore mane page is AuthPage.jsx
+
+
+
+
+
+
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +28,7 @@ const AuthLanding = () => {
   const [otpSent, setOtpSent] = useState(false);
   const [otp, setOtp] = useState("");
   const navigate = useNavigate();
+  const [loginMethod, setLoginMethod] = useState("email"); // email or phone 
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -182,62 +193,102 @@ const AuthLanding = () => {
           )}
 
           {/* Manual Form */}
-          <form
-            onSubmit={handleSubmit}
-            className="w-full max-w-md space-y-5 mt-5"
-          >
-            {!isLogin && (
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Name"
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
-                required
-              />
-            )}
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Email"
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
-              required
-            />
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Password"
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
-              required
-            />
-            <input
-              type="tel"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              placeholder="+91 9876543210"
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
+     <form
+  onSubmit={handleSubmit}
+  className="w-full max-w-md space-y-5 mt-5"
+>
+  {/* Signup Name field */}
+  {!isLogin && (
+    <input
+      type="text"
+      name="name"
+      value={formData.name}
+      onChange={handleChange}
+      placeholder="Name"
+      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+      required
+    />
+  )}
 
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full py-3 bg-blue-600 text-white rounded-xl text-lg font-semibold hover:bg-blue-700 transition-all"
-            >
-              {isLoading
-                ? isLogin
-                  ? "Logging in..."
-                  : "Signing up..."
-                : isLogin
-                ? "Login"
-                : "Sign Up"}
-            </button>
-          </form>
+  {/* Login Method Toggle (only for login) */}
+  {isLogin && (
+    <div className="flex space-x-4 mb-3">
+      <button
+        type="button"
+        onClick={() => setLoginMethod("email")}
+        className={`px-4 py-2 rounded-full font-medium ${
+          loginMethod === "email"
+            ? "bg-blue-600 text-white"
+            : "bg-gray-100 text-gray-700"
+        }`}
+      >
+        Email
+      </button>
+      <button
+        type="button"
+        onClick={() => setLoginMethod("phone")}
+        className={`px-4 py-2 rounded-full font-medium ${
+          loginMethod === "phone"
+            ? "bg-blue-600 text-white"
+            : "bg-gray-100 text-gray-700"
+        }`}
+      >
+        Moblie Number
+      </button>
+    </div>
+  )}
+
+  {/* Email or Phone field based on login method */}
+  {(!isLogin || loginMethod === "email") && (
+    <input
+      type="email"
+      name="email"
+      value={formData.email}
+      onChange={handleChange}
+      placeholder="Email"
+      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+      required={loginMethod === "email" || !isLogin}
+    />
+  )}
+
+  {(!isLogin || loginMethod === "phone") && (
+    <input
+      type="tel"
+      name="phone"
+      value={formData.phone}
+      onChange={handleChange}
+      placeholder="+91 9876543210"
+      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+      required={loginMethod === "phone"}
+    />
+  )}
+
+  {/* Password (always required) */}
+  <input
+    type="password"
+    name="password"
+    value={formData.password}
+    onChange={handleChange}
+    placeholder="Password"
+    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+    required
+  />
+
+  <button
+    type="submit"
+    disabled={isLoading}
+    className="w-full py-3 bg-blue-600 text-white rounded-xl text-lg font-semibold hover:bg-blue-700 transition-all"
+  >
+    {isLoading
+      ? isLogin
+        ? "Logging in..."
+        : "Signing up..."
+      : isLogin
+      ? "Login"
+      : "Sign Up"}
+  </button>
+</form>
+
 
           <p className="mt-8 text-gray-500 text-sm">
             © 2025 BreatheSafeAI — Breathe better, live smarter.

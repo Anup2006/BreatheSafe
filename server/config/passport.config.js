@@ -3,7 +3,7 @@ import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import User from "../models/user.model.js";
 
-// console.log(process.env.GOOGLE_CLIENT_ID);
+console.log(process.env.GOOGLE_CALLBACK_URL);
 
 passport.use(
   new GoogleStrategy(
@@ -21,8 +21,17 @@ passport.use(
             googleId: profile.id,
             name: profile.displayName,
             email: profile.emails[0].value,
+                    avatarUrl: profile.photos?.[0]?.value || "",
+isEmailVerified:true
           });
-        }
+        } else {
+      // update missing fields (avatar and googleId)
+      user.googleId = profile.id;
+      if (!user.avatarUrl && profile.photos?.[0]?.value) {
+        user.avatarUrl = profile.photos[0].value;
+      }
+      await user.save();
+    }
 
         return done(null, user);
       } catch (error) {

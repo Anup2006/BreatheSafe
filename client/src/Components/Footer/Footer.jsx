@@ -3,31 +3,31 @@ import lungslogo from "/src/assets/lungslogo.png";
 
 export default function Footer() {
   return (
-      <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
+      <footer className="footer">
+        <div className="container">
+            <div className="footer-grid">
                 {/*  Brand  */}
-                <div class="brand">
-                    <div class="brand-logo">
-                        <img src={lungslogo} alt="BreatheSafe" class="logo" />
-                        <span class="brand-name">BreatheSafeAI</span>
+                <div className="brand">
+                    <div className="brand-logo">
+                        <img src={lungslogo} alt="BreatheSafe" className="logo" />
+                        <span className="brand-name">BreatheSafeAI</span>
                     </div>
-                        <p class="brand-text">
+                        <p className="brand-text">
                         Empowering respiratory health through AI-powered insights and real-time air quality monitoring. 
                         Breathe easier with personalized predictions and healthcare support.
                         </p>
-                        <div class="social-links">
-                        <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
-                        <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <div className="social-links">
+                        <a href="#" title="Facebook"><i className="fab fa-facebook-f"></i></a>
+                        <a href="#" title="Twitter"><i className="fab fa-twitter"></i></a>
+                        <a href="#" title="Instagram"><i className="fab fa-instagram"></i></a>
+                        <a href="#" title="LinkedIn"><i className="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
 
                 {/*  Quick Links  */}
                 <div>
-                    <h3 class="footer-title">Quick Links</h3>
-                    <ul class="footer-links">
+                    <h3 className="footer-title">Quick Links</h3>
+                    <ul className="footer-links">
                         <li><a href="#">About Us</a></li>
                         <li><a href="#">Features</a></li>
                         <li><a href="#">Dashboard</a></li>
@@ -38,8 +38,8 @@ export default function Footer() {
 
                 {/*  Support  */}
                 <div>
-                    <h3 class="footer-title">Support</h3>
-                    <ul class="footer-links">
+                    <h3 className="footer-title">Support</h3>
+                    <ul className="footer-links">
                         <li><a href="#">Help Center</a></li>
                         <li><a href="#">Privacy Policy</a></li>
                         <li><a href="#">Terms of Service</a></li>
@@ -49,7 +49,7 @@ export default function Footer() {
                 </div>
             </div>
 
-            <div class="footer-bottom">
+            <div className="footer-bottom">
                 <p>© 2025 BreatheSafeAI. All rights reserved.</p>
                 <p>This platform is not intended to replace professional medical advice.</p>
             </div>

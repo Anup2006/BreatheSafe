@@ -6,7 +6,7 @@ function App() {
   return (
     <>
       <Header />
-      {/* This will render the child routes like Home, Dashboard, etc. */}
+      {/* This will render the child routes like Home,  Dashboard, etc. */}
       <Outlet />
       <Footer />
     </>

@@ -1,5 +1,7 @@
 import express from "express";
 import passport from "passport";
+import jwt from "jsonwebtoken";
+
 import {
   signup,
   login,
@@ -7,6 +9,9 @@ import {
   updateUser,
   phoneSendOtp,
   phoneVerifyOtp,
+  completeSignup ,
+  verifyEmailOtp,
+  sendEmailOtp
 } from "../controllers/user.controllers.js";
 import { requireAuth } from "../middlewares/auth.middleware.js";
 
@@ -15,6 +20,9 @@ const router = express.Router();
 // Email/Password
 router.post("/signup", signup);
 router.post("/login", login);
+router.post("/phone/complete-signup", completeSignup);
+router.post("/email/verify-otp", verifyEmailOtp);
+router.post("/email/send-otp", sendEmailOtp);
 
 // Phone OTP
 router.post("/phone/send-otp", phoneSendOtp);
@@ -42,7 +50,9 @@ router.get(
       expiresIn: "7d",
     });
     // Redirect with token
-    res.redirect(`${process.env.FRONTEND_URL}?token=${token}`);
+res.redirect(`${process.env.FRONTEND_URL}/app?token=${token}`);
+    console.log("successfuly logged in with google");
+    
   }
 );
 
