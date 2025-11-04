@@ -17,30 +17,30 @@ const DiseaseInfoPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const diseases = [
- {
-  name: "Asthma",
-  symptoms: [
-    "Shortness of breath",
-    "Wheezing",
-    "Chest tightness",
-    "Chronic cough",
-    "Difficulty breathing during exercise or at night",
-  ],
-  causes:
-    "Exposure to outdoor and indoor air pollutants such as particulate matter, ozone, nitrogen dioxide, sulfur dioxide, and allergens. Other triggers include tobacco smoke, pet dander, dust, and mold.",
-  pollutants: [
-    "Particulate Matter (PM2.5 and PM10)",
-    "Nitrogen Dioxide (NO₂)",
-    "Ozone (O₃)",
-    "Sulfur Dioxide (SO₂)",
-    "Carbon Monoxide (CO)",
-    "Tobacco Smoke",
-    "Animal Dander and Indoor Allergens",
-  ],
-  icon: <FiWind className="disease-icon" />,
-  color: "#2EC4B6",
-  severity: "Moderate to Severe",
-},
+    {
+      name: "Asthma",
+      symptoms: [
+        "Shortness of breath",
+        "Wheezing",
+        "Chest tightness",
+        "Chronic cough",
+        "Difficulty breathing during exercise or at night",
+      ],
+      causes:
+        "Exposure to outdoor and indoor air pollutants such as particulate matter, ozone, nitrogen dioxide, sulfur dioxide, and allergens. Other triggers include tobacco smoke, pet dander, dust, and mold.",
+      pollutants: [
+        "Particulate Matter (PM2.5 and PM10)",
+        "Nitrogen Dioxide (NO₂)",
+        "Ozone (O₃)",
+        "Sulfur Dioxide (SO₂)",
+        "Carbon Monoxide (CO)",
+        "Tobacco Smoke",
+        "Animal Dander and Indoor Allergens",
+      ],
+      icon: <FiWind className="disease-icon" />,
+      color: "#2EC4B6",
+      severity: "Moderate to Severe",
+    },
     {
       name: "Bronchitis",
       symptoms: [
@@ -216,13 +216,26 @@ const DiseaseInfoPage = () => {
 
   return (
     <div className="disease-info-container">
+      {/* TOP NAVIGATION */}
+      <div className="top-nav">
+        <button
+          className="back-btn"
+          onClick={handleBack}
+          title="Go back to dashboard"
+        >
+          <i className="fas fa-arrow-left"></i>
+          <span>Back to Dashboard</span>
+        </button>
+        <h1 className="nav-title">❤️‍🩹 Airborne Disease Information</h1>
+        <div style={{ width: "120px" }}></div>
+      </div>
       {/* Hero Section */}
       <div className="disease-hero">
         <div className="hero-content">
           <div className="hero-icon">
             <FiActivity size={48} />
           </div>
-          <h1>Airborne Disease Information</h1>
+
           <p>
             Learn about common airborne diseases and their relationship with air
             quality
@@ -282,7 +295,11 @@ const DiseaseInfoPage = () => {
                   </div>
                   <div>
                     <h2 className="disease-name">{disease.name}</h2>
-                    <span className={`severity-badge ${getSeverityBadge(disease.severity)}`}>
+                    <span
+                      className={`severity-badge ${getSeverityBadge(
+                        disease.severity
+                      )}`}
+                    >
                       {disease.severity}
                     </span>
                   </div>
@@ -292,7 +309,9 @@ const DiseaseInfoPage = () => {
                   className={`speech-button ${
                     speakingDisease === disease.name ? "speaking" : ""
                   }`}
-                  aria-label={speakingDisease === disease.name ? "Stop" : "Listen"}
+                  aria-label={
+                    speakingDisease === disease.name ? "Stop" : "Listen"
+                  }
                 >
                   {speakingDisease === disease.name ? (
                     <FiVolumeX size={20} />
@@ -357,8 +376,7 @@ const DiseaseInfoPage = () => {
               </div>
 
               {/* Card Footer */}
-              <div className="disease-card-footer">
-              </div>
+              <div className="disease-card-footer"></div>
             </div>
           ))}
         </div>
