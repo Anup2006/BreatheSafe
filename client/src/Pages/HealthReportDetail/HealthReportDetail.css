@@ -1297,7 +1297,6 @@
 .banner-icon {
   color: #f59e0b;
   flex-shrink: 0;
-  animation: spin 2s linear infinite;
 }
 
 .banner-text h3 {
