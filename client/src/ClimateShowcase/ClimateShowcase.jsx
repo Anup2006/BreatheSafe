@@ -11,8 +11,7 @@ import {
   Filler,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import "./ClimateShowcase.css";
 import { useNavigate } from "react-router-dom";
 
@@ -28,14 +27,21 @@ ChartJS.register(
 );
 
 export default function ClimateForecaster() {
-  const [location, setLocation] = useState({ name: "Pune", lat: 18.5214, lon: 73.8545 });
+  const [location, setLocation] = useState({
+    name: "Pune",
+    lat: 18.5214,
+    lon: 73.8545,
+  });
   const [inputValue, setInputValue] = useState("Pune");
   const [forecastData, setForecastData] = useState(null);
   const [selectedVariables, setSelectedVariables] = useState([
     "temperature_2m_max",
     "temperature_2m_min",
   ]);
-  const [dateRange, setDateRange] = useState({ start: "2020-01-01", end: "2050-12-31" });
+  const [dateRange, setDateRange] = useState({
+    start: "2020-01-01",
+    end: "2050-12-31",
+  });
   const [loading, setLoading] = useState(false);
   const [hasData, setHasData] = useState(false);
   const [geoLoading, setGeoLoading] = useState(false);
@@ -51,25 +57,94 @@ export default function ClimateForecaster() {
   // ✅ EXPANDED WEATHER VARIABLES WITH ALL OPTIONS
   const weatherVariables = [
     // Temperature
-    { id: "temperature_2m_max", name: "Max Temperature", unit: "°C", category: "Temperature", icon: "🌡️", color: "#FF6B6B" },
-    { id: "temperature_2m_min", name: "Min Temperature", unit: "°C", category: "Temperature", icon: "❄️", color: "#4ECDC4" },
-    { id: "temperature_2m_mean", name: "Mean Temperature", unit: "°C", category: "Temperature", icon: "🌤️", color: "#45B7D1" },
-    
+    {
+      id: "temperature_2m_max",
+      name: "Max Temperature",
+      unit: "°C",
+      category: "Temperature",
+      icon: "🌡️",
+      color: "#FF6B6B",
+    },
+    {
+      id: "temperature_2m_min",
+      name: "Min Temperature",
+      unit: "°C",
+      category: "Temperature",
+      icon: "❄️",
+      color: "#4ECDC4",
+    },
+    {
+      id: "temperature_2m_mean",
+      name: "Mean Temperature",
+      unit: "°C",
+      category: "Temperature",
+      icon: "🌤️",
+      color: "#45B7D1",
+    },
+
     // Relative Humidity
-    { id: "relative_humidity_2m_max", name: "Max Humidity", unit: "%", category: "Humidity", icon: "💦", color: "#FFD93D" },
-    { id: "relative_humidity_2m_mean", name: "Mean Humidity", unit: "%", category: "Humidity", icon: "💧", color: "#FFA500" },
-    { id: "relative_humidity_2m_min", name: "Min Humidity", unit: "%", category: "Humidity", icon: "🏜️", color: "#FF8C42" },
-    
+    {
+      id: "relative_humidity_2m_max",
+      name: "Max Humidity",
+      unit: "%",
+      category: "Humidity",
+      icon: "💦",
+      color: "#FFD93D",
+    },
+    {
+      id: "relative_humidity_2m_mean",
+      name: "Mean Humidity",
+      unit: "%",
+      category: "Humidity",
+      icon: "💧",
+      color: "#FFA500",
+    },
+    {
+      id: "relative_humidity_2m_min",
+      name: "Min Humidity",
+      unit: "%",
+      category: "Humidity",
+      icon: "🏜️",
+      color: "#FF8C42",
+    },
+
     // Wind Speed
-    { id: "wind_speed_10m_mean", name: "Mean Wind Speed", unit: "km/h", category: "Wind", icon: "💨", color: "#BB8FCE" },
-    { id: "wind_speed_10m_max", name: "Max Wind Speed", unit: "km/h", category: "Wind", icon: "🌪️", color: "#9B59B6" },
-    
-    
+    {
+      id: "wind_speed_10m_mean",
+      name: "Mean Wind Speed",
+      unit: "km/h",
+      category: "Wind",
+      icon: "💨",
+      color: "#BB8FCE",
+    },
+    {
+      id: "wind_speed_10m_max",
+      name: "Max Wind Speed",
+      unit: "km/h",
+      category: "Wind",
+      icon: "🌪️",
+      color: "#9B59B6",
+    },
+
     // Cloud & Radiation
-    { id: "cloud_cover_mean", name: "Cloud Cover", unit: "%", category: "Cloud", icon: "☁️", color: "#95A5A6" },
-    
+    {
+      id: "cloud_cover_mean",
+      name: "Cloud Cover",
+      unit: "%",
+      category: "Cloud",
+      icon: "☁️",
+      color: "#95A5A6",
+    },
+
     // Pressure
-    { id: "pressure_msl_mean", name: "Sea Level Pressure", unit: "hPa", category: "Pressure", icon: "📊", color: "#8E44AD" },
+    {
+      id: "pressure_msl_mean",
+      name: "Sea Level Pressure",
+      unit: "hPa",
+      category: "Pressure",
+      icon: "📊",
+      color: "#8E44AD",
+    },
   ];
 
   const quickDateRanges = [
@@ -100,7 +175,9 @@ export default function ClimateForecaster() {
           lon: parseFloat(data[0].lon),
         };
       }
-      throw new Error(`Location "${locationName}" not found. Please try another location.`);
+      throw new Error(
+        `Location "${locationName}" not found. Please try another location.`
+      );
     } catch (err) {
       throw new Error(err.message || "Failed to fetch location coordinates");
     }
@@ -130,7 +207,11 @@ export default function ClimateForecaster() {
       if (!response.ok) throw new Error("Failed to reverse geocode");
 
       const data = await response.json();
-      const locationName = data.address?.city || data.address?.town || data.name || "Current Location";
+      const locationName =
+        data.address?.city ||
+        data.address?.town ||
+        data.name ||
+        "Current Location";
 
       setLocation({ name: locationName, lat: latitude, lon: longitude });
       setInputValue(locationName);
@@ -171,7 +252,9 @@ export default function ClimateForecaster() {
       const response = await fetch(url, { timeout: 15000 });
 
       if (!response.ok) {
-        throw new Error(`API Error: ${response.status} - ${response.statusText}`);
+        throw new Error(
+          `API Error: ${response.status} - ${response.statusText}`
+        );
       }
 
       const data = await response.json();
@@ -191,7 +274,10 @@ export default function ClimateForecaster() {
   // ✅ Handle location search
   const handleLocationSearch = async (isGeolocation = false) => {
     if (!isGeolocation && !inputValue.trim()) {
-      toast.warning("Please enter a location", { position: "top-right", autoClose: 3000 });
+      toast.warning("Please enter a location", {
+        position: "top-right",
+        autoClose: 3000,
+      });
       return;
     }
 
@@ -228,6 +314,7 @@ export default function ClimateForecaster() {
   // ✅ Handle Enter key
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
+      e.preventDefault();
       handleLocationSearch();
     }
   };
@@ -236,9 +323,12 @@ export default function ClimateForecaster() {
   const toggleVariable = (varId) => {
     if (selectedVariables.includes(varId)) {
       if (selectedVariables.length > 1) {
-        setSelectedVariables(selectedVariables.filter(v => v !== varId));
+        setSelectedVariables(selectedVariables.filter((v) => v !== varId));
       } else {
-        toast.warning("Select at least one variable", { position: "top-right", autoClose: 3000 });
+        toast.warning("Select at least one variable", {
+          position: "top-right",
+          autoClose: 3000,
+        });
       }
     } else {
       if (selectedVariables.length < 6) {
@@ -265,20 +355,23 @@ export default function ClimateForecaster() {
       // Sample every 365th day for better visualization
       const sampleIndices = timeData
         .map((_, i) => (i % 365 === 0 ? i : null))
-        .filter(i => i !== null);
+        .filter((i) => i !== null);
 
       if (sampleIndices.length === 0) return null;
 
-      const sampledTime = sampleIndices.map(i => timeData[i]).slice(0, 100);
+      const sampledTime = sampleIndices.map((i) => timeData[i]).slice(0, 100);
 
       const datasets = selectedVariables.map((varId, idx) => {
-        const variable = weatherVariables.find(v => v.id === varId);
+        const variable = weatherVariables.find((v) => v.id === varId);
         const varName = variable?.name || varId;
-        const varColor = variable?.color || `hsl(${Math.random() * 360}, 70%, 50%)`;
+        const varColor =
+          variable?.color || `hsl(${Math.random() * 360}, 70%, 50%)`;
 
-        const validData = sampleIndices.slice(0, 100).map(i => {
+        const validData = sampleIndices.slice(0, 100).map((i) => {
           const value = daily[varId]?.[i];
-          return typeof value === "number" && !isNaN(value) ? parseFloat(value.toFixed(2)) : 0;
+          return typeof value === "number" && !isNaN(value)
+            ? parseFloat(value.toFixed(2))
+            : 0;
         });
 
         return {
@@ -301,9 +394,12 @@ export default function ClimateForecaster() {
       });
 
       return {
-        labels: sampledTime.map(date => {
+        labels: sampledTime.map((date) => {
           const d = new Date(date);
-          return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+          return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(
+            2,
+            "0"
+          )}`;
         }),
         datasets,
       };
@@ -322,28 +418,30 @@ export default function ClimateForecaster() {
     return acc;
   }, {});
 
- 
-useEffect(() => {
+  useEffect(() => {
     handleLocationSearch();
 
-  if (hasData && forecastData && location) {
-    // Regenerate chart data instantly on variable change
-    setChartLoading(true);
-    setTimeout(() => {
-      setChartLoading(false);
-    }, 300); // small delay for smoother UI transition
-  }
-}, [selectedVariables]);
+    if (hasData && forecastData && location) {
+      // Regenerate chart data instantly on variable change
+      setChartLoading(true);
+      setTimeout(() => {
+        setChartLoading(false);
+      }, 300); // small delay for smoother UI transition
+    }
+  }, [selectedVariables]);
   const chartData = generateChartData();
-  const isDateRangeValid = dateRange.start && dateRange.end && dateRange.start <= dateRange.end;
+  const isDateRangeValid =
+    dateRange.start && dateRange.end && dateRange.start <= dateRange.end;
 
   return (
     <div className="climate-forecaster">
-      <ToastContainer position="top-right" autoClose={3000} theme="light" />
-
       {/* TOP NAVIGATION */}
       <div className="top-nav">
-        <button className="back-btn" onClick={handleBack} title="Go back to dashboard">
+        <button
+          className="back-btn"
+          onClick={handleBack}
+          title="Go back to dashboard"
+        >
           <i className="fas fa-arrow-left"></i>
           <span>Back to Dashboard</span>
         </button>
@@ -368,13 +466,17 @@ useEffect(() => {
           <div className="form-section">
             <div className="location-header">
               <label>📍 Location</label>
-              <button 
-                className="geo-btn" 
-                onClick={detectUserLocation} 
+              <button
+                className="geo-btn"
+                onClick={detectUserLocation}
                 disabled={geoLoading}
                 title="Detect your location automatically"
               >
-                <i className={`fas ${geoLoading ? "fa-spinner" : "fa-location-dot"}`}></i>
+                <i
+                  className={`fas ${
+                    geoLoading ? "fa-spinner" : "fa-location-dot"
+                  }`}
+                ></i>
                 {geoLoading ? "Detecting..." : "My Location"}
               </button>
             </div>
@@ -389,23 +491,27 @@ useEffect(() => {
                 placeholder="Enter city name (e.g., Berlin, Tokyo, Mumbai)"
                 disabled={loading}
               />
-              <button onClick={() => handleLocationSearch()} disabled={loading || !inputValue.trim()}>
-                <i className={`fas ${loading ? "fa-spinner fa-spin" : "fa-search"}`}></i>
+              <button
+                onClick={() => handleLocationSearch()}
+                disabled={loading || !inputValue.trim()}
+              >
+                <i
+                  className={`fas ${
+                    loading ? "fa-spinner fa-spin" : "fa-search"
+                  }`}
+                ></i>
                 {loading ? "Searching..." : "Search"}
               </button>
             </div>
 
             {hasData && (
               <p className="location-info">
-                ✓ <strong>{location.name}</strong> • Lat: {location.lat.toFixed(3)}° • Lon: {location.lon.toFixed(3)}°
+                ✓ <strong>{location.name}</strong> • Lat:{" "}
+                {location.lat.toFixed(3)}° • Lon: {location.lon.toFixed(3)}°
               </p>
             )}
 
-            {error && (
-              <p className="location-error">
-                ⚠️ {error}
-              </p>
-            )}
+            {error && <p className="location-error">⚠️ {error}</p>}
           </div>
 
           <div className="form-section">
@@ -414,14 +520,18 @@ useEffect(() => {
               <input
                 type="date"
                 value={dateRange.start}
-                onChange={(e) => setDateRange({ ...dateRange, start: e.target.value })}
+                onChange={(e) =>
+                  setDateRange({ ...dateRange, start: e.target.value })
+                }
                 disabled={loading}
               />
               <span className="date-sep">→</span>
               <input
                 type="date"
                 value={dateRange.end}
-                onChange={(e) => setDateRange({ ...dateRange, end: e.target.value })}
+                onChange={(e) =>
+                  setDateRange({ ...dateRange, end: e.target.value })
+                }
                 disabled={loading}
               />
             </div>
@@ -435,11 +545,13 @@ useEffect(() => {
             <div className="quick-dates">
               <label>Quick Select:</label>
               <div className="quick-buttons">
-                {quickDateRanges.map(range => (
+                {quickDateRanges.map((range) => (
                   <button
                     key={range.label}
                     className="quick-btn"
-                    onClick={() => setDateRange({ start: range.start, end: range.end })}
+                    onClick={() =>
+                      setDateRange({ start: range.start, end: range.end })
+                    }
                     disabled={loading}
                   >
                     {range.label}
@@ -466,11 +578,23 @@ useEffect(() => {
                 width="100%"
                 height="400"
                 frameBorder="0"
-                src={`https://www.openstreetmap.org/export/embed.html?bbox=${location.lon - 0.5},${location.lat - 0.5},${location.lon + 0.5},${location.lat + 0.5}&layer=mapnik&marker=${location.lat},${location.lon}`}
+                src={`https://www.openstreetmap.org/export/embed.html?bbox=${
+                  location.lon - 0.5
+                },${location.lat - 0.5},${location.lon + 0.5},${
+                  location.lat + 0.5
+                }&layer=mapnik&marker=${location.lat},${location.lon}`}
                 style={{ borderRadius: "8px" }}
               ></iframe>
               <p className="map-credit">
-                © <a href="https://www.openstreetmap.org" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors
+                ©{" "}
+                <a
+                  href="https://www.openstreetmap.org"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  OpenStreetMap
+                </a>{" "}
+                contributors
               </p>
             </div>
           </div>
@@ -482,9 +606,12 @@ useEffect(() => {
         <div className="card">
           <div className="card-header">
             <h3 className="card-title">
-              <i className="fas fa-sliders-h"></i> Daily Variables ({selectedVariables.length}/{weatherVariables.length})
+              <i className="fas fa-sliders-h"></i> Daily Variables (
+              {selectedVariables.length}/{weatherVariables.length})
             </h3>
-            <p className="card-subtitle">Select up to 6 variables for chart visualization</p>
+            <p className="card-subtitle">
+              Select up to 6 variables for chart visualization
+            </p>
           </div>
 
           <div className="card-content">
@@ -492,19 +619,25 @@ useEffect(() => {
               <div key={category} className="variable-category">
                 <h4 className="category-title">{category}</h4>
                 <div className="variables-grid">
-                  {variables.map(variable => (
+                  {variables.map((variable) => (
                     <button
                       key={variable.id}
-                      className={`variable-item ${selectedVariables.includes(variable.id) ? "selected" : ""}`}
+                      className={`variable-item ${
+                        selectedVariables.includes(variable.id)
+                          ? "selected"
+                          : ""
+                      }`}
                       onClick={() => toggleVariable(variable.id)}
                       title={`${variable.name} (${variable.unit})`}
                       disabled={loading}
                       style={{
-                        '--var-color': variable.color
+                        "--var-color": variable.color,
                       }}
                     >
                       <div className="var-check">
-                        {selectedVariables.includes(variable.id) && <i className="fas fa-check"></i>}
+                        {selectedVariables.includes(variable.id) && (
+                          <i className="fas fa-check"></i>
+                        )}
                       </div>
                       <div className="var-icon">{variable.icon}</div>
                       <div className="var-info">
@@ -527,7 +660,9 @@ useEffect(() => {
             <h2>
               <i className="fas fa-chart-line"></i> Climate Forecast Trends
             </h2>
-            <p className="chart-subtitle">{dateRange.start} to {dateRange.end}</p>
+            <p className="chart-subtitle">
+              {dateRange.start} to {dateRange.end}
+            </p>
           </div>
           <div className="chart-wrapper">
             <Line
@@ -572,7 +707,9 @@ useEffect(() => {
                       label: (context) => {
                         const label = context.dataset.label || "";
                         const value = context.parsed.y;
-                        const unit = weatherVariables.find(v => v.name === label)?.unit || "";
+                        const unit =
+                          weatherVariables.find((v) => v.name === label)
+                            ?.unit || "";
                         return `${label}: ${value.toFixed(2)} ${unit}`;
                       },
                       footer: () => {
@@ -592,7 +729,7 @@ useEffect(() => {
                     ticks: {
                       font: { size: 12, weight: "500" },
                       color: "#6b7280",
-                      callback: function(value) {
+                      callback: function (value) {
                         return value.toFixed(1);
                       },
                     },
@@ -642,8 +779,6 @@ useEffect(() => {
           </div>
         </div>
       )}
-
- 
     </div>
   );
 }
