@@ -9,9 +9,45 @@
     />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BreatheSafeAI</title>
+
+    <!-- In your <head> tag -->
+    <script src="https://cdn.botpress.cloud/webchat/v3.3/inject.js"></script>
   </head>
   <body>
     <div id="root"></div>
+
     <script type="module" src="/src/main.jsx"></script>
+    <script>
+      window.botpress.on("webchat:ready", () => {
+        window.botpress.open();
+      });
+      window.botpress.init({
+        botId: "cb19a064-3ba9-40a1-bfea-9e955e4fb3ca",
+        configuration: {
+          version: "v2",
+          botName: "BreatheBot 🌤️",
+          botDescription: "",
+          website: {},
+          email: {},
+          phone: {},
+          termsOfService: {},
+          privacyPolicy: {},
+          color: "#2db488",
+          variant: "solid",
+          headerVariant: "glass",
+          themeMode: "light",
+          fontFamily: "inter",
+          radius: 2,
+          feedbackEnabled: false,
+          soundEnabled: false,
+          proactiveMessageEnabled: false,
+          proactiveBubbleMessage: "Hi! 👋 Need help?",
+          proactiveBubbleTriggerType: "afterDelay",
+          proactiveBubbleDelayTime: 10,
+        },
+        clientId: "dbf082f7-b9ae-4fe3-9060-03d319b06054",
+        selector: "#webchat",
+      });
+    </script>
   </body>
 </html>
