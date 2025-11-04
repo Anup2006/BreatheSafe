@@ -60,7 +60,30 @@ export default function Header() {
           >
             Air Quality
           </NavLink>
-
+          <NavLink
+            to="/Diseases-info"
+            className="text-gray-700 text-xl font-medium hover:text-teal-400"
+          >
+            Diseases Info
+          </NavLink>
+          <NavLink
+            to="/app/health-assessment"
+            className="text-gray-700 text-xl font-medium hover:text-teal-400"
+          >
+            Health Assessment
+          </NavLink>
+                    <NavLink
+            to="/app/health-report"
+            className="text-gray-700 text-xl font-medium hover:text-teal-400"
+          >
+            Health Report
+          </NavLink>
+           <NavLink
+            to="/ClimateModal"
+            className="text-gray-700 text-xl font-medium hover:text-teal-400"
+          >
+            Climate Modal
+          </NavLink>
           {!user  ? (
             <Link
               to="/auth"

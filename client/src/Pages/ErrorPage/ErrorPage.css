@@ -1,0 +1,121 @@
+.error-page-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f0fdfa 0%, #e0f2fe 100%);
+  padding: 2rem;
+}
+
+.error-page-content {
+  text-align: center;
+  max-width: 500px;
+  background: white;
+  padding: 3rem 2rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.error-icon {
+  color: #ef4444;
+  margin-bottom: 1.5rem;
+  animation: shake 0.5s ease;
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-10px);
+  }
+  75% {
+    transform: translateX(10px);
+  }
+}
+
+.error-page-content h1 {
+  font-size: 2rem;
+  color: #111827;
+  margin: 0 0 1rem 0;
+}
+
+.error-message {
+  color: #6b7280;
+  font-size: 1.125rem;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.6;
+}
+
+.error-details {
+  color: #9ca3af;
+  font-size: 0.875rem;
+  margin: 0 0 2rem 0;
+}
+
+.error-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.btn-primary,
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  font-size: 1rem;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #2ec4b6 0%, #20a89e 100%);
+  color: white;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(46, 196, 182, 0.2);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(46, 196, 182, 0.3);
+}
+
+.btn-secondary {
+  background: white;
+  color: #374151;
+  border: 2px solid #e5e7eb;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-secondary:hover {
+  border-color: #2ec4b6;
+  color: #2ec4b6;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .error-page-content {
+    padding: 2rem 1rem;
+  }
+
+  .error-page-content h1 {
+    font-size: 1.5rem;
+  }
+
+  .error-actions {
+    flex-direction: column;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    justify-content: center;
+  }
+}

@@ -18,7 +18,7 @@ export function useAuthInit() {
         window.history.replaceState({}, document.title, window.location.pathname);
 
         // Redirect user to dashboard after login
-        navigate("/app/dashboard", { replace: true });
+        navigate("/app", { replace: true });
         return;
       }
 
