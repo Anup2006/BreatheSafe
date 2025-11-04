@@ -66,7 +66,7 @@ export default function ResponsiveHorizontalForm() {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    
+
     if (type === "checkbox") {
       if (name === "chronicDiseases" || name === "symptoms") {
         setForm((prev) => ({
@@ -117,7 +117,7 @@ export default function ResponsiveHorizontalForm() {
       }
 
       const response = await fetch(
-        "http://localhost:5000/api/health-assessment",
+        "http://localhost:5000/api/health/assessment",
         {
           method: "POST",
           headers: {
@@ -148,7 +148,7 @@ export default function ResponsiveHorizontalForm() {
       if (data.success) {
         toast.success("Health assessment submitted successfully!");
         setForm(initialForm);
-        
+
         // Optional: Navigate to dashboard after success
         setTimeout(() => {
           navigate("/app/health-report");
@@ -179,7 +179,10 @@ export default function ResponsiveHorizontalForm() {
           <FiActivity size={40} />
         </div>
         <h1>Respiratory Health Assessment</h1>
-        <p>Help us understand your health condition for personalized recommendations</p>
+        <p>
+          Help us understand your health condition for personalized
+          recommendations
+        </p>
       </div>
 
       <form onSubmit={handleSubmit} className="assessment-form">
@@ -231,11 +234,15 @@ export default function ResponsiveHorizontalForm() {
         <div className="selection-summary">
           <div className="summary-item">
             <span className="summary-label">Chronic Diseases:</span>
-            <span className="summary-count">{form.chronicDiseases.length} selected</span>
+            <span className="summary-count">
+              {form.chronicDiseases.length} selected
+            </span>
           </div>
           <div className="summary-item">
             <span className="summary-label">Symptoms:</span>
-            <span className="summary-count">{form.symptoms.length} selected</span>
+            <span className="summary-count">
+              {form.symptoms.length} selected
+            </span>
           </div>
         </div>
 
@@ -251,7 +258,9 @@ export default function ResponsiveHorizontalForm() {
               <button
                 type="button"
                 onClick={() => setActiveTab("chronicDiseases")}
-                className={`tab-button ${activeTab === "chronicDiseases" ? "active" : ""}`}
+                className={`tab-button ${
+                  activeTab === "chronicDiseases" ? "active" : ""
+                }`}
               >
                 <FiActivity size={16} />
                 Chronic Diseases ({form.chronicDiseases.length})
@@ -259,7 +268,9 @@ export default function ResponsiveHorizontalForm() {
               <button
                 type="button"
                 onClick={() => setActiveTab("symptoms")}
-                className={`tab-button ${activeTab === "symptoms" ? "active" : ""}`}
+                className={`tab-button ${
+                  activeTab === "symptoms" ? "active" : ""
+                }`}
               >
                 <FiAlertCircle size={16} />
                 Current Symptoms ({form.symptoms.length})
@@ -347,9 +358,10 @@ export default function ResponsiveHorizontalForm() {
               className="consent-checkbox"
             />
             <span className="consent-text">
-              I consent to the collection and processing of my health information for the
-              purpose of receiving personalized air quality and health recommendations. I
-              understand that my data will be kept confidential and secure.
+              I consent to the collection and processing of my health
+              information for the purpose of receiving personalized air quality
+              and health recommendations. I understand that my data will be kept
+              confidential and secure.
               <span className="required"> *</span>
             </span>
           </label>
@@ -357,11 +369,7 @@ export default function ResponsiveHorizontalForm() {
 
         {/* Action Buttons */}
         <div className="form-actions">
-          <button
-            type="button"
-            onClick={handleReset}
-            className="btn-secondary"
-          >
+          <button type="button" onClick={handleReset} className="btn-secondary">
             <FiRefreshCw size={18} />
             Reset Form
           </button>
@@ -391,9 +399,9 @@ export default function ResponsiveHorizontalForm() {
         <div>
           <h3>Privacy Notice</h3>
           <p>
-            Your health information is confidential and will only be used to provide
-            personalized air quality recommendations. We do not share your data with
-            third parties.
+            Your health information is confidential and will only be used to
+            provide personalized air quality recommendations. We do not share
+            your data with third parties.
           </p>
         </div>
       </div>

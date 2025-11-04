@@ -10,7 +10,7 @@ export default function AuthPage() {
 
   useEffect(() => {
     if (!loading && user) {
-      navigate("/app", { replace: true });
+      navigate("/app/health-assessment", { replace: true });
     }
   }, [user, loading, navigate]);
 
@@ -19,11 +19,9 @@ export default function AuthPage() {
     toast.success("Welcome to BreatheSafeAI!");
     console.log("userData:", userData);
     console.log("token:", token);
-    
-    
-    navigate("/app");
-    console.log("Navigation to /app triggered");
-    
+
+    navigate("/app/health-assessment");
+    console.log("Navigation to /app/health-assessment triggered");
   };
 
   if (loading) {

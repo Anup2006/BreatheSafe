@@ -4,16 +4,16 @@ import bcrypt from "bcryptjs";
 const userSchema = new mongoose.Schema(
   {
     name: { type: String, default: "" },
-      avatarUrl: { type: String, default: "" },  
-email: { type: String, default: "" },
+    avatarUrl: { type: String, default: "" },
+    email: { type: String, default: "" },
     isEmailVerified: { type: Boolean, default: false },
-    emailOtp: { type: String },           // OTP for email verification
+    emailOtp: { type: String }, // OTP for email verification
     emailOtpExpiry: { type: Date },
 
     password: { type: String, select: false },
     phone: { type: String },
     isPhoneVerified: { type: Boolean, default: false },
-    phoneOtp: { type: String },           // OTP for phone verification
+    phoneOtp: { type: String }, // OTP for phone verification
     phoneOtpExpiry: { type: Date },
 
     googleId: { type: String },

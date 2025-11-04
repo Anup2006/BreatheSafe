@@ -48,32 +48,31 @@ const HealthReportDetail = () => {
     const reportDate = new Date(reportTimestamp);
     return assessmentDate > reportDate;
   };
- function formatDate(dateString) {
-  if (!dateString) return "N/Asdd";
+  function formatDate(dateString) {
+    if (!dateString) return "N/Asdd";
 
-  const date = new Date(dateString);
+    const date = new Date(dateString);
 
-  // Handle invalid date
-  if (isNaN(date.getTime())) return "Invalid date";
+    // Handle invalid date
+    if (isNaN(date.getTime())) return "Invalid date";
 
-  // Example: "Nov 4, 2025 • 9:15 AM"
-  return date.toLocaleString("en-IN", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true,
-  });
-}
-
+    // Example: "Nov 4, 2025 • 9:15 AM"
+    return date.toLocaleString("en-IN", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+  }
 
   // ✅ Fetch all reports and assessments
   const fetchAllReportsAndAssessments = async (token) => {
     try {
       // Fetch all reports
       const reportsResponse = await fetch(
-        "http://localhost:5000/api/health-report/my-reports",
+        "http://localhost:5000/api/health/reports",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -91,7 +90,7 @@ const HealthReportDetail = () => {
 
       // Fetch all assessments
       const assessmentsResponse = await fetch(
-        "http://localhost:5000/api/health-assessment/my-assessments",
+        "http://localhost:5000/api/health/assessment",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -100,7 +99,7 @@ const HealthReportDetail = () => {
       );
 
       let assessments = [];
-      if (assessmentsResponse.ok) {
+      if (assessmentsResponse.success) {
         const assessmentsData = await assessmentsResponse.json();
         if (assessmentsData.success && assessmentsData.assessments) {
           assessments = assessmentsData.assessments;
@@ -150,13 +149,15 @@ const HealthReportDetail = () => {
         }
 
         // ✅ Fetch everything
-        const { reports, assessments } = await fetchAllReportsAndAssessments(token);
+        const { reports, assessments } = await fetchAllReportsAndAssessments(
+          token
+        );
 
         let endpoint;
         if (id) {
-          endpoint = `http://localhost:5000/api/health-report/reports/${id}`;
+          endpoint = `http://localhost:5000/api/health/reports/${id}`;
         } else {
-          endpoint = `http://localhost:5000/api/health-report/my-reports`;
+          endpoint = `http://localhost:5000/api/health/reports`;
         }
 
         const response = await fetch(endpoint, {
@@ -213,7 +214,8 @@ const HealthReportDetail = () => {
                 });
               }
             } else {
-              const { assessments: allAssessments } = await fetchAllReportsAndAssessments(token);
+              const { assessments: allAssessments } =
+                await fetchAllReportsAndAssessments(token);
               if (allAssessments && allAssessments.length > 0) {
                 setHealthAssessment(allAssessments[0]);
                 const days = checkAssessmentAge(allAssessments[0].timestamp);
@@ -415,10 +417,14 @@ const HealthReportDetail = () => {
                 </div>
               </div>
               <p className="pending-message">
-                For accurate and personalized recommendations, we recommend taking a fresh health assessment.
+                For accurate and personalized recommendations, we recommend
+                taking a fresh health assessment.
               </p>
               <div className="pending-actions">
-                <Link to="/app/health-assessment" className="btn-renew-assessment">
+                <Link
+                  to="/app/health-assessment"
+                  className="btn-renew-assessment"
+                >
                   <FiActivity size={18} />
                   Take New Assessment
                 </Link>
@@ -451,7 +457,9 @@ const HealthReportDetail = () => {
             <p className="assessment-date">
               <FiClock size={16} />
               Completed on {formatDate(report?.healthData?.assessmentDate)}
-              {daysOld > 0 && <span className="days-old"> ({daysOld} days ago)</span>}
+              {daysOld > 0 && (
+                <span className="days-old"> ({daysOld} days ago)</span>
+              )}
             </p>
           </div>
 
@@ -530,8 +538,8 @@ const HealthReportDetail = () => {
               <FiShield size={48} className="generate-icon" />
               <h2>Generate Your Health Report</h2>
               <p>
-                Get personalized health recommendations based on your assessment and
-                current air quality conditions.
+                Get personalized health recommendations based on your assessment
+                and current air quality conditions.
               </p>
               <button
                 onClick={handleGenerateReport}
@@ -565,7 +573,9 @@ const HealthReportDetail = () => {
         <div className="error-state">
           <FiAlertCircle size={80} className="error-icon" />
           <h2>No Health Assessment Found</h2>
-          <p>Please complete a health assessment first to generate your report.</p>
+          <p>
+            Please complete a health assessment first to generate your report.
+          </p>
           <div className="error-actions">
             <Link to="/app/health-assessment" className="btn-primary">
               <FiActivity size={18} />
@@ -667,7 +677,10 @@ const HealthReportDetail = () => {
             <FiRefreshCw size={20} className="banner-icon" />
             <div className="banner-text">
               <h3>New Health Assessment Available</h3>
-              <p>You have a pending health assessment ready to generate a new report</p>
+              <p>
+                You have a pending health assessment ready to generate a new
+                report
+              </p>
             </div>
           </div>
           <Link to="/app/health-report" className="banner-action">
@@ -686,7 +699,7 @@ const HealthReportDetail = () => {
           <h1>Health Report</h1>
           <p className="report-date">
             <FiClock size={16} />
-            Generated on {formatDate(report?.report?.timestamp )}
+            Generated on {formatDate(report?.report?.timestamp)}
           </p>
         </div>
 
@@ -824,7 +837,9 @@ const HealthReportDetail = () => {
               ))}
             </div>
           ) : (
-            <p className="no-data">No health-specific recommendations available</p>
+            <p className="no-data">
+              No health-specific recommendations available
+            </p>
           )}
 
           {report.report?.ageSpecificRecommendations?.length > 0 && (
@@ -872,7 +887,9 @@ const HealthReportDetail = () => {
               <div className="safety-card">
                 <p className="safety-status">
                   <strong>Safe:</strong>{" "}
-                  {report.report.outdoorActivitySafety.isSafe ? "Yes ✓" : "No ✗"}
+                  {report.report.outdoorActivitySafety.isSafe
+                    ? "Yes ✓"
+                    : "No ✗"}
                 </p>
                 <p>{report.report.outdoorActivitySafety.recommendation}</p>
                 {report.report.outdoorActivitySafety.timeRestrictions && (
@@ -939,7 +956,8 @@ const HealthReportDetail = () => {
               className="expand-toggle"
               onClick={() => setExpandPreviousReports(!expandPreviousReports)}
             >
-              {expandPreviousReports ? "Hide" : "Show"} ({previousReports.length})
+              {expandPreviousReports ? "Hide" : "Show"} (
+              {previousReports.length})
             </button>
           </div>
 
@@ -960,7 +978,8 @@ const HealthReportDetail = () => {
                     </div>
                     <div className="report-item-details">
                       <span className="aqi-indicator">
-                        AQI: <strong>{prevReport.aqiData?.value || "N/A"}</strong>
+                        AQI:{" "}
+                        <strong>{prevReport.aqiData?.value || "N/A"}</strong>
                       </span>
                       <span className="location-indicator">
                         📍 {prevReport.location?.name || "Unknown"}
