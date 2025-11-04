@@ -4,8 +4,8 @@ import bcrypt from "bcryptjs";
 const userSchema = new mongoose.Schema(
   {
     name: { type: String, default: "" },
-      avatarUrl: { type: String, default: "" },  
-email: { type: String, default: "" },
+    avatarUrl: { type: String, default: "" },  
+    email: { type: String, default: "" },
     isEmailVerified: { type: Boolean, default: false },
     emailOtp: { type: String },           // OTP for email verification
     emailOtpExpiry: { type: Date },

@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config();  
-console.log("🔍 ENV TEST:", {
+console.log(" ENV TEST:", {
   GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
   GOOGLE_CALLBACK_URL: process.env.GOOGLE_CALLBACK_URL,
@@ -13,6 +13,8 @@ import session from "express-session";
 const { default: passport } = await import("./config/passport.config.js");
 const { default: ConnectDB } = await import("./config/DB.config.js");
 const { default: userRoutes } = await import("./routes/auth.routes.js");
+const { default: healthAssessmentRoutes } = await import("./routes/healthAssessment.routes.js");
+const { default: healthReportRoutes } = await import("./routes/healthReport.routes.js");
 
 ConnectDB();
 
@@ -31,7 +33,8 @@ app.use(passport.session());
 
 // Routes
 app.use("/api/users", userRoutes);
-
+app.use("/api/health-assessment", healthAssessmentRoutes);
+app.use("/api/health-report", healthReportRoutes);
 // Test
 app.get("/", (req, res) => res.send("BreatheSafeAI Backend Running 🚀"));
 

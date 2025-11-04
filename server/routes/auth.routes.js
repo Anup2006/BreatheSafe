@@ -12,7 +12,7 @@ import {
   completeSignup ,
   verifyEmailOtp,
   sendEmailOtp
-} from "../controllers/user.controllers.js";
+} from "../controllers/user.controller.js";
 import { requireAuth } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
