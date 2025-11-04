@@ -49,7 +49,7 @@ const HealthReportDetail = () => {
     return assessmentDate > reportDate;
   };
   function formatDate(dateString) {
-    if (!dateString) return "N/Asdd";
+    if (!dateString) return "N/A";
 
     const date = new Date(dateString);
 
@@ -166,15 +166,7 @@ const HealthReportDetail = () => {
           },
         });
 
-        if (!response.ok) {
-          if (response.status === 401) {
-            toast.error("Session expired. Please log in again.");
-            localStorage.removeItem("token");
-            navigate("/auth");
-            return;
-          }
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        
 
         const data = await response.json();
 
@@ -456,7 +448,7 @@ const HealthReportDetail = () => {
             <h1>Your Health Assessment</h1>
             <p className="assessment-date">
               <FiClock size={16} />
-              Completed on {formatDate(report?.healthData?.assessmentDate)}
+              Completed on { formatDate(healthAssessment.timestamp)}
               {daysOld > 0 && (
                 <span className="days-old"> ({daysOld} days ago)</span>
               )}

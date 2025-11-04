@@ -174,7 +174,6 @@ try {
       
       const response = await result.response;
       const responseText = response.text();
-      console.log('Raw AI response text:', responseText);
       let reportData;
       try {
         // Clean the response text to ensure it's valid JSON

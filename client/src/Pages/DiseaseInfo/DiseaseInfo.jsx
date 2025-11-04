@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   FiVolume2,
   FiVolumeX,
@@ -10,6 +10,7 @@ import {
   FiCloud,
   FiSun,
   FiActivity,
+  FiArrowLeft,
 } from "react-icons/fi";
 import "./DiseaseInfo.css";
 
@@ -225,14 +226,10 @@ const DiseaseInfoPage = () => {
     <div className="disease-info-container">
       {/* TOP NAVIGATION */}
       <div className="top-nav">
-        <button
-          className="back-btn"
-          onClick={handleBack}
-          title="Go back to dashboard"
-        >
-          <i className="fas fa-arrow-left"></i>
-          <span>Back to Dashboard</span>
-        </button>
+     <Link to="/app/dashboard" className="back-link">
+            <FiArrowLeft size={20} />
+            Back to Dashboard
+          </Link>
         <h1 className="nav-title">❤️‍🩹 Airborne Disease Information</h1>
         <div style={{ width: "120px" }}></div>
       </div>
