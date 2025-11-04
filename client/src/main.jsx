@@ -1,5 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./index.css";
 import App from "./App.jsx";
 import {
@@ -22,11 +24,11 @@ import { AuthProvider } from "./context/AuthContext.jsx";
 import { useAuthInit } from "./hooks/useAuthInit.js";
 import DiseaseInfoPage from "./Pages/DiseaseInfo/DiseaseInfo.jsx";
 import ErrorPage from "./Pages/ErrorPage/ErrorPage.jsx"; // ✅ Add error page
-import ClimateShowcase from "./ClimateShowcase/ClimateShowcase.jsx"; 
+import ClimateShowcase from "./ClimateShowcase/ClimateShowcase.jsx";
 
 // Wrapper to initialize OAuth token detection
 function AppWrapper() {
-  useAuthInit();  
+  useAuthInit();
   return <App />;
 }
 
@@ -35,7 +37,7 @@ const router = createBrowserRouter(
     <>
       {/* Root redirect */}
       <Route path="/" element={<Navigate to="/app" replace />} />
-       <Route path="/ClimateModal" element={<ClimateShowcase/>} />
+      <Route path="/ClimateModal" element={<ClimateShowcase />} />
 
       {/* Public Auth Route */}
       <Route path="/auth" element={<AuthPage />} />
@@ -49,15 +51,15 @@ const router = createBrowserRouter(
           <Route path="health-insights" element={<HealthInsights />} />
           <Route path="air-quality" element={<AirQuality />} />
           <Route path="health-assessment" element={<HealthAssessment />} />
-          
+
           {/* ✅ FIXED: Add both routes */}
-          <Route 
-            path="health-report" 
+          <Route
+            path="health-report"
             element={<HealthReportDetail />}
             errorElement={<ErrorPage />}
           />
-          <Route 
-            path="health-report/:id" 
+          <Route
+            path="health-report/:id"
             element={<HealthReportDetail />}
             errorElement={<ErrorPage />}
           />
@@ -72,6 +74,7 @@ const router = createBrowserRouter(
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
+    <ToastContainer position="top-right" autoClose={3000} theme="light" />
     <AuthProvider>
       <RouterProvider router={router} />
     </AuthProvider>
