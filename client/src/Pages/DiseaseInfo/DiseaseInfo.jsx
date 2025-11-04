@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   FiVolume2,
   FiVolumeX,
@@ -15,6 +16,8 @@ import "./DiseaseInfo.css";
 const DiseaseInfoPage = () => {
   const [speakingDisease, setSpeakingDisease] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+
+  const navigate = useNavigate();
 
   const diseases = [
     {
@@ -191,6 +194,10 @@ const DiseaseInfoPage = () => {
     utterance.onend = () => setSpeakingDisease(null);
     window.speechSynthesis.speak(utterance);
     setSpeakingDisease(disease.name);
+  };
+
+  const handleBack = () => {
+    navigate("/app");
   };
 
   const filteredDiseases = diseases.filter(

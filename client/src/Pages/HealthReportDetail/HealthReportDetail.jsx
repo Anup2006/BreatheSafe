@@ -72,7 +72,7 @@ const HealthReportDetail = () => {
     try {
       // Fetch all reports
       const reportsResponse = await fetch(
-        "http://localhost:5000/api/health/reports",
+        "http://localhost:5000/api/health-report/my-reports",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -90,7 +90,7 @@ const HealthReportDetail = () => {
 
       // Fetch all assessments
       const assessmentsResponse = await fetch(
-        "http://localhost:5000/api/health/assessment",
+        "http://localhost:5000/api/health-assessment/my-assessments",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -99,7 +99,7 @@ const HealthReportDetail = () => {
       );
 
       let assessments = [];
-      if (assessmentsResponse.success) {
+      if (assessmentsResponse.ok) {
         const assessmentsData = await assessmentsResponse.json();
         if (assessmentsData.success && assessmentsData.assessments) {
           assessments = assessmentsData.assessments;
@@ -155,9 +155,9 @@ const HealthReportDetail = () => {
 
         let endpoint;
         if (id) {
-          endpoint = `http://localhost:5000/api/health/reports/${id}`;
+          endpoint = `http://localhost:5000/api/health-report/reports/${id}`;
         } else {
-          endpoint = `http://localhost:5000/api/health/reports`;
+          endpoint = `http://localhost:5000/api/health-report/my-reports`;
         }
 
         const response = await fetch(endpoint, {

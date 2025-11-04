@@ -117,7 +117,7 @@ export default function ResponsiveHorizontalForm() {
       }
 
       const response = await fetch(
-        "http://localhost:5000/api/health/assessment",
+        "http://localhost:5000/api/health-assessment",
         {
           method: "POST",
           headers: {
