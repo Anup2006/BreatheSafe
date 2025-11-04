@@ -34,7 +34,9 @@ const HealthReportDetail = () => {
   const [assessmentPending, setAssessmentPending] = useState(false);
   const [daysOld, setDaysOld] = useState(0);
   const [expandPreviousReports, setExpandPreviousReports] = useState(false); // ✅ NEW
-
+useEffect(() => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}, [id, report]);
   const checkAssessmentAge = (timestamp) => {
     const assessmentDate = new Date(timestamp);
     const today = new Date();
