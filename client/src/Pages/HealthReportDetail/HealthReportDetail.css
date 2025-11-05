@@ -1,3 +1,259 @@
+/* Location Modal Styles */
+.location-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 1rem;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.location-modal {
+  background: white;
+  border-radius: 20px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.location-modal-header {
+  padding: 2rem 2rem 1rem;
+  text-align: center;
+  border-bottom: 2px solid #f3f4f6;
+}
+
+.location-modal-header h2 {
+  font-size: 1.75rem;
+  color: #111827;
+  margin: 0 0 0.5rem 0;
+  font-weight: 800;
+}
+
+.location-modal-header p {
+  color: #6b7280;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.location-options {
+  padding: 2rem;
+}
+
+.location-option-btn {
+  width: 100%;
+  padding: 1.5rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.location-option-btn.detect {
+  background: linear-gradient(135deg, #2ec4b6 0%, #20a89e 100%);
+  color: white;
+  border-color: #2ec4b6;
+}
+
+.location-option-btn:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.location-option-btn.detect:hover:not(:disabled) {
+  box-shadow: 0 8px 20px rgba(46, 196, 182, 0.4);
+}
+
+.location-option-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.location-option-btn h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.location-option-btn p {
+  margin: 0;
+  font-size: 0.875rem;
+  opacity: 0.9;
+}
+
+.popular-cities-section {
+  margin: 2rem 0;
+}
+
+.popular-cities-section h3 {
+  font-size: 1.125rem;
+  color: #374151;
+  margin: 0 0 1rem 0;
+  font-weight: 600;
+}
+
+.popular-cities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.75rem;
+}
+
+.popular-city-btn {
+  padding: 0.875rem 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  background: white;
+  color: #374151;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.popular-city-btn:hover:not(:disabled) {
+  border-color: #2ec4b6;
+  color: #2ec4b6;
+  background: #f0fdfa;
+  transform: translateY(-2px);
+}
+
+.popular-city-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.manual-entry-section {
+  margin-top: 2rem;
+}
+
+.manual-entry-section h3 {
+  font-size: 1.125rem;
+  color: #374151;
+  margin: 0 0 1rem 0;
+  font-weight: 600;
+}
+
+.manual-entry-input {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.manual-entry-input input {
+  flex: 1;
+  padding: 0.875rem 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.manual-entry-input input:focus {
+  outline: none;
+  border-color: #2ec4b6;
+  box-shadow: 0 0 0 3px rgba(46, 196, 182, 0.1);
+}
+
+.manual-submit-btn {
+  padding: 0.875rem 2rem;
+  background: #2ec4b6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.manual-submit-btn:hover:not(:disabled) {
+  background: #26b5a8;
+  transform: translateY(-2px);
+}
+
+.manual-submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.close-modal-btn {
+  width: calc(100% - 4rem);
+  margin: 0 2rem 2rem;
+  padding: 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  background: white;
+  color: #6b7280;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.close-modal-btn:hover:not(:disabled) {
+  background: #f9fafb;
+  border-color: #d1d5db;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .location-modal {
+    max-width: 100%;
+    margin: 1rem;
+  }
+
+  .location-modal-header {
+    padding: 1.5rem 1.5rem 1rem;
+  }
+
+  .location-options {
+    padding: 1.5rem;
+  }
+
+  .popular-cities-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .manual-entry-input {
+    flex-direction: column;
+  }
+
+  .manual-submit-btn {
+    width: 100%;
+  }
+}
 /* ============================================
    ASSESSMENT DISPLAY COMPONENT STYLES
    ============================================ */

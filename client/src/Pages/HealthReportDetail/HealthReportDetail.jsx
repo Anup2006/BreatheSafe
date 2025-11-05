@@ -25,18 +25,37 @@ const HealthReportDetail = () => {
   const navigate = useNavigate();
   const [report, setReport] = useState(null);
   const [healthAssessment, setHealthAssessment] = useState(null);
-  const [previousReports, setPreviousReports] = useState([]); // ✅ NEW
-  const [pendingAssessment, setPendingAssessment] = useState(null); // ✅ NEW
+  const [previousReports, setPreviousReports] = useState([]);
+  const [pendingAssessment, setPendingAssessment] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [downloading, setDownloading] = useState(false);
   const [generating, setGenerating] = useState(false);
   const [assessmentPending, setAssessmentPending] = useState(false);
   const [daysOld, setDaysOld] = useState(0);
-  const [expandPreviousReports, setExpandPreviousReports] = useState(false); // ✅ NEW
-useEffect(() => {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}, [id, report]);
+  const [expandPreviousReports, setExpandPreviousReports] = useState(false);
+
+  // NEW: Location modal states
+  const [showLocationModal, setShowLocationModal] = useState(false);
+  const [locationMethod, setLocationMethod] = useState("");
+  const [manualCity, setManualCity] = useState("");
+  const [selectedLocation, setSelectedLocation] = useState(null);
+
+  // Popular Indian cities
+  const popularCities = [
+    { name: "Pune", lat: 18.5204, lon: 73.8567 },
+    { name: "Mumbai", lat: 19.0760, lon: 72.8777 },
+    { name: "Delhi", lat: 28.6139, lon: 77.209 },
+    { name: "Bangalore", lat: 12.9716, lon: 77.5946 },
+    { name: "Hyderabad", lat: 17.385, lon: 78.4867 },
+    { name: "Chennai", lat: 13.0827, lon: 80.2707 },
+    { name: "Kolkata", lat: 22.5726, lon: 88.3639 },
+  ];
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [id, report]);
+
   const checkAssessmentAge = (timestamp) => {
     const assessmentDate = new Date(timestamp);
     const today = new Date();
@@ -50,15 +69,11 @@ useEffect(() => {
     const reportDate = new Date(reportTimestamp);
     return assessmentDate > reportDate;
   };
+
   function formatDate(dateString) {
     if (!dateString) return "N/A";
-
     const date = new Date(dateString);
-
-    // Handle invalid date
     if (isNaN(date.getTime())) return "Invalid date";
-
-    // Example: "Nov 4, 2025 • 9:15 AM"
     return date.toLocaleString("en-IN", {
       day: "numeric",
       month: "short",
@@ -69,10 +84,314 @@ useEffect(() => {
     });
   }
 
-  // ✅ Fetch all reports and assessments
+  // ✅ NEW: Fetch AQI data from Open-Meteo API
+  const fetchAQIData = async (lat, lon) => {
+    try {
+      const response = await fetch(
+        `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${lon}&hourly=pm10,pm2_5,carbon_monoxide,nitrogen_dioxide,sulphur_dioxide,ozone,us_aqi&forecast_days=5`
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch AQI data");
+      }
+
+      const data = await response.json();
+      const currentIndex = 0;
+      const aqiValue = data.hourly.us_aqi[currentIndex] || 0;
+
+      let status = "Good";
+      if (aqiValue > 300) status = "Hazardous";
+      else if (aqiValue > 200) status = "Very Unhealthy";
+      else if (aqiValue > 150) status = "Unhealthy";
+      else if (aqiValue > 100) status = "Unhealthy for Sensitive Groups";
+      else if (aqiValue > 50) status = "Moderate";
+
+      return {
+        value: aqiValue,
+        status: status,
+        pollutants: {
+          pm25: data.hourly.pm2_5[currentIndex] || 0,
+          pm10: data.hourly.pm10[currentIndex] || 0,
+          no2: data.hourly.nitrogen_dioxide[currentIndex] || 0,
+          o3: data.hourly.ozone[currentIndex] || 0,
+          co: data.hourly.carbon_monoxide[currentIndex] || 0,
+          so2: data.hourly.sulphur_dioxide[currentIndex] || 0,
+        },
+        forecast: {
+          pm25: data.hourly.pm2_5.slice(0, 24),
+          pm10: data.hourly.pm10.slice(0, 24),
+          aqi: data.hourly.us_aqi.slice(0, 24),
+        },
+      };
+    } catch (err) {
+      console.error("Error fetching AQI data:", err);
+      throw new Error("Failed to fetch air quality data");
+    }
+  };
+
+  // ✅ NEW: Get location name from coordinates
+  const getLocationName = async (lat, lon) => {
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`
+      );
+
+      if (!response.ok) {
+        return "Current Location";
+      }
+
+      const data = await response.json();
+      const city =
+        data.address.city ||
+        data.address.town ||
+        data.address.village ||
+        data.address.state;
+      const country = data.address.country;
+
+      return city ? `${city}, ${country}` : "Current Location";
+    } catch (err) {
+      console.error("Error getting location name:", err);
+      return "Current Location";
+    }
+  };
+
+  // ✅ NEW: Detect user's current location
+  const detectLocation = async () => {
+    return new Promise((resolve, reject) => {
+      if (!navigator.geolocation) {
+        reject(new Error("Geolocation not supported"));
+        return;
+      }
+
+      toast.info("Detecting your location...");
+
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          try {
+            const location = {
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+              name: "Current Location",
+            };
+
+            try {
+              location.name = await getLocationName(location.latitude, location.longitude);
+            } catch (err) {
+              console.error("Failed to get location name:", err);
+            }
+
+            toast.success(`Location detected: ${location.name}`);
+            resolve(location);
+          } catch (err) {
+            reject(err);
+          }
+        },
+        (error) => {
+          console.error("Geolocation error:", error);
+
+          let errorMessage = "Failed to detect location";
+          if (error.code === 1) {
+            errorMessage = "Location access denied by user";
+          } else if (error.code === 2) {
+            errorMessage = "Location unavailable";
+          } else if (error.code === 3) {
+            errorMessage = "Location request timeout";
+          }
+
+          reject(new Error(errorMessage));
+        },
+        {
+          timeout: 10000,
+          enableHighAccuracy: true,
+          maximumAge: 0,
+        }
+      );
+    });
+  };
+
+  // ✅ NEW: Get city coordinates from city name
+  const getCityCoordinates = async (cityName) => {
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(cityName)}&limit=1`
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch city coordinates");
+      }
+
+      const data = await response.json();
+
+      if (data && data.length > 0) {
+        return {
+          latitude: parseFloat(data[0].lat),
+          longitude: parseFloat(data[0].lon),
+          name: data[0].display_name.split(",")[0],
+        };
+      } else {
+        throw new Error("City not found");
+      }
+    } catch (err) {
+      console.error("Error fetching city coordinates:", err);
+      throw err;
+    }
+  };
+
+  // ✅ NEW: Proceed with report generation
+  const proceedWithReportGeneration = async (location) => {
+    setGenerating(true);
+
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        toast.error("Please log in again");
+        navigate("/auth");
+        return;
+      }
+
+      toast.info("Fetching air quality data...");
+      let aqiData;
+
+      try {
+        aqiData = await fetchAQIData(location.latitude, location.longitude);
+        toast.success(`AQI: ${aqiData.value} (${aqiData.status})`);
+      } catch (aqiError) {
+        console.error("AQI fetch failed:", aqiError);
+        toast.warning("Using estimated air quality data");
+
+        aqiData = {
+          value: 0,
+          status: "Unknown",
+          pollutants: {
+            pm25: 0,
+            pm10: 0,
+            no2: 0,
+            o3: 0,
+            co: 0,
+            so2: 0,
+          },
+        };
+      }
+
+      toast.info("Generating your personalized health report...");
+
+      const response = await fetch(
+        "http://localhost:5000/api/health-report/generate",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            location,
+            aqiData,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to generate report");
+      }
+
+      const data = await response.json();
+
+      if (data.success) {
+        toast.success("Report generated successfully! 🎉");
+        setTimeout(() => {
+          navigate(`/app/health-report/${data.report._id}`);
+          window.location.reload();
+        }, 1000);
+      } else {
+        throw new Error(data.message || "Failed to generate report");
+      }
+    } catch (err) {
+      console.error("Error generating report:", err);
+      toast.error(err.message || "Failed to generate report");
+    } finally {
+      setGenerating(false);
+    }
+  };
+
+  // ✅ NEW: Handle location selection
+  const handleLocationSelect = async (method) => {
+    setLocationMethod(method);
+
+    if (method === "detect") {
+      try {
+        const location = await detectLocation();
+        setSelectedLocation(location);
+        setShowLocationModal(false);
+        proceedWithReportGeneration(location);
+      } catch (err) {
+        toast.error(err.message);
+        toast.warning("Using Pune as fallback location");
+
+        const puneLocation = {
+          latitude: 18.5204,
+          longitude: 73.8567,
+          name: "Pune, India (Fallback)",
+        };
+        setSelectedLocation(puneLocation);
+        setShowLocationModal(false);
+        proceedWithReportGeneration(puneLocation);
+      }
+    }
+  };
+
+  // ✅ NEW: Handle manual city submission
+  const handleManualCitySubmit = async () => {
+    if (!manualCity.trim()) {
+      toast.error("Please enter a city name");
+      return;
+    }
+
+    try {
+      toast.info("Searching for city...");
+      const location = await getCityCoordinates(manualCity);
+      setSelectedLocation(location);
+      setShowLocationModal(false);
+      toast.success(`Location set: ${location.name}`);
+      proceedWithReportGeneration(location);
+    } catch (err) {
+      toast.error("City not found. Using Pune as fallback.");
+
+      const puneLocation = {
+        latitude: 18.5204,
+        longitude: 73.8567,
+        name: "Pune, India (Fallback)",
+      };
+      setSelectedLocation(puneLocation);
+      setShowLocationModal(false);
+      proceedWithReportGeneration(puneLocation);
+    }
+  };
+
+  // ✅ NEW: Handle popular city selection
+  const handlePopularCitySelect = (city) => {
+    const location = {
+      latitude: city.lat,
+      longitude: city.lon,
+      name: city.name,
+    };
+    setSelectedLocation(location);
+    setShowLocationModal(false);
+    toast.success(`Location set: ${city.name}`);
+    proceedWithReportGeneration(location);
+  };
+
+  // ✅ UPDATED: Open modal instead of direct generation
+  const handleGenerateReport = () => {
+    if (!healthAssessment) {
+      toast.error("Please complete health assessment first");
+      return;
+    }
+    setShowLocationModal(true);
+  };
+
   const fetchAllReportsAndAssessments = async (token) => {
     try {
-      // Fetch all reports
       const reportsResponse = await fetch(
         "http://localhost:5000/api/health-report/my-reports",
         {
@@ -90,7 +409,6 @@ useEffect(() => {
         }
       }
 
-      // Fetch all assessments
       const assessmentsResponse = await fetch(
         "http://localhost:5000/api/health-assessment/my-assessments",
         {
@@ -108,7 +426,6 @@ useEffect(() => {
         }
       }
 
-      // ✅ Check for pending assessment (newer than latest report)
       if (assessments.length > 0 && reports.length > 0) {
         const latestAssessment = assessments[0];
         const latestReport = reports[0];
@@ -125,7 +442,6 @@ useEffect(() => {
         setPendingAssessment(assessments[0]);
       }
 
-      // ✅ Set previous reports (exclude current one if viewing specific report)
       if (id && reports.length > 1) {
         const otherReports = reports.filter((r) => r._id !== id);
         setPreviousReports(otherReports);
@@ -150,7 +466,6 @@ useEffect(() => {
           return;
         }
 
-        // ✅ Fetch everything
         const { reports, assessments } = await fetchAllReportsAndAssessments(
           token
         );
@@ -167,8 +482,6 @@ useEffect(() => {
             Authorization: `Bearer ${token}`,
           },
         });
-
-        
 
         const data = await response.json();
 
@@ -232,95 +545,6 @@ useEffect(() => {
 
     fetchReport();
   }, [id, navigate]);
-
-  const handleGenerateReport = async () => {
-    if (!healthAssessment) return;
-
-    setGenerating(true);
-    toast.info("Generating your health report...");
-
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        toast.error("Please log in again");
-        navigate("/auth");
-        return;
-      }
-
-      let location = {
-        latitude: 0,
-        longitude: 0,
-        name: "Default Location",
-      };
-
-      if (navigator.geolocation) {
-        try {
-          const position = await new Promise((resolve, reject) => {
-            navigator.geolocation.getCurrentPosition(resolve, reject, {
-              timeout: 5000,
-            });
-          });
-
-          location = {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-            name: "Current Location",
-          };
-        } catch (geoError) {
-          console.log("Geolocation not available, using default");
-        }
-      }
-
-      const aqiData = {
-        value: 87,
-        status: "Moderate",
-        pollutants: {
-          pm25: 35,
-          pm10: 72,
-          no2: 28,
-          o3: 65,
-          co: 0.5,
-        },
-      };
-
-      const response = await fetch(
-        "http://localhost:5000/api/health-report/generate",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            location,
-            aqiData,
-          }),
-        }
-      );
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to generate report");
-      }
-
-      const data = await response.json();
-
-      if (data.success) {
-        toast.success("Report generated successfully!");
-        setTimeout(() => {
-          navigate(`/app/health-report/${data.report._id}`);
-          window.location.reload();
-        }, 1000);
-      } else {
-        throw new Error(data.message || "Failed to generate report");
-      }
-    } catch (err) {
-      console.error("Error generating report:", err);
-      toast.error(err.message || "Failed to generate report");
-    } finally {
-      setGenerating(false);
-    }
-  };
 
   const getAQIColorClass = (aqi) => {
     if (aqi <= 50) return "aqi-good";
@@ -450,7 +674,7 @@ useEffect(() => {
             <h1>Your Health Assessment</h1>
             <p className="assessment-date">
               <FiClock size={16} />
-              Completed on { formatDate(healthAssessment.timestamp)}
+              Completed on {formatDate(healthAssessment.timestamp)}
               {daysOld > 0 && (
                 <span className="days-old"> ({daysOld} days ago)</span>
               )}
@@ -554,6 +778,80 @@ useEffect(() => {
               </button>
             </div>
           </div>
+
+          {/* ✅ LOCATION SELECTION MODAL */}
+          {showLocationModal && (
+            <div className="location-modal-overlay">
+              <div className="location-modal">
+                <div className="location-modal-header">
+                  <h2>📍 Select Your Location</h2>
+                  <p>We need your location to provide accurate air quality data</p>
+                </div>
+
+                <div className="location-options">
+                  {/* Option 1: Auto-detect */}
+                  <button
+                    className="location-option-btn detect"
+                    onClick={() => handleLocationSelect("detect")}
+                    disabled={generating}
+                  >
+                    <FiMapPin size={32} />
+                    <h3>Detect My Location</h3>
+                    <p>Use GPS to automatically detect your current location</p>
+                  </button>
+
+                  {/* Option 2: Popular Cities */}
+                  <div className="popular-cities-section">
+                    <h3>Popular Cities</h3>
+                    <div className="popular-cities-grid">
+                      {popularCities.map((city) => (
+                        <button
+                          key={city.name}
+                          className="popular-city-btn"
+                          onClick={() => handlePopularCitySelect(city)}
+                          disabled={generating}
+                        >
+                          {city.name}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Option 3: Manual Entry */}
+                  <div className="manual-entry-section">
+                    <h3>Enter City Manually</h3>
+                    <div className="manual-entry-input">
+                      <input
+                        type="text"
+                        placeholder="Enter city name (e.g., Pune, Mumbai)"
+                        value={manualCity}
+                        onChange={(e) => setManualCity(e.target.value)}
+                        onKeyPress={(e) =>
+                          e.key === "Enter" && handleManualCitySubmit()
+                        }
+                        disabled={generating}
+                      />
+                      <button
+                        className="manual-submit-btn"
+                        onClick={handleManualCitySubmit}
+                        disabled={generating || !manualCity.trim()}
+                      >
+                        Search
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                  className="close-modal-btn"
+                  onClick={() => setShowLocationModal(false)}
+                  disabled={generating}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     );
@@ -932,7 +1230,7 @@ useEffect(() => {
 
         {/* Footer */}
         <div className="report-footer">
-          <p>Report generated by BreatheSafe</p>
+          <p>Report generated by BreatheSafeAI</p>
           <p>
             This report is for informational purposes only. Consult a healthcare
             professional for medical advice.

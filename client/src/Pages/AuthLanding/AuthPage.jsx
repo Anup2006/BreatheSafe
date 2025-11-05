@@ -17,11 +17,7 @@ export default function AuthPage() {
   const handleAuthSuccess = (token, userData) => {
     login(token, userData);
     toast.success("Welcome to BreatheSafeAI!");
-    console.log("userData:", userData);
-    console.log("token:", token);
-
     navigate("/app/health-assessment");
-    console.log("Navigation to /app/health-assessment triggered");
   };
 
   if (loading) {
