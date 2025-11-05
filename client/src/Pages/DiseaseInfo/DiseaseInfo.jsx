@@ -226,11 +226,11 @@ const DiseaseInfoPage = () => {
     <div className="disease-info-container">
       {/* TOP NAVIGATION */}
       <div className="top-nav">
-     <Link to="/app/dashboard" className="back-link">
-            <FiArrowLeft size={20} />
-            Back to Dashboard
-          </Link>
-        <h1 className="nav-title">❤️‍🩹 Airborne Disease Information</h1>
+        <Link to="/app/dashboard" className="back-link">
+          <FiArrowLeft size={20} />
+          Back to Dashboard
+        </Link>
+        <h1 className="nav-title mx-auto">❤️‍🩹 Airborne Disease Information</h1>
         <div style={{ width: "120px" }}></div>
       </div>
       {/* Hero Section */}
