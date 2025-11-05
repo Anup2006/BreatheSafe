@@ -54,6 +54,7 @@ const signupUser = async ({ name, email, password }) => {
   const handleGoogleCallback = (token, user) => {
     if (token && user) {
       login(token, user);
+      console.log("Google login successful:", user);
     } else {
       setError("Google login failed: no token received");
     }

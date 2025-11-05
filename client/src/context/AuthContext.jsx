@@ -1,12 +1,10 @@
 import { createContext, useContext, useEffect, useState } from "react";
-
 const AuthContext = createContext();
 const BACKEND_URL = "http://localhost:5000/api/users";
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     const initAuth = async () => {
       const params = new URLSearchParams(window.location.search);
@@ -14,7 +12,7 @@ export const AuthProvider = ({ children }) => {
 
       if (urlToken) {
         localStorage.setItem("token", urlToken);
-        window.history.replaceState({}, document.title, window.location.pathname);
+        // window.history.replaceState({}, document.title, window.location.pathname);
       }
 
       const token = localStorage.getItem("token");

@@ -26,71 +26,93 @@ const HealthInsights = () => {
   const [hasData, setHasData] = useState(false);
   const [error, setError] = useState(null);
 
-  // 🔹 Fetch real-time AQI data (dynamic for both search & geolocation)
-  const fetchAQI = async (isFromGeo = false) => {
-    try {
-      setLoading(true);
-      setError(null);
+// 🔹 Fetch real-time AQI data (dynamic for both search & geolocation)
+const fetchAQI = async (isFromGeo = false) => {
+  try {
+    setLoading(true);
+    setError(null);
 
-      let lat = location.lat;
-      let lon = location.lon;
-      let cityName = location.name;
+    let lat = location.lat;
+    let lon = location.lon;
+    let cityName = location.name;
 
-      // 📍 If user typed a city (not using geolocation)
-      if (!isFromGeo && inputValue.trim()) {
-        const geoRes = await fetch(
-          `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(
-            inputValue
-          )}&count=1&language=en&format=json`
-        );
-
-        const geoData = await geoRes.json();
-
-        if (!geoData.results || geoData.results.length === 0) {
-          throw new Error("City not found. Please check spelling.");
-        }
-
-        const { latitude, longitude, name } = geoData.results[0];
-        lat = latitude;
-        lon = longitude;
-        cityName = name;
-      }
-
-      // 🌫️ Fetch AQI for resolved coordinates
-      const res = await fetch(
-        `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${lon}&current=pm10,pm2_5,carbon_monoxide,nitrogen_dioxide,sulphur_dioxide,ozone,european_aqi`
+    // 📍 If user typed a city (not using geolocation)
+    if (!isFromGeo && inputValue.trim()) {
+      const geoRes = await fetch(
+        `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(
+          inputValue
+        )}&count=1&language=en&format=json`
       );
 
-      const data = await res.json();
+      const geoData = await geoRes.json();
 
-      const currentData =
-        data?.current ??
-        (data?.hourly && {
-          pm2_5: data.hourly.pm2_5?.slice(-1)[0],
-          pm10: data.hourly.pm10?.slice(-1)[0],
-          nitrogen_dioxide: data.hourly.nitrogen_dioxide?.slice(-1)[0],
-          ozone: data.hourly.ozone?.slice(-1)[0],
-          carbon_monoxide: data.hourly.carbon_monoxide?.slice(-1)[0],
-          sulphur_dioxide: data.hourly.sulphur_dioxide?.slice(-1)[0],
-          european_aqi: data.hourly.european_aqi?.slice(-1)[0],
-        });
+      if (!geoData.results || geoData.results.length === 0) {
+        throw new Error("City not found. Please check spelling.");
+      }
 
-      if (!currentData) throw new Error("No AQI data available for this city.");
-
-      setAqiData(currentData);
-      setLocation({ name: cityName, lat, lon });
-      setHasData(true);
-      toast.success(`AQI data loaded for ${cityName}`, {
-        position: "top-right",
-        autoClose: 3000,
-      });
-    } catch (err) {
-      console.error("Error fetching AQI data:", err);
-      setError(err.message);
-    } finally {
-      setLoading(false);
+      const { latitude, longitude, name } = geoData.results[0];
+      lat = latitude;
+      lon = longitude;
+      cityName = name;
     }
-  };
+
+    // 🌫️ Fetch AQI using forecast API (for extended hourly access)
+    const res = await fetch(
+      `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${lon}&current=pm10,pm2_5,carbon_monoxide,nitrogen_dioxide,sulphur_dioxide,ozone,us_aqi&hourly=pm10,pm2_5,carbon_monoxide,nitrogen_dioxide,sulphur_dioxide,ozone,us_aqi&forecast_days=5`
+    );
+
+    const data = await res.json();
+
+    // ✅ Get current hour index (NEW LOGIC)
+    const currentHourIndex = new Date().getHours();
+    const hourlyIndex =
+      currentHourIndex < data.hourly?.time?.length ? currentHourIndex : 0;
+
+    // ✅ Extract ONLY current data with priority: current > current hour > last available
+    const currentData ={
+        pm2_5:
+          data.hourly.pm2_5?.[hourlyIndex] ??
+          data.hourly.pm2_5?.slice(-1)[0],
+        pm10:
+          data.hourly.pm10?.[hourlyIndex] ??
+          data.hourly.pm10?.slice(-1)[0],
+        nitrogen_dioxide:
+          data.hourly.nitrogen_dioxide?.[hourlyIndex] ??
+          data.hourly.nitrogen_dioxide?.slice(-1)[0],
+        ozone:
+          data.hourly.ozone?.[hourlyIndex] ??
+          data.hourly.ozone?.slice(-1)[0],
+        carbon_monoxide:
+          data.hourly.carbon_monoxide?.[hourlyIndex] ??
+          data.hourly.carbon_monoxide?.slice(-1)[0],
+        sulphur_dioxide:
+          data.hourly.sulphur_dioxide?.[hourlyIndex] ??
+          data.hourly.sulphur_dioxide?.slice(-1)[0],
+        us_aqi:
+          data.hourly.us_aqi?.[hourlyIndex] ??
+          data.hourly.us_aqi?.slice(-1)[0],
+    }
+
+    if (!currentData) throw new Error("No AQI data available for this city.");
+
+    // ✅ Set ONLY current data (not forecast data)
+    setAqiData(currentData);
+    setLocation({ name: cityName, lat, lon });
+    setHasData(true);
+    
+    toast.success(`AQI data loaded for ${cityName}`, {
+      position: "top-right",
+      autoClose: 3000,
+    });
+  } catch (err) {
+    console.error("Error fetching AQI data:", err);
+    setError(err.message);
+  } finally {
+    setLoading(false);
+  }
+};
+
+
 
   useEffect(() => {
     fetchAQI(); // loads Pune by default
@@ -249,7 +271,7 @@ const HealthInsights = () => {
       </div>
     );
   }
-  const { label, color } = getAQIStatusColor(aqiData.european_aqi);
+  const { label, color } = getAQIStatusColor(aqiData.us_aqi);
   const advice = getAdvice(label);
 
   return (
@@ -330,7 +352,7 @@ const HealthInsights = () => {
           <h2 className="alert-title">AIR QUALITY : {label.toUpperCase()} </h2>
         </div>
         <p className="alert-aqi">
-          AQI Level: <strong>{aqiData.european_aqi}</strong> ({label})
+          AQI Level: <strong>{aqiData.us_aqi}</strong> ({label})
         </p>
 
         <div className="alert-details-grid">

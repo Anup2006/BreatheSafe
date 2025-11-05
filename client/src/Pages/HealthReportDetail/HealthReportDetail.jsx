@@ -96,8 +96,12 @@ const HealthReportDetail = () => {
       }
 
       const data = await response.json();
-      const currentIndex = 0;
-      const aqiValue = data.hourly.us_aqi[currentIndex] || 0;
+    const hourly = data.hourly;
+    const currentHourIndex = new Date().getHours();
+    
+    // Get current hour's data (first day, current hour)
+    const currentIndex = currentHourIndex < hourly.time.length ? currentHourIndex : 0;
+          const aqiValue = data.hourly.us_aqi[currentIndex] || 0;
 
       let status = "Good";
       if (aqiValue > 300) status = "Hazardous";
@@ -260,14 +264,14 @@ const HealthReportDetail = () => {
         toast.warning("Using estimated air quality data");
 
         aqiData = {
-          value: 0,
+          value: 65,
           status: "Unknown",
           pollutants: {
-            pm25: 0,
-            pm10: 0,
-            no2: 0,
-            o3: 0,
-            co: 0,
+            pm25: 44,
+            pm10: 23,
+            no2: 4,
+            o3: 55,
+            co: 3,
             so2: 0,
           },
         };

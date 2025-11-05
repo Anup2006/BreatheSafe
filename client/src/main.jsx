@@ -42,10 +42,10 @@ const router = createBrowserRouter(
       {/* Public Auth Route */}
       <Route path="/auth" element={<AuthPage />} />
       <Route path="/Diseases-info" element={<DiseaseInfoPage />} />
-
+ 
       {/* Protected Routes */}
       <Route path="/app" element={<ProtectedRoute />}>
-        <Route path="" element={<App />}>
+  <Route path="" element={<AppWrapper />}>  
           <Route index element={<Home />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="health-insights" element={<HealthInsights />} />
