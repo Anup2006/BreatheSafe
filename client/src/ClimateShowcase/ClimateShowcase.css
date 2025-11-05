@@ -13,7 +13,6 @@
   padding: 1rem 2rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   display: flex;
-  justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
   border-bottom: 2px solid #e5e7eb;
@@ -22,15 +21,12 @@
   z-index: 100;
 }
 
- 
- 
-
 .back-btn span {
   display: none;
 }
 .back-btn {
   display: flex;
-  align-items: center;
+  align-items: left;
   gap: 0.5rem;
   color: #2ec4b6;
   font-weight: 600;
@@ -173,8 +169,13 @@
 }
 
 @keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.1); }
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
 }
 
 /* Search Box */
@@ -536,7 +537,9 @@
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .loading-container p {
@@ -745,9 +748,18 @@
 }
 
 @keyframes loading-progress {
-  0% { width: 0%; background-position: 200% 0%; }
-  50% { width: 100%; background-position: 0% 0%; }
-  100% { width: 100%; background-position: -200% 0%; }
+  0% {
+    width: 0%;
+    background-position: 200% 0%;
+  }
+  50% {
+    width: 100%;
+    background-position: 0% 0%;
+  }
+  100% {
+    width: 100%;
+    background-position: -200% 0%;
+  }
 }
 
 /* Enhanced Variable Item */
