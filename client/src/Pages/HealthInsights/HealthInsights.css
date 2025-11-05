@@ -82,15 +82,10 @@
 /* Alert Section (CRITICAL Styling) */
 /* ------------------------------------------- */
 .alert-section {
-  background: linear-gradient(
-    135deg,
-    #b71c1c 0%,
-    #d32f2f 100%
-  ); /* Deep Red Gradient */
+ 
   padding: 2rem;
   border-radius: 16px;
   box-shadow: 0 10px 20px rgba(183, 28, 28, 0.5);
-  color: white;
   margin-bottom: 3rem;
 }
 

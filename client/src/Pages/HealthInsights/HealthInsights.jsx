@@ -248,13 +248,18 @@ const fetchAQI = async (isFromGeo = false) => {
   };
 
   // 🌫️ AQI Quality & Conditional Colors
-  const getAQIStatusColor = (aqi) => {
-    if (aqi <= 50) return { label: "Good", color: "green" };
-    if (aqi <= 100) return { label: "Moderate", color: "yellow" };
-    if (aqi <= 200) return { label: "Poor", color: "orange" };
-    if (aqi <= 300) return { label: "Very Poor", color: "red" };
-    return { label: "Hazardous", color: "purple" };
-  };
+const getAQIStatusColor = (aqi) => {
+  if (aqi <= 50)
+    return { label: "Good", color: "green", textColor: "white" };
+  if (aqi <= 100)
+    return { label: "Moderate", color: "yellow", textColor: "black" };
+  if (aqi <= 200)
+    return { label: "Poor", color: "orange", textColor: "white" };
+  if (aqi <= 300)
+    return { label: "Very Poor", color: "red", textColor: "white" };
+  return { label: "Hazardous", color: "purple", textColor: "white" };
+};
+
 
   if (loading) {
     return (
@@ -271,7 +276,7 @@ const fetchAQI = async (isFromGeo = false) => {
       </div>
     );
   }
-  const { label, color } = getAQIStatusColor(aqiData.us_aqi);
+  const { label, color ,textColor} = getAQIStatusColor(aqiData.us_aqi);
   const advice = getAdvice(label);
 
   return (
@@ -345,7 +350,7 @@ const fetchAQI = async (isFromGeo = false) => {
       </div>
 
       <div
-        className={`alert-section border bg-${color}-100 border-${color}-500`}
+        className={`alert-section border bg-${color}-100 ${textColor} border-${color}-500`}
       >
         <div className="alert-header">
           <AlertTriangle className={`alert-icon text-${color}-600`} />
