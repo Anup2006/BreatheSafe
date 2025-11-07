@@ -16,6 +16,7 @@ import { Bar, Pie, Line } from "react-chartjs-2";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Dashboard.css";
+import { useAuth } from "../../context/AuthContext";
 
 // Register Chart.js components
 ChartJS.register(
@@ -31,7 +32,7 @@ ChartJS.register(
   Filler
 );
 
-export default function Dashboard({ user }) {
+export default function Dashboard() {
   // State management with proper defaults
   const [currentAQI, setCurrentAQI] = useState(null);
   const [airQualityData, setAirQualityData] = useState([]);
@@ -39,6 +40,7 @@ export default function Dashboard({ user }) {
   const [forecastData, setForecastData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [hasData, setHasData] = useState(false);
+    const { user } = useAuth();
   
   // Separate input value from actual search location
   const [inputValue, setInputValue] = useState("Pune, India");
@@ -811,7 +813,52 @@ export default function Dashboard({ user }) {
           <h2>
             <i className="fa-solid fa-wind" style={{ color: "#87CEFA" }}></i> 5-Day Air Quality Trend
           </h2>
-          <Line data={weeklyTrendData} options={{ responsive: true }} />
+          <Line data={weeklyTrendData} options={{ responsive: true , interaction: {
+                  mode: "index",
+                  intersect: false,
+           } ,
+              plugins: {
+               filler: {
+                    propagate: true,
+                  },
+                  legend: {
+                    position: "top",
+                    labels: {
+                      boxWidth: 14,
+                      padding: 15,
+                      font: { size: 13, weight: "600" },
+                      color: "#374151",
+                      usePointStyle: true,
+                      pointStyle: "circle",
+                    },
+                  },
+                },
+              scales: {
+                  y: {
+                    beginAtZero: false,
+                    ticks: {
+                      font: { size: 12, weight: "500" },
+                      color: "#6b7280",
+                      callback: function (value) {
+                        return value.toFixed(1);
+                      },
+                    },
+                  },
+                  x: {
+                    ticks: {
+                      font: { size: 12, weight: "500" },
+                      color: "#6b7280",
+                      maxRotation: 45,
+                      minRotation: 0,
+                    },
+                  },
+                },
+                animation: {
+                  duration: 750,
+                  easing: "easeInOutQuart",
+                }
+
+          }} />
           <div className="legend">
             <div>
               <span className="dot aq"></span> Air Quality Index

@@ -467,6 +467,8 @@
 .chart-wrapper {
   position: relative;
   height: 400px;
+  width: 100%;
+  max-width: 100%; /* ensure no fixed width */
   margin-bottom: 1rem;
 }
 

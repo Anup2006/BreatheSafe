@@ -660,7 +660,7 @@ const generateRecommendations = (hourly, currentIdx) => {
                 </div>
                 <div className="info">
                   <span className="condition">{day.condition}</span>
-                  <strong>AQI {day.aqi}</strong>
+                  <strong> AQI {day.aqi}</strong>
                 </div>
               </div>
             ))}

@@ -38,22 +38,21 @@ router.get(
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
-router.get(
-  "/auth/google/callback",
-  passport.authenticate("google", {
-    failureRedirect: "/",
-    session: false,
-  }),
-  (req, res) => {
-    // Issue JWT
-    const token = jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, {
+router.get("/auth/google/callback", (req, res, next) => {
+  passport.authenticate("google", { session: false }, (err, user) => {
+    if (err || !user) {
+      // Handles cancel or denied access
+      return res.redirect(`${process.env.FRONTEND_URL}/auth?error=google_cancelled`);
+    }
+
+    // Success — issue JWT and redirect to app
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
-    // Redirect with token
-res.redirect(`${process.env.FRONTEND_URL}/app?token=${token}`);
-    console.log("successfuly logged in with google");
-    
-  }
-);
+
+    return res.redirect(`${process.env.FRONTEND_URL}/app?token=${token}`);
+  })(req, res, next);
+});
+
 
 export default router;
