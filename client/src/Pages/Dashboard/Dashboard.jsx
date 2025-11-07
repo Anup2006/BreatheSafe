@@ -14,7 +14,6 @@ import {
 } from "chart.js";
 import { Bar, Pie, Line } from "react-chartjs-2";
 import { ToastContainer, toast } from "react-toastify";
-import { useAuth } from "../../Context/AuthContext";
 import "react-toastify/dist/ReactToastify.css";
 import "./Dashboard.css";
 import { useAuth } from "../../context/AuthContext";
