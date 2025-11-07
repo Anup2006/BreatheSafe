@@ -664,7 +664,7 @@ export default function ClimateForecaster() {
               data={chartData}
               options={{
                 responsive: true,
-                maintainAspectRatio: true,
+                maintainAspectRatio: false,
                 interaction: {
                   mode: "index",
                   intersect: false,

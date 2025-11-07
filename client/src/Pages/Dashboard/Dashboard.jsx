@@ -40,7 +40,7 @@ export default function Dashboard() {
   const [forecastData, setForecastData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [hasData, setHasData] = useState(false);
-  
+  const { user } = useAuth();
   // Separate input value from actual search location
   const [inputValue, setInputValue] = useState("Pune, India");
   const [searchLocation, setSearchLocation] = useState("Pune, India");
