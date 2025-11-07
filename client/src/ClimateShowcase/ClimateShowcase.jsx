@@ -13,7 +13,7 @@ import {
 import { Line } from "react-chartjs-2";
 import { toast } from "react-toastify";
 import "./ClimateShowcase.css";
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
 ChartJS.register(
   CategoryScale,
@@ -436,13 +436,12 @@ export default function ClimateForecaster() {
   return (
     <div className="climate-forecaster">
       {/* TOP NAVIGATION */}
-      <div className="top-nav">
-          <Link to="/app/dashboard" className="back-link">
-            <FiArrowLeft size={20} />
-            Back to Dashboard
-          </Link>
-        <h1 className="nav-title">🌍 Climate Forecast Predictor</h1>
-
+      <div className="top-nav text-center">
+        <Link to="/app/dashboard" className="back-link">
+          <FiArrowLeft size={20} />
+          Back to Dashboard
+        </Link>
+        <h1 className="nav-title mx-auto">🌍 Climate Forecast Predictor</h1>
       </div>
 
       {/* HEADER */}
