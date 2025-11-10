@@ -2,6 +2,7 @@ import lungslogo from "/src/assets/lungslogo.png";
 import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import TranslateWidget from "../widget/TranslateWidget.jsx"; 
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -38,50 +39,82 @@ export default function Header() {
         {/* RIGHT SECTION */}
         <div className="flex items-center justify-end gap-6">
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-6">
-            <NavLink
-              to="/app/dashboard"
-              className="text-gray-600 font-medium hover:text-teal-400"
-            >
-              Dashboard
-            </NavLink>
-            <NavLink
-              to="/app/health-insights"
-              className="text-gray-600 font-medium hover:text-teal-400"
-            >
-              Health Insights
-            </NavLink>
-            <NavLink
-              to="/app/air-quality"
-              className="text-gray-600 font-medium hover:text-teal-400"
-            >
-              Air Quality
-            </NavLink>
-            <NavLink
-              to="/Diseases-info"
-              className="text-gray-600 font-medium hover:text-teal-400"
-            >
-              Diseases Info
-            </NavLink>
-            <NavLink
-              to="/app/health-assessment"
-              className="text-gray-600 font-medium hover:text-teal-400"
-            >
-              Health Assessment
-            </NavLink>
-            <NavLink
-              to="/app/health-report"
-              className="text-gray-600 font-medium hover:text-teal-400"
-            >
-              Health Report
-            </NavLink>
-            <NavLink
-              to="/ClimateModal"
-              className="text-gray-600 font-medium hover:text-teal-400"
-            >
-              Climate Modal
-            </NavLink>
-          </nav>
+{/* Desktop Navigation */}
+<nav className="hidden md:flex items-center gap-6">
+  <NavLink
+    to="/app/dashboard"
+    className={({ isActive }) => 
+      isActive 
+        ? "text-teal-500 font-semibold border-b-2 border-teal-500 pb-1" 
+        : "text-gray-600 font-medium hover:text-teal-400"
+    }
+  >
+    Dashboard
+  </NavLink>
+  <NavLink
+    to="/app/health-insights"
+    className={({ isActive }) => 
+      isActive 
+        ? "text-teal-500 font-semibold border-b-2 border-teal-500 pb-1" 
+        : "text-gray-600 font-medium hover:text-teal-400"
+    }
+  >
+    Health Insights
+  </NavLink>
+  <NavLink
+    to="/app/air-quality"
+    className={({ isActive }) => 
+      isActive 
+        ? "text-teal-500 font-semibold border-b-2 border-teal-500 pb-1" 
+        : "text-gray-600 font-medium hover:text-teal-400"
+    }
+  >
+    Air Quality
+  </NavLink>
+  <NavLink
+    to="/Diseases-info"
+    className={({ isActive }) => 
+      isActive 
+        ? "text-teal-500 font-semibold border-b-2 border-teal-500 pb-1" 
+        : "text-gray-600 font-medium hover:text-teal-400"
+    }
+  >
+    Diseases Info
+  </NavLink>
+  <NavLink
+    to="/app/health-assessment"
+    className={({ isActive }) => 
+      isActive 
+        ? "text-teal-500 font-semibold border-b-2 border-teal-500 pb-1" 
+        : "text-gray-600 font-medium hover:text-teal-400"
+    }
+  >
+    Health Assessment
+  </NavLink>
+  <NavLink
+    to="/app/health-report"
+    className={({ isActive }) => 
+      isActive 
+        ? "text-teal-500 font-semibold border-b-2 border-teal-500 pb-1" 
+        : "text-gray-600 font-medium hover:text-teal-400"
+    }
+  >
+    Health Report
+  </NavLink>
+  <NavLink
+    to="/ClimateModal"
+    className={({ isActive }) => 
+      isActive 
+        ? "text-teal-500 font-semibold border-b-2 border-teal-500 pb-1" 
+        : "text-gray-600 font-medium hover:text-teal-400"
+    }
+  >
+    Climate Modal
+  </NavLink>
+</nav>
+          <div className="hidden md:block">
+            <TranslateWidget />
+          </div>
 
           {/* Auth / Profile */}
           {!user ? (
@@ -145,6 +178,10 @@ export default function Header() {
       {/* Mobile Menu */}
       {isMenuOpen && (
         <div className="md:hidden flex flex-col bg-white border-t border-gray-200 mt-2 p-4 space-y-2">
+             <div className="mb-3 pb-3 border-b border-gray-200">
+            <TranslateWidget />
+          </div>
+          
           <NavLink
             to="/app/dashboard"
             className="text-gray-700 hover:text-teal-400"

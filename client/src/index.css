@@ -3,3 +3,22 @@
 .Toastify__toast-container {
   z-index: 9999 !important;
 }
+/* Hide the tooltip that shows original text */
+.goog-tooltip ,.goog-tooltip:hover,#goog-gt-tt, 
+.goog-te-balloon-frame,body > .skiptranslate > iframe.skiptranslate,.goog-te-banner-frame.skiptranslate {
+  display: none !important;
+}
+ .VIlpgJd-yAWNEb-V1pgJd-fmcmS-sn54Q{
+  box-shadow: none !important;
+}
+
+ 
+ font[style] {
+  background-color: transparent !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+body {
+  top: 0px !important;
+}

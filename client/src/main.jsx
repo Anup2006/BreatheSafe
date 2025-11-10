@@ -2,6 +2,8 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { LanguageProvider } from "./context/LanguageContext.jsx";
+
 import "./index.css";
 import App from "./App.jsx";
 import {
@@ -76,7 +78,9 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     <ToastContainer position="top-right" autoClose={3000} theme="light" />
     <AuthProvider>
-      <RouterProvider router={router} />
-    </AuthProvider>
+      <LanguageProvider>  
+        <RouterProvider router={router} />
+      </LanguageProvider>  
+        </AuthProvider>
   </StrictMode>
 );

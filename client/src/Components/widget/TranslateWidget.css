@@ -1,0 +1,33 @@
+/* Hide Google Translate banner and prevent page shift */
+.goog-te-banner-frame.skiptranslate {
+  display: none !important;
+}
+
+body {
+  top: 0 !important;
+  position: static !important;
+}
+
+.skiptranslate iframe {
+  visibility: hidden !important;
+  display: none !important;
+}
+
+/* Custom scrollbar for dropdown */
+.max-h-80::-webkit-scrollbar {
+  width: 6px;
+}
+
+.max-h-80::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.max-h-80::-webkit-scrollbar-thumb {
+  background: #2ec4b6;
+  border-radius: 10px;
+}
+
+.max-h-80::-webkit-scrollbar-thumb:hover {
+  background: #26a69a;
+}

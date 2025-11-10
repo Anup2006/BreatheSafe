@@ -3,6 +3,7 @@ import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { toast } from "sonner";
+import TranslateWidget from "../../Components/widget/TranslateWidget";
 
 export default function AuthPage() {
   const { user, login, loading } = useAuth();
@@ -29,7 +30,11 @@ export default function AuthPage() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="relative flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="absolute top-4 right-4 md:top-6 md:right-6 z-10">
+        <TranslateWidget />
+      </div>
+
       <AuthForm onSuccess={handleAuthSuccess} />
     </div>
   );

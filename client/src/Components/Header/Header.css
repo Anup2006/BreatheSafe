@@ -230,3 +230,53 @@
     width: auto;
   }
 }
+/* Add to your global CSS or Header.css */
+
+/* Hide Google Translate branding */
+.goog-te-gadget-icon {
+  display: none !important;
+}
+
+/* Style the translate dropdown */
+.goog-te-gadget-simple {
+  background-color: transparent !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 0.5rem !important;
+  padding: 0.5rem 0.75rem !important;
+  font-size: 0.875rem !important;
+  transition: all 0.2s ease !important;
+}
+
+.goog-te-gadget-simple:hover {
+  border-color: #2ec4b6 !important;
+}
+
+/* Style the selected language text */
+.goog-te-gadget-simple .goog-te-menu-value span {
+  color: #374151 !important;
+}
+
+.goog-te-gadget-simple .goog-te-menu-value span:hover {
+  color: #2ec4b6 !important;
+}
+
+/* Remove "Powered by" text */
+.goog-te-gadget-simple .goog-te-menu-value span:first-child {
+  display: none;
+}
+
+/* Style the dropdown arrow */
+.goog-te-gadget-simple .goog-te-menu-value span:last-child {
+  border-left: none !important;
+  padding-left: 0 !important;
+}
+
+/* Hide the top banner that Google adds */
+.goog-te-banner-frame.skiptranslate {
+  display: none !important;
+}
+
+body {
+  top: 0 !important; /* Prevent Google Translate from pushing content down */
+}
+
