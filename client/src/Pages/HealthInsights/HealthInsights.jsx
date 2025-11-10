@@ -247,17 +247,47 @@ const fetchAQI = async (isFromGeo = false) => {
     }
   };
 
-  // 🌫️ AQI Quality & Conditional Colors
+// 🌫️ AQI Quality & Conditional Colors
 const getAQIStatusColor = (aqi) => {
   if (aqi <= 50)
-    return { label: "Good", color: "green", textColor: "white" };
-  if (aqi <= 100)
-    return { label: "Moderate", color: "yellow", textColor: "black" };
-  if (aqi <= 200)
-    return { label: "Poor", color: "orange", textColor: "white" };
-  if (aqi <= 300)
-    return { label: "Very Poor", color: "red", textColor: "white" };
-  return { label: "Hazardous", color: "purple", textColor: "white" };
+    return { 
+      label: "Good", 
+      bgClass: "bg-green-200", 
+      borderClass: "border-green-500",
+      textClass: "text-black",
+      iconClass: "text-green-600"
+    };
+  else if (aqi <= 100)
+    return { 
+      label: "Moderate", 
+      bgClass: "bg-yellow-200", 
+      borderClass: "border-yellow-500",
+      textClass: "text-black",
+      iconClass: "text-yellow-600"
+    };
+  else if (aqi <= 200)
+    return { 
+      label: "Poor", 
+      bgClass: "bg-orange-400", 
+      borderClass: "border-orange-800",
+      textClass: "text-white",
+      iconClass: "text-orange-600"
+    };
+  else if (aqi <= 300)
+    return { 
+      label: "Very Poor", 
+      bgClass: "bg-red-700", 
+      borderClass: "border-red-500",
+      textClass: "text-white",
+      iconClass: "text-red-600"
+    };
+  return { 
+    label: "Hazardous", 
+    bgClass: "bg-purple-800", 
+    borderClass: "border-purple-500",
+    textClass: "text-white",
+    iconClass: "text-purple-600"
+  };
 };
 
 
@@ -276,7 +306,7 @@ const getAQIStatusColor = (aqi) => {
       </div>
     );
   }
-  const { label, color ,textColor} = getAQIStatusColor(aqiData.us_aqi);
+const { label, bgClass, borderClass, textClass, iconClass } = getAQIStatusColor(aqiData.us_aqi);
   const advice = getAdvice(label);
 
   return (
@@ -349,12 +379,11 @@ const getAQIStatusColor = (aqi) => {
         </div>
       </div>
 
-      <div
-        className={`alert-section border bg-${color}-100 ${textColor} border-${color}-500`}
-      >
+        <div className={`alert-section border ${bgClass} ${textClass} ${borderClass}`}>
+
         <div className="alert-header">
-          <AlertTriangle className={`alert-icon text-${color}-600`} />
-          <h2 className="alert-title">AIR QUALITY : {label.toUpperCase()} </h2>
+        <AlertTriangle className={`alert-icon ${iconClass}`} />
+        <h2 className="alert-title">AIR QUALITY : {label.toUpperCase()} </h2>
         </div>
         <p className="alert-aqi">
           AQI Level: <strong>{aqiData.us_aqi}</strong> ({label})
