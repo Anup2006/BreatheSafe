@@ -13,14 +13,15 @@ function App() {
     // When inject.js is done loading, then load the config script
     injectScript.onload = () => {
       const configScript = document.createElement("script");
-      configScript.src = "https://files.bpcontent.cloud/2025/11/04/16/20251104160622-NJYAFMWS.js";
+      configScript.src =
+        "https://files.bpcontent.cloud/2025/11/04/16/20251104160622-NJYAFMWS.js";
       configScript.defer = true;
-      
+
       // ✅ Wait for config to load, then set language
       configScript.onload = () => {
         initializeBotpressLanguage();
       };
-      
+
       document.body.appendChild(configScript);
     };
 
@@ -48,15 +49,15 @@ function App() {
     const getCookie = (name) => {
       const value = `; ${document.cookie}`;
       const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop().split(';').shift();
+      if (parts.length === 2) return parts.pop().split(";").shift();
       return null;
     };
 
-    const googtransCookie = getCookie('googtrans');
+    const googtransCookie = getCookie("googtrans");
     const hash = window.location.hash;
-    let currentLang = 'en';
+    let currentLang = "en";
 
-    if (googtransCookie && googtransCookie !== '/en/en') {
+    if (googtransCookie && googtransCookie !== "/en/en") {
       const langMatch = googtransCookie.match(/\/en\/(\w+)/);
       if (langMatch) {
         currentLang = langMatch[1];
@@ -71,15 +72,20 @@ function App() {
     if (window.botpressWebChat) {
       // Send language to bot via event
       window.botpressWebChat.sendEvent({
-        type: 'proactiveEvent',
-        payload: { language: currentLang }
+        type: "proactiveEvent",
+        payload: { language: currentLang },
       });
 
       // Also send as user variable
       window.botpressWebChat.sendPayload({
-        type: 'text',
+        type: "text",
         text: `/setLanguage ${currentLang}`,
-        hide: true
+        hide: true,
+      });
+
+      window.botpressWebChat.sendPayload({
+        type: "text",
+        text: "Hey there! 👋 I’m your BreatheSafeAI assistant. Want to check your air safety today?",
       });
     }
   };
@@ -90,8 +96,8 @@ function App() {
       setTimeout(initializeBotpressLanguage, 500);
     };
 
-    window.addEventListener('hashchange', handleLanguageChange);
-    return () => window.removeEventListener('hashchange', handleLanguageChange);
+    window.addEventListener("hashchange", handleLanguageChange);
+    return () => window.removeEventListener("hashchange", handleLanguageChange);
   }, []);
 
   return (

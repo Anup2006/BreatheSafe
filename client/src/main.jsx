@@ -40,39 +40,23 @@ const router = createBrowserRouter(
       {/* Root redirect */}
       <Route path="/" element={<Navigate to="/app" replace />} />
       <Route path="/ClimateModal" element={<ClimateShowcase />} />
-
-      {/* Public Auth Route */}
       <Route path="/auth" element={<AuthPage />} />
       <Route path="/Diseases-info" element={<DiseaseInfoPage />} />
- 
-      {/* Protected Routes (This is the parent layout wrapper) */}
-      <Route path="/app" element={<ProtectedRoute/>}> 
 
-        {/* --------------------------------------------------------------------------------- */}
-        {/* DUPLICATE REMOVED: The inner <Route path="" element={<AppWrapper />}> has been removed. 
-           The Outlet inside the parent AppWrapper now renders the children directly. */}
-        {/* --------------------------------------------------------------------------------- */}
-
-        <Route index element={<Home />} />
-        <Route path="dashboard" element={<Dashboard />} />
-        <Route path="health-insights" element={<HealthInsights />} />
-        <Route path="air-quality" element={<AirQuality />} />
-        <Route path="health-assessment" element={<HealthAssessment />} />
-
-        <Route
-          path="health-report"
-          element={<HealthReportDetail />}
-          errorElement={<ErrorPage />}
-        />
-        <Route
-          path="health-report/:id"
-          element={<HealthReportDetail />}
-          errorElement={<ErrorPage />}
-        />
-        
+      {/* Protected Routes */}
+      <Route element={<ProtectedRoute />}>
+        <Route path="/app" element={<AppWrapper />}>
+          <Route index element={<Home />} />
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="health-insights" element={<HealthInsights />} />
+          <Route path="air-quality" element={<AirQuality />} />
+          <Route path="health-assessment" element={<HealthAssessment />} />
+          <Route path="health-report" element={<HealthReportDetail />} />
+          <Route path="health-report/:id" element={<HealthReportDetail />} />
+        </Route>
       </Route>
 
-      {/* ✅ Catch-all 404 route */}
+      {/* 404 Page */}
       <Route path="*" element={<ErrorPage />} />
     </>
   )
@@ -82,9 +66,9 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     <ToastContainer position="top-right" autoClose={3000} theme="light" />
     <AuthProvider>
-      <LanguageProvider>  
+      <LanguageProvider>
         <RouterProvider router={router} />
-      </LanguageProvider>  
-        </AuthProvider>
+      </LanguageProvider>
+    </AuthProvider>
   </StrictMode>
 );

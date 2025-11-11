@@ -1,21 +1,24 @@
-.major {
-  /* Allow content to determine the height */
-  min-height: 500px; 
-  width: 95%;
-  /* Removed border */
-  margin: 2rem auto;
-  
-  display: flex;
-  flex-direction: row;
-  
-  /* Use space-between to push the two cards apart */
-  justify-content: space-between; 
-  
-  /* Align items to the very top */
-  align-items: flex-start; 
-  
-  /* Add consistent horizontal space */
-  padding: 0 2%; 
-  /* Important: flex-wrap ensures components don't scrunch if window is small */
-  flex-wrap: wrap; 
+/* 🌿 Two-column responsive layout that scrolls with the page */
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  padding: 2rem 3rem;
+  box-sizing: border-box;
+  width: 100%;
+  /* removed height: 100vh and overflow-y */
+}
+
+/* Smooth hover motion */
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive layout for smaller screens */
+@media (max-width: 992px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
 }

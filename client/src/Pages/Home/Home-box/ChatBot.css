@@ -1,0 +1,85 @@
+/* --- FAQ SECTION BELOW MAP --- */
+.faq-preview {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 2rem;
+}
+
+.faq-preview h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #0099cc;
+  margin-bottom: 5px;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 6px;
+}
+
+.faq-preview ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.faq-preview li {
+  font-size: 1rem;
+  color: #333;
+  background: #f9fafb;
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.faq-preview li:hover {
+  background: #e6f9f9;
+  transform: translateX(4px);
+}
+
+.faq-preview:hover {
+  color: #007bb8;
+  transform: translateY(3px);
+}
+
+/* --- INPUT BOX --- */
+.faq-form {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 10px;
+}
+
+.faq-form input {
+  flex: 1;
+  padding: 10px 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.faq-form input:focus {
+  border-color: #0099cc;
+}
+
+.faq-form button {
+  padding: 10px 16px;
+  background: #0099cc;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.faq-form button:hover {
+  background: #007bb8;
+  transform: scale(1.05);
+}

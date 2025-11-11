@@ -1,0 +1,116 @@
+/* AIR QUALITY + CITY RANKINGS SECTION */
+.air-quality-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  padding: 24px;
+}
+
+/* LOCAL AQI CARD */
+.local-aqi h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #0099cc;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 6px;
+  margin-bottom: 1rem;
+}
+
+.local-aqi-info {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.stat {
+  display: flex;
+  gap: 6px;
+  font-size: 1.05rem;
+  color: #333;
+}
+
+.label {
+  font-weight: 600;
+  color: #555;
+}
+
+.value {
+  font-weight: 700;
+}
+
+.value.good {
+  color: #3cb371;
+}
+
+.value.moderate {
+  color: #f0ad4e;
+}
+
+.value.poor {
+  color: #d9534f;
+}
+
+.aqi-note {
+  font-size: 0.95rem;
+  color: #444;
+  margin-top: 0.5rem;
+}
+
+/* CITY RANKINGS */
+.city-rankings {
+  border-top: 2px solid #e0e0e0;
+  padding-top: 1rem;
+}
+
+.city-rankings h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #0099cc;
+  margin-bottom: 0.8rem;
+}
+
+.city-rankings ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.city-rankings li {
+  background: #f9fafb;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.city-rankings li:hover {
+  background: #e6f9f9;
+  transform: translateX(4px);
+}
+
+.city-rankings .good {
+  color: #3cb371;
+  font-weight: 600;
+}
+
+.city-rankings .moderate {
+  color: #f0ad4e;
+  font-weight: 600;
+}
+
+.city-rankings .poor {
+  color: #d9534f;
+  font-weight: 600;
+}
