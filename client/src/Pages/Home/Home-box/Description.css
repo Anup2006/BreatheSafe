@@ -1,6 +1,59 @@
-.description{
-    height: 350px;
-    width: 400px;
-    border: 1px solid #111827;
-    margin: 2rem 0 2rem 0 ;
+.description {
+    /* Layout and Card Styling */
+    width: 45%; 
+    margin: 0; 
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 20px; 
+    display: flex;
+    flex-direction: column;
+}
+
+/* Title Styling */
+.description h2 {
+    font-size: 1.4rem; 
+    color: #333; 
+    margin-top: 0;
+    padding-bottom: 8px; 
+    border-bottom: 2px solid #e0e0e0; 
+    margin-bottom: 15px; 
+}
+
+/* Description.css */
+/* Image Styling - FORCED FIX */
+.description img {
+    width: 100% !important;
+    height: auto !important; 
+    max-height: 350px !important; /* Gave it extra height just in case */
+    
+    /* CRITICAL FIX */
+    object-fit: contain !important; 
+    
+    margin-bottom: 15px !important;
+    border-radius: 6px !important; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) !important; 
+}
+
+/* Paragraph Text Styling (Larger and Readable) */
+.description p {
+    font-size: 1rem; 
+    color: #444;
+    line-height: 1.6; 
+    margin-bottom: 15px;
+}
+
+/* Call-to-action link styling */
+.description a {
+    margin-top: 10px;
+    font-size: 1rem; 
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+.description a:hover {
+    color: #0056b3;
+    text-decoration: underline;
 }

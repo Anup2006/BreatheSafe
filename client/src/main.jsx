@@ -25,7 +25,7 @@ import AuthPage from "./Pages/AuthLanding/AuthPage.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import { useAuthInit } from "./hooks/useAuthInit.js";
 import DiseaseInfoPage from "./Pages/DiseaseInfo/DiseaseInfo.jsx";
-import ErrorPage from "./Pages/ErrorPage/ErrorPage.jsx"; // ✅ Add error page
+import ErrorPage from "./Pages/ErrorPage/ErrorPage.jsx";
 import ClimateShowcase from "./ClimateShowcase/ClimateShowcase.jsx";
 
 // Wrapper to initialize OAuth token detection
@@ -45,27 +45,31 @@ const router = createBrowserRouter(
       <Route path="/auth" element={<AuthPage />} />
       <Route path="/Diseases-info" element={<DiseaseInfoPage />} />
  
-      {/* Protected Routes */}
-      <Route path="/app" element={<ProtectedRoute />}>
-  <Route path="" element={<AppWrapper />}>  
-          <Route index element={<Home />} />
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="health-insights" element={<HealthInsights />} />
-          <Route path="air-quality" element={<AirQuality />} />
-          <Route path="health-assessment" element={<HealthAssessment />} />
+      {/* Protected Routes (This is the parent layout wrapper) */}
+      <Route path="/app" element={<ProtectedRoute/>}> 
 
-          {/* ✅ FIXED: Add both routes */}
-          <Route
-            path="health-report"
-            element={<HealthReportDetail />}
-            errorElement={<ErrorPage />}
-          />
-          <Route
-            path="health-report/:id"
-            element={<HealthReportDetail />}
-            errorElement={<ErrorPage />}
-          />
-        </Route>
+        {/* --------------------------------------------------------------------------------- */}
+        {/* DUPLICATE REMOVED: The inner <Route path="" element={<AppWrapper />}> has been removed. 
+           The Outlet inside the parent AppWrapper now renders the children directly. */}
+        {/* --------------------------------------------------------------------------------- */}
+
+        <Route index element={<Home />} />
+        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="health-insights" element={<HealthInsights />} />
+        <Route path="air-quality" element={<AirQuality />} />
+        <Route path="health-assessment" element={<HealthAssessment />} />
+
+        <Route
+          path="health-report"
+          element={<HealthReportDetail />}
+          errorElement={<ErrorPage />}
+        />
+        <Route
+          path="health-report/:id"
+          element={<HealthReportDetail />}
+          errorElement={<ErrorPage />}
+        />
+        
       </Route>
 
       {/* ✅ Catch-all 404 route */}

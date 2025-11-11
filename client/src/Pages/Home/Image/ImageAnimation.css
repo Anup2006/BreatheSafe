@@ -1,7 +1,71 @@
-.image-animation {
-  height: 200px;
-  width: 95%;
-  border: 1px solid #111827;
-  text-align: center;
-  margin: 5rem auto 2rem;
+/* ---------------------------------- */
+/* 1. Container for the entire banner */
+/* ---------------------------------- */
+.image-animation-container {
+    /* Sets the height of the banner */
+    height: 350px; 
+    width: 100%;
+    /* Establishes the context for absolute positioning of the text */
+    position: relative; 
+    /* Ensures nothing overflows the container */
+    overflow: hidden; 
+}
+
+/* ---------------------------------- */
+/* 2. Video element styling */
+/* ---------------------------------- */
+.image-animation-container video {
+    /* Ensures the video covers the entire container area */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Centers the video content */
+    object-position: center; 
+}
+
+/* ---------------------------------- */
+/* 3. Overlay Text Styling */
+/* ---------------------------------- */
+.overlay-text {
+    /* Positions the text directly over the video */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    /* Center the text content using Flexbox */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    
+    /* Add a dark, semi-transparent overlay for better text contrast */
+    background: rgba(0, 0, 0, 0.4); 
+    
+    /* Ensure text is above the video */
+    z-index: 10; 
+    
+    /* Text appearance */
+    color: #ffffff; /* White text for contrast */
+    padding: 0 20px;
+}
+
+.overlay-text h1 {
+    /* Primary Headline */
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    /* Subtle text shadow for a more polished look and better readability */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); 
+}
+
+.overlay-text p {
+    /* Sub-headline/Tagline */
+    font-size: 1.2rem;
+    font-weight: 300;
+    margin: 0;
+    /* Subtle text shadow */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7); 
 }

@@ -1,10 +1,21 @@
 .major {
-  height: 500px;
+  /* Allow content to determine the height */
+  min-height: 500px; 
   width: 95%;
-  border: 1px solid #111827;
-  margin: auto;
+  /* Removed border */
+  margin: 2rem auto;
+  
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
-  margin-bottom: 2rem;
+  
+  /* Use space-between to push the two cards apart */
+  justify-content: space-between; 
+  
+  /* Align items to the very top */
+  align-items: flex-start; 
+  
+  /* Add consistent horizontal space */
+  padding: 0 2%; 
+  /* Important: flex-wrap ensures components don't scrunch if window is small */
+  flex-wrap: wrap; 
 }
