@@ -1,5 +1,5 @@
 import "./Footer.css";
-import lungslogo from "/src/assets/lungslogo.png";
+import lungslogo from "/src/assets/lungsLogo.png";
 
 export default function Footer() {
   return (
