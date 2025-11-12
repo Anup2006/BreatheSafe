@@ -1,4 +1,4 @@
-import lungslogo from "/src/assets/lungslogo.png";
+import lungslogo from "/src/assets/lungsLogo.png";
 import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
