@@ -44,7 +44,7 @@ const HealthReportDetail = () => {
   // Popular Indian cities
   const popularCities = [
     { name: "Pune", lat: 18.5204, lon: 73.8567 },
-    { name: "Mumbai", lat: 19.0760, lon: 72.8777 },
+    { name: "Mumbai", lat: 19.076, lon: 72.8777 },
     { name: "Delhi", lat: 28.6139, lon: 77.209 },
     { name: "Bangalore", lat: 12.9716, lon: 77.5946 },
     { name: "Hyderabad", lat: 17.385, lon: 78.4867 },
@@ -96,12 +96,13 @@ const HealthReportDetail = () => {
       }
 
       const data = await response.json();
-    const hourly = data.hourly;
-    const currentHourIndex = new Date().getHours();
-    
-    // Get current hour's data (first day, current hour)
-    const currentIndex = currentHourIndex < hourly.time.length ? currentHourIndex : 0;
-          const aqiValue = data.hourly.us_aqi[currentIndex] || 0;
+      const hourly = data.hourly;
+      const currentHourIndex = new Date().getHours();
+
+      // Get current hour's data (first day, current hour)
+      const currentIndex =
+        currentHourIndex < hourly.time.length ? currentHourIndex : 0;
+      const aqiValue = data.hourly.us_aqi[currentIndex] || 0;
 
       let status = "Good";
       if (aqiValue > 300) status = "Hazardous";
@@ -179,7 +180,10 @@ const HealthReportDetail = () => {
             };
 
             try {
-              location.name = await getLocationName(location.latitude, location.longitude);
+              location.name = await getLocationName(
+                location.latitude,
+                location.longitude
+              );
             } catch (err) {
               console.error("Failed to get location name:", err);
             }
@@ -217,7 +221,9 @@ const HealthReportDetail = () => {
   const getCityCoordinates = async (cityName) => {
     try {
       const response = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(cityName)}&limit=1`
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+          cityName
+        )}&limit=1`
       );
 
       if (!response.ok) {
@@ -240,6 +246,8 @@ const HealthReportDetail = () => {
       throw err;
     }
   };
+
+  const base_url = import.meta.env.BACKEND_URL;
 
   // ✅ NEW: Proceed with report generation
   const proceedWithReportGeneration = async (location) => {
@@ -279,20 +287,17 @@ const HealthReportDetail = () => {
 
       toast.info("Generating your personalized health report...");
 
-      const response = await fetch(
-        "http://localhost:5000/api/health-report/generate",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            location,
-            aqiData,
-          }),
-        }
-      );
+      const response = await fetch(`${base_url}/api/health-report/generate`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          location,
+          aqiData,
+        }),
+      });
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -397,7 +402,7 @@ const HealthReportDetail = () => {
   const fetchAllReportsAndAssessments = async (token) => {
     try {
       const reportsResponse = await fetch(
-        "http://localhost:5000/api/health-report/my-reports",
+        `${base_url}/api/health-report/my-reports`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -414,7 +419,7 @@ const HealthReportDetail = () => {
       }
 
       const assessmentsResponse = await fetch(
-        "http://localhost:5000/api/health-assessment/my-assessments",
+        `${base_url}/api/health-assessment/my-assessments`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -476,9 +481,9 @@ const HealthReportDetail = () => {
 
         let endpoint;
         if (id) {
-          endpoint = `http://localhost:5000/api/health-report/reports/${id}`;
+          endpoint = `${base_url}/api/health-report/reports/${id}`;
         } else {
-          endpoint = `http://localhost:5000/api/health-report/my-reports`;
+          endpoint = `${base_url}http://localhost:5000/api/health-report/my-reports`;
         }
 
         const response = await fetch(endpoint, {
@@ -789,7 +794,9 @@ const HealthReportDetail = () => {
               <div className="location-modal">
                 <div className="location-modal-header">
                   <h2>📍 Select Your Location</h2>
-                  <p>We need your location to provide accurate air quality data</p>
+                  <p>
+                    We need your location to provide accurate air quality data
+                  </p>
                 </div>
 
                 <div className="location-options">

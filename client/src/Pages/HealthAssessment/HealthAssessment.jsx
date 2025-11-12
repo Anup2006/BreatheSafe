@@ -115,27 +115,25 @@ export default function ResponsiveHorizontalForm() {
         navigate("/auth");
         return;
       }
+      const base_url = import.meta.env.BACKEND_URL;
 
-      const response = await fetch(
-        "http://localhost:5000/api/health-assessment",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, // Backend extracts userId from this
-          },
-          body: JSON.stringify({
-            // ✅ No userId - backend gets it from token
-            name: form.name.trim(),
-            age: Number(form.age),
-            chronicDiseases: form.chronicDiseases,
-            symptoms: form.symptoms,
-            additionalNotes: form.additionalNotes.trim(),
-            consent: form.consent, // ✅ Include consent
-            timestamp: new Date().toISOString(),
-          }),
-        }
-      );
+      const response = await fetch(`${base_url}/api/health-assessment`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Backend extracts userId from this
+        },
+        body: JSON.stringify({
+          // ✅ No userId - backend gets it from token
+          name: form.name.trim(),
+          age: Number(form.age),
+          chronicDiseases: form.chronicDiseases,
+          symptoms: form.symptoms,
+          additionalNotes: form.additionalNotes.trim(),
+          consent: form.consent, // ✅ Include consent
+          timestamp: new Date().toISOString(),
+        }),
+      });
 
       const data = await response.json();
 

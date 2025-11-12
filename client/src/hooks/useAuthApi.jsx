@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
-const BACKEND_URL = "http://localhost:5000/api/users";
+
+const base_uri = import.meta.env.BACKEND_URL;
+const BACKEND_URL = `${base_uri}/api/users`;
 
 export default function useAuthApi() {
   const { login } = useAuth();
@@ -35,10 +37,10 @@ export default function useAuthApi() {
     return data;
   };
 
-const signupUser = async ({ name, email, password }) => {
-  const data = await apiCall("/signup", { name, email, password });
-  return data;  
-};
+  const signupUser = async ({ name, email, password }) => {
+    const data = await apiCall("/signup", { name, email, password });
+    return data;
+  };
   const loginWithGoogle = () => {
     setLoading(true);
     setError(null);
@@ -80,18 +82,17 @@ const signupUser = async ({ name, email, password }) => {
     return await apiCall("/phone/complete-signup", { phone, name, password });
   };
 
-
- return { 
-    loginUser, 
-    signupUser, 
-    loginWithGoogle, 
-    handleGoogleCallback, 
-    verifyOtp, 
-    resendOtp, 
+  return {
+    loginUser,
+    signupUser,
+    loginWithGoogle,
+    handleGoogleCallback,
+    verifyOtp,
+    resendOtp,
     loading,
-        sendPhoneOtp,
+    sendPhoneOtp,
     verifyPhoneOtp,
-    completePhoneSignup, 
-    error 
+    completePhoneSignup,
+    error,
   };
 }
