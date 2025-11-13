@@ -46,7 +46,7 @@ router.get("/auth/google/callback", (req, res, next) => {
   passport.authenticate("google", { session: false }, (err, user) => {
     if (err || !user) {
       // Handles cancel or denied access
-      return res.redirect(`${process.env.FRONTEND_URL}/auth?error=google_cancelled`);
+      return res.redirect(`${FRONTEND_URL}/auth?error=google_cancelled`);
     }
 
     // Success — issue JWT and redirect to app
@@ -54,7 +54,7 @@ router.get("/auth/google/callback", (req, res, next) => {
       expiresIn: "7d",
     });
 
-    return res.redirect(`${process.env.FRONTEND_URL}/app?token=${token}`);
+    return res.redirect(`${FRONTEND_URL}/app?token=${token}`);
   })(req, res, next);
 });
 
