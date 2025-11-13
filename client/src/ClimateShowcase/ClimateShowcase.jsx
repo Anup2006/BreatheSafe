@@ -437,9 +437,9 @@ export default function ClimateForecaster() {
     <div className="climate-forecaster">
       {/* TOP NAVIGATION */}
       <div className="top-nav text-center">
-        <Link to="/app/dashboard" className="back-link">
+        <Link to="/app" className="back-link">
           <FiArrowLeft size={20} />
-          Back to Dashboard
+          Back to Home
         </Link>
         <h1 className="nav-title mx-auto">🌍 Climate Forecast Predictor</h1>
       </div>

@@ -7,6 +7,8 @@ dotenv.config();
 //   SESSION_SECRET: process.env.SESSION_SECRET,
 //   FRONTEND_URL: process.env.FRONTEND_URL,
 // });
+// console.log("FRONTEND_URL:", process.env.FRONTEND_URL);
+
 import express from "express";
 import cors from "cors";
 import session from "express-session";
@@ -39,8 +41,9 @@ app.use(passport.session());
 app.use("/api/users", userRoutes);
 app.use("/api/health-assessment", healthAssessmentRoutes);
 app.use("/api/health-report", healthReportRoutes);
+
 // Test
-app.get("/", (req, res) => res.send("BreatheSafeAI Backend Running 🚀"));
+app.get("/", (_, res) => res.send("BreatheSafeAI Backend Running 🚀"));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

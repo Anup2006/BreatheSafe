@@ -115,7 +115,7 @@ export default function ResponsiveHorizontalForm() {
         navigate("/auth");
         return;
       }
-      const base_url = import.meta.env.BACKEND_URL;
+      const base_url = "http://localhost:5000";
 
       const response = await fetch(`${base_url}/api/health-assessment`, {
         method: "POST",
@@ -134,6 +134,7 @@ export default function ResponsiveHorizontalForm() {
           timestamp: new Date().toISOString(),
         }),
       });
+      console.log(response);
 
       const data = await response.json();
 

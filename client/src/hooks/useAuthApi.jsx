@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 
-const base_uri = import.meta.env.BACKEND_URL;
-const BACKEND_URL = `${base_uri}/api/users`;
+// const base = import.meta.env.BACKEND_URL || "http://localhost:5000";
+const Backend = "http://localhost:5000/api/users";
 
 export default function useAuthApi() {
   const { login } = useAuth();
@@ -12,14 +12,17 @@ export default function useAuthApi() {
   const apiCall = async (url, body) => {
     setLoading(true);
     setError(null);
+
     try {
-      const res = await fetch(`${BACKEND_URL}${url}`, {
+      console.log("📤 Sending to backend:", `${Backend}${url}`, body);
+      const res = await fetch(`${Backend}${url}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Something went wrong");
+      if (!res.ok)
+        throw new Error(data.message || data.error || "Something went wrong");
       return data;
     } catch (err) {
       setError(err.message);
@@ -41,11 +44,12 @@ export default function useAuthApi() {
     const data = await apiCall("/signup", { name, email, password });
     return data;
   };
+
   const loginWithGoogle = () => {
     setLoading(true);
     setError(null);
     try {
-      window.location.href = `${BACKEND_URL}/auth/google`;
+      window.location.href = `${Backend}/auth/google`;
     } catch (err) {
       setError(err.message || "Failed to redirect for Google login");
       setLoading(false);

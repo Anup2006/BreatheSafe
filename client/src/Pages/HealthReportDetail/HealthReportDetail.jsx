@@ -247,7 +247,7 @@ const HealthReportDetail = () => {
     }
   };
 
-  const base_url = import.meta.env.BACKEND_URL;
+  const base_url = import.meta.env.BACKEND_URL || "http://localhost:5000";
 
   // ✅ NEW: Proceed with report generation
   const proceedWithReportGeneration = async (location) => {
@@ -483,7 +483,7 @@ const HealthReportDetail = () => {
         if (id) {
           endpoint = `${base_url}/api/health-report/reports/${id}`;
         } else {
-          endpoint = `${base_url}http://localhost:5000/api/health-report/my-reports`;
+          endpoint = `${base_url}/api/health-report/my-reports`;
         }
 
         const response = await fetch(endpoint, {

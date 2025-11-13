@@ -46,16 +46,18 @@ export default function AuthForm({ onSuccess }) {
         password: loginPassword,
       });
 
-      if (data.emailVerificationRequired) {
-        setPendingEmail(loginEmail);
-        setShowOtpForm(true);
-        toast.info("Please verify your email to continue");
-      } else if (data.phoneVerificationRequired) {
-        setPhoneOtpOpen(true);
-        toast.info("Please verify your phone number");
-      } else if (data.token) {
+      if (data.token && data.user) {
         toast.success("Login successful!");
         onSuccess(data.token, data.user);
+      } else {
+        // no token means verification needed
+        toast.info("Please verify your account using the OTP sent.");
+        if (loginMethod === "email") {
+          setPendingEmail(loginEmail);
+          setShowOtpForm(true);
+        } else {
+          setPhoneOtpOpen(true);
+        }
       }
     } catch (err) {
       toast.error(err.message);
@@ -65,7 +67,7 @@ export default function AuthForm({ onSuccess }) {
   const handleSignup = async (e) => {
     e.preventDefault();
     if (!signupName || !signupEmail || !signupPassword)
-      return toast.error("Fill all fields");
+      return toast.error("Please fill all fields");
 
     try {
       const data = await signupUser({
@@ -77,16 +79,20 @@ export default function AuthForm({ onSuccess }) {
       if (data.email) {
         setPendingEmail(signupEmail);
         setShowOtpForm(true);
-        toast.info("Please verify your email to continue");
+        toast.info(data.message || "Please verify your email to continue");
         return;
       }
 
-      if (data.token && data.user) {
-        onSuccess(data.token, data.user);
-        toast.success("Signup successful!");
+      // Fallback (shouldn't normally reach here)
+      toast.success("Signup successful!");
+    } catch (err) {
+      console.error("Signup failed:", err);
+      if (err.message.includes("login")) {
+        toast.error("This email is already registered. Please log in instead.");
+        setActiveTab("login");
+      } else {
+        toast.error(err.message || "Signup failed. Please try again.");
       }
-    } catch {
-      toast.error(error || "Signup failed. Please try again.");
     }
   };
 
