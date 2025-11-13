@@ -26,9 +26,17 @@ ConnectDB();
 
 const app = express();
 app.use(express.json());
+// const allowedOrigins = process.env.NODE_ENV === "production"
+//   ? process.env.FRONTEND_URL
+//   : "http://localhost:5173";
+
+  // temp adding tihs
 const allowedOrigins = process.env.NODE_ENV === "production"
-  ? process.env.FRONTEND_URL
+  ? "https://breathe-safe-s2xn.vercel.app"
   : "http://localhost:5173";
+
+
+ 
   console.log("CORS allowed origins:", allowedOrigins);
   console.log("NODE_ENV:", process.env.NODE_ENV);
 app.use(cors({ origin:allowedOrigins || "http://localhost:5173", credentials: true }));

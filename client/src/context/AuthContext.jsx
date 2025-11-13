@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 const AuthContext = createContext();
 const base_uri = import.meta.env.VITE_BACKEND_URL  || "http://localhost:5000";
-const BACKEND_URL = `${base_uri}/api/users`;
+const BACKEND_URL = `${base_uri}api/users`;
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
