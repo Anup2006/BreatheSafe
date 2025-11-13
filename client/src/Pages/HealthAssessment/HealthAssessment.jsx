@@ -115,9 +115,9 @@ export default function ResponsiveHorizontalForm() {
         navigate("/auth");
         return;
       }
-      const base_url = "http://localhost:5000";
-
-      const response = await fetch(`${base_url}/api/health-assessment`, {
+      const base_url = import.meta.env.VITE_BACKEND_URL  || "http://localhost:5000";
+ 
+      const response = await fetch(`${base_url}api/health-assessment`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

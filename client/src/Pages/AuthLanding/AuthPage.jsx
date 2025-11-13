@@ -10,6 +10,7 @@ export default function AuthPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log("Backend url " , import.meta.env.VITE_BACKEND_URL);
     if (!loading && user) {
       navigate("/app/health-assessment", { replace: true });
     }

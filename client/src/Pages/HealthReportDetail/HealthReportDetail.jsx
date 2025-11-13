@@ -287,7 +287,7 @@ const HealthReportDetail = () => {
 
       toast.info("Generating your personalized health report...");
 
-      const response = await fetch(`${base_url}/api/health-report/generate`, {
+      const response = await fetch(`${base_url}api/health-report/generate`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -402,7 +402,7 @@ const HealthReportDetail = () => {
   const fetchAllReportsAndAssessments = async (token) => {
     try {
       const reportsResponse = await fetch(
-        `${base_url}/api/health-report/my-reports`,
+        `${base_url}api/health-report/my-reports`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -419,7 +419,7 @@ const HealthReportDetail = () => {
       }
 
       const assessmentsResponse = await fetch(
-        `${base_url}/api/health-assessment/my-assessments`,
+        `${base_url}api/health-assessment/my-assessments`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -481,9 +481,9 @@ const HealthReportDetail = () => {
 
         let endpoint;
         if (id) {
-          endpoint = `${base_url}/api/health-report/reports/${id}`;
+          endpoint = `${base_url}api/health-report/reports/${id}`;
         } else {
-          endpoint = `${base_url}/api/health-report/my-reports`;
+          endpoint = `${base_url}api/health-report/my-reports`;
         }
 
         const response = await fetch(endpoint, {
