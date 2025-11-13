@@ -247,7 +247,7 @@ const HealthReportDetail = () => {
     }
   };
 
-  const base_url = import.meta.env.BACKEND_URL || "http://localhost:5000";
+  const base_url = import.meta.env.VITE_BACKEND_URL  || "http://localhost:5000";
 
   // ✅ NEW: Proceed with report generation
   const proceedWithReportGeneration = async (location) => {
