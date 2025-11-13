@@ -4,6 +4,10 @@ import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import User from "../models/user.model.js";
 
 // console.log(process.env.GOOGLE_CALLBACK_URL);
+const isProduction = process.env.NODE_ENV === "production";
+const callbackURL = isProduction
+  ? process.env.GOOGLE_CALLBACK_URL_PROD ||"https://breathe-safe.vercel.app/api/users/auth/google/callback"
+  : process.env.GOOGLE_CALLBACK_URL_DEV || "http://localhost:5000/api/users/auth/google/callback";
 
 passport.use(
   new GoogleStrategy(
