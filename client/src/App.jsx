@@ -5,6 +5,8 @@ import { useEffect } from "react";
 
 function App() {
   useEffect(() => {
+    console.log("Backend:", import.meta.env.VITE_BACKEND_URL);
+
     // Create the inject.js script
     const injectScript = document.createElement("script");
     injectScript.src = "https://cdn.botpress.cloud/webchat/v3.3/inject.js";
