@@ -14,7 +14,11 @@ import {
   sendEmailOtp
 } from "../controllers/user.controller.js";
 import { requireAuth } from "../middlewares/auth.middleware.js";
+const isProduction = process.env.NODE_ENV === "production";
 
+const FRONTEND_URL = isProduction
+  ? process.env.FRONTEND_URL_PROD || "https://breathe-safe-s2xn.vercel.app"
+  : process.env.FRONTEND_URL_DEV || "http://localhost:5173";
 const router = express.Router();
 
 // Email/Password
