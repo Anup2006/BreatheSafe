@@ -63,7 +63,7 @@ function AirQuality() {
       const hourlyIndex = currentHourIndex < data.hourly?.time?.length ? currentHourIndex : 0;
       
       // Use current data or fall back to hourly data
-      const usAqi = data.current?.us_aqi ?? 
+      const usAqi =  
                     data.hourly?.us_aqi?.[hourlyIndex] ?? 
                     data.hourly?.us_aqi?.slice(-1)[0];
       
