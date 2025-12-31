@@ -66,15 +66,29 @@ export default function Header() {
           {/* User Profile (If Logged In) */}
           {user && (
             <div className="profile-container">
-              <div className="avatar-circle" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+              <div className=" avatar-circle" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
                 {user.avatarUrl && !imgError ? (
                     <img src={user.avatarUrl} alt="User" onError={() => setImgError(true)} />
                 ) : fallback}
               </div>
               {isDropdownOpen && (
-                <div className="desktop-user-dropdown">
-                  <button onClick={handleLogout} className="logout-btn">Logout</button>
+                <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+                  <div className="p-3 border-b border-gray-100">
+                    <p className="font-semibold text-lg">{user.name}</p>
+                    <p className="text-sm text-gray-500">
+                      {user.email ?? user.phone}
+                    </p>
+                  </div>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
+                  >
+                    <i className="fa-solid fa-right-from-bracket"></i> Log out
+                  </button>
                 </div>
+                // <div className="desktop-user-dropdown">
+                //   <button onClick={handleLogout} className="logout-btn">Logout</button>
+                // </div>
               )}
             </div>
           )}
@@ -95,6 +109,16 @@ export default function Header() {
            </button>
         </div>
         
+        <span className="flex felx-row">
+          <div className=" avatar-circle-menu">
+            {user.avatarUrl && !imgError ? (
+              <img src={user.avatarUrl} alt="User" onError={() => setImgError(true)} />
+            ) : fallback}
+          </div>
+          <div className="p-3 border-b border-gray-100">
+            <p className="font-semibold text-sm">{user.name}</p>
+          </div>
+        </span>
         <nav className="drawer-nav">
           {navLinks.map((link) => (
             <NavLink 

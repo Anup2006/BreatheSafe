@@ -117,6 +117,32 @@
   border-bottom: 1px solid #f3f4f6;
 }
 
+.avatar-circle{
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #2ec4b6;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 20px;
+}
+.avatar-circle-menu{
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #2ec4b6;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 20px;
+  margin-left:20px;
+}
+
 .close-btn {
   background: none;
   border: none;
@@ -175,3 +201,9 @@
     gap: 8px;
   }
 }
+@media (max-width: 768px) {
+  .avatar-circle{
+    display: none;
+  }
+}
+

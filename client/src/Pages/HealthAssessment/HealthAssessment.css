@@ -248,6 +248,7 @@
 .checkbox-label {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.75rem;
   padding: 0.875rem 1rem;
   background: white;
@@ -265,6 +266,7 @@
 }
 
 .checkbox-input {
+  margin-right: 2rem;
   width: 18px;
   height: 18px;
   border: 2px solid #d1d5db;
@@ -369,14 +371,15 @@
   border-radius: 12px;
   display: flex;
   gap: 1rem;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
 }
 
 .info-banner svg {
   color: #d97706;
   flex-shrink: 0;
-  margin-top: 0.25rem;
+  /* margin-top: 2rem;   */
 }
 
 .info-banner h3 {
@@ -439,11 +442,12 @@
 .consent-checkbox {
   width: 20px;
   height: 20px;
+  margin-right: 1rem;
   border: 2px solid #d97706;
   border-radius: 4px;
   cursor: pointer;
   flex-shrink: 0;
-  margin-top: 0.25rem;
+  margin-top: 0.5rem;
   accent-color: #f59e0b;
 }
 
