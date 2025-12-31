@@ -1,29 +1,23 @@
-.header {
-  display: flex;
-  align-items: space-between;
-  justify-items: center;
-  margin-bottom: 1rem;
+.header-main {
   position: sticky;
   top: 0;
-  z-index: 50;
+  z-index: 1000;
+  background: #ffffff;
+  border-bottom: 1px solid #f1f1f1;
+  height: 75px;
   width: 100%;
-  margin-top: -2rem;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(6px);
-  border-bottom: 1px solid #e5e7eb;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-.header-container {
-  max-width: 1280px; /* same as max-w-7xl */
-  margin: 0 auto;
-  padding-left: -1rem;
-}
-
-.header-inner {
   display: flex;
   align-items: center;
+}
+
+.header-container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
   justify-content: space-between;
-  height: 64px;
+  align-items: center;
+  padding: 0 16px;
 }
 
 .logo-section {
@@ -31,252 +25,153 @@
   align-items: center;
   gap: 8px;
   cursor: pointer;
+  flex-shrink: 0; /* Prevents brand name from being squished */
 }
 
-.logo-wrapper {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
+.logo-img {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+}
+
+.logo-text {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1f2937;
+  white-space: nowrap; /* Forces name to stay on one line */
+}
+
+.highlight {
+  color: #2ec4b6;
+}
+
+/* Container for all right-side items */
+.actions-wrapper {
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 12px;
 }
 
-.logo {
-  width: 60px;
-  height: 60px;
-  object-fit: cover;
+.desktop-nav {
+  display: none; /* Desktop links handled by media query below */
+  gap: 18px;
 }
 
-.title {
-  font-size: 1.25rem;
+.nav-item {
+  text-decoration: none;
+  color: #4b5563;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.nav-item.active {
+  color: #2ec4b6;
   font-weight: 600;
-  color: #111827;
 }
 
-.nav {
-  display: none;
+.translate-container {
+  display: flex;
+  align-items: center;
+  max-width: 120px; /* Limits widget width so it doesn't push name away */
 }
 
-@media (min-width: 768px) {
-  .nav {
-    display: flex;
-    align-items: center;
-    gap: 2rem; /* same as space-x-8 */
-  }
-}
-
-.nav-link {
+.mobile-toggle {
   background: none;
   border: none;
-  font-size: 1rem;
-  font-weight: 500;
-  color: #374151;
+  font-size: 22px;
+  color: #1f2937;
   cursor: pointer;
-  transition: color 0.2s ease-in-out;
+  padding: 4px;
 }
 
-.nav-link:hover {
-  color: #2ec4b6;
-}
-
-.nav-link.active {
-  color: #2ec4b6;
-}
-
-/* User Action */
-
-/* Get Started button */
-/* .btn {
-  background-color: #2EC4B6;
-  color: white;
-  border: none;
-  border-radius: 9999px;
-  padding: 0.5rem 1.5rem;
-  font-size: 14px;
-  cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  transition: all 0.2s ease;
-}
-.btn:hover {
-  background-color: #26a69a;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-} */
-
-.avatar-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background-color: #2ec4b6;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-/* Dropdown menu */
-.dropdown {
-  position: relative;
-  display: inline-block;
-  margin-right: 2rem;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
+/* --- SIDE DRAWER --- */
+.mobile-drawer {
+  position: fixed;
+  top: 0;
   right: 0;
-  top: 110%;
-  background: white;
-  min-width: 220px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  overflow: hidden;
-  z-index: 10;
+  width: 280px;
+  height: 100vh;
+  background: #ffffff;
+  z-index: 2000;
+  padding: 24px;
+  box-shadow: -4px 0 12px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease-in-out;
 }
 
-.dropdown:hover .dropdown-content {
-  display: block;
+.drawer-closed {
+  transform: translateX(100%);
+  visibility: hidden;
 }
 
-/* Dropdown header with name + email */
-.dropdown-header {
-  padding: 12px;
-  border-bottom: 1px solid #eee;
-}
-.dropdown-header p {
-  margin: 2px 0;
-}
-.dropdown-header .name {
-  font-weight: 600;
-  font-size: 14px;
-}
-.dropdown-header .email {
-  font-size: 12px;
-  color: gray;
+.drawer-open {
+  transform: translateX(0);
+  visibility: visible;
 }
 
-/* Dropdown items */
-.dropdown-item {
+.drawer-header {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  padding: 10px 14px;
-  font-size: 14px;
-  color: #333;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.dropdown-item:hover {
-  background-color: #f5f5f5;
-}
-.dropdown-item .icon {
-  margin-right: 8px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f3f4f6;
 }
 
-/* Separator line */
-.dropdown-separator {
-  border-top: 1px solid #eee;
-  margin: 4px 0;
-}
-
-/* Mobile menu */
-.menu-btn {
-  font-size: 22px;
-  background: white;
-  color: black;
+.close-btn {
+  background: none;
   border: none;
+  font-size: 24px;
+  color: #9ca3af;
   cursor: pointer;
-  display: none; /* hidden on desktop */
-}
-#xmark {
-  font-size: 22px;
-}
-#menu {
-  display: flex;
-  flex-direction: column;
-}
-/* Mobile Dropdown Menu */
-.mobile-menu {
-  display: flex;
-  flex-direction: column;
-  background: #fff;
-  border-top: 1px solid #ddd;
-  padding: 15px;
 }
 
-.mobile-menu a {
+.drawer-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.drawer-item {
   text-decoration: none;
-  color: #333;
-  padding: 10px 0;
+  color: #374151;
+  padding: 12px 16px;
+  font-size: 15px;
+  border-radius: 8px;
 }
 
-.mobile-menu a:hover {
+.drawer-item:hover, .drawer-item.active {
+  background: #f0fdfa;
   color: #2ec4b6;
+  font-weight: 600;
 }
 
-/* ✅ Media Queries */
-@media (max-width: 768px) {
-  .nav {
-    display: none; /* hide desktop links */
+.drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.2);
+  z-index: 1500;
+  backdrop-filter: blur(1px);
+}
+
+/* --- RESPONSIVENESS --- */
+@media (min-width: 1100px) {
+  .desktop-nav {
+    display: flex;
   }
-
-  .menu-btn {
-    display: block; /* show hamburger */
-    padding-top: 1rem;
-    padding-right: 1rem;
-  }
-  .header {
-    width: auto;
+  .mobile-toggle {
+    display: none;
   }
 }
-/* Add to your global CSS or Header.css */
 
-/* Hide Google Translate branding */
-.goog-te-gadget-icon {
-  display: none !important;
+/* For very small screens, keep the name but adjust sizes */
+@media (max-width: 380px) {
+  .logo-text {
+    font-size: 16px;
+  }
+  .actions-wrapper {
+    gap: 8px;
+  }
 }
-
-/* Style the translate dropdown */
-.goog-te-gadget-simple {
-  background-color: transparent !important;
-  border: 1px solid #d1d5db !important;
-  border-radius: 0.5rem !important;
-  padding: 0.5rem 0.75rem !important;
-  font-size: 0.875rem !important;
-  transition: all 0.2s ease !important;
-}
-
-.goog-te-gadget-simple:hover {
-  border-color: #2ec4b6 !important;
-}
-
-/* Style the selected language text */
-.goog-te-gadget-simple .goog-te-menu-value span {
-  color: #374151 !important;
-}
-
-.goog-te-gadget-simple .goog-te-menu-value span:hover {
-  color: #2ec4b6 !important;
-}
-
-/* Remove "Powered by" text */
-.goog-te-gadget-simple .goog-te-menu-value span:first-child {
-  display: none;
-}
-
-/* Style the dropdown arrow */
-.goog-te-gadget-simple .goog-te-menu-value span:last-child {
-  border-left: none !important;
-  padding-left: 0 !important;
-}
-
-/* Hide the top banner that Google adds */
-.goog-te-banner-frame.skiptranslate {
-  display: none !important;
-}
-
-body {
-  top: 0 !important; /* Prevent Google Translate from pushing content down */
-}
-

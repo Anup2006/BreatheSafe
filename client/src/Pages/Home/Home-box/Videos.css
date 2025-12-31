@@ -24,8 +24,8 @@
 
 .video-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
+  grid-template-columns: 1fr 1fr; /* Default: 2 columns */
+  gap: 20px;
   flex-grow: 1;
   margin-bottom: 15px;
 }
@@ -62,11 +62,14 @@
 /* ---------------------------------------------------- */
 
 .video-item p {
-  font-size: 0.9rem;
-  color: #333;
-  line-height: 1.3;
-  max-height: 3em;
-  overflow: hidden;
+  font-size: 0.95rem;
+  color: #1f2937; /* More professional dark gray */
+  line-height: 1.4;
+  margin-top: 8px;
+  text-align: left; /* Better readability for multi-line text */
+  /* REMOVED: max-height and overflow hidden */
+  height: auto; 
+  font-weight: 500;
 }
 
 .view-youtube {
@@ -76,4 +79,15 @@
 
 .view-youtube:hover {
   background-color: #cc0000 !important;
+}
+
+@media (max-width: 600px) {
+  .video-grid {
+    grid-template-columns: 1fr; /* Switch to 1 column on small phones */
+    gap: 25px;
+  }
+
+  .video-item p {
+    font-size: 1rem; /* Slightly larger text for mobile readability */
+  }
 }
