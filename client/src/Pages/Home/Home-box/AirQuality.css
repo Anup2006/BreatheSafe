@@ -108,6 +108,7 @@
 .city-rankings .moderate {
   color: #f0ad4e;
   font-weight: 600;
+  text-align: center;
 }
 
 .city-rankings .poor {

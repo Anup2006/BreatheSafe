@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 
 const base = import.meta.env.VITE_BACKEND_URL  || "http://localhost:5000";
-const Backend = `${base}api/users`;
+const Backend = `${base}/api/users`;
 
 export default function useAuthApi() {
   const { login } = useAuth();

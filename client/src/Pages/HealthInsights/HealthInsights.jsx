@@ -136,7 +136,7 @@ const fetchAQI = async (isFromGeo = false) => {
       const { latitude, longitude } = position.coords;
 
       const response = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+        `https://nominatim.openstreetmap.org/reverse?format=json&accept-language=en&lat=${latitude}&lon=${longitude}`
       );
 
       if (!response.ok) throw new Error("Failed to reverse geocode");
@@ -344,16 +344,19 @@ const { label, bgClass, borderClass, textClass, iconClass } = getAQIStatusColor(
               </button>
             </div>
 
-            <div className="search-box">
-              <i className="fas fa-search search-icon"></i>
-              <input
-                type="text"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                onKeyPress={handleKeyPress}
-                placeholder="Enter city name (e.g., Berlin, Tokyo, Mumbai)"
-                disabled={loading}
-              />
+            <div className="search-box ">
+              <div style={{ position: "relative", flex: "1", minWidth: "250px" }}>
+                <i className="fas fa-search search-icon "></i>
+                <input
+                  type="text"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  placeholder="Enter city name (e.g., Berlin, Tokyo, Mumbai)"
+                  disabled={loading}
+                />
+              </div>
+
               <button
                 onClick={() => fetchAQI()}
                 disabled={loading || !inputValue.trim()}

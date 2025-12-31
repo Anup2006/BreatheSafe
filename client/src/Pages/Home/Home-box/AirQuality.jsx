@@ -189,7 +189,7 @@ function AirQuality() {
         <ul>
           {cityRankings.map((city, index) => (
             <li key={city.city}>
-              <span>{numberEmojis[index]} {city.city}</span> — AQI {city.aqi}{" "}
+              <span>{numberEmojis[index]} {city.city}</span> —  AQI : {city.aqi}{" "}
               <span className={city.aqiCategory.class}>
                 ({city.aqiCategory.text})
               </span>

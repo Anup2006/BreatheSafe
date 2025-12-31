@@ -255,6 +255,15 @@
   padding: 1rem;
 }
 
+.search-icon{
+  position: "absolute";
+  left: "12px";
+  top: "50%";
+  transform: "translateY(-50%)";
+  color: "#6B7280"
+}
+
+
 /* Media Queries for Responsiveness */
 @media (max-width: 768px) {
   .insight-title {

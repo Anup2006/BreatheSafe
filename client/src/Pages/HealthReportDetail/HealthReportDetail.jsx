@@ -138,7 +138,7 @@ const HealthReportDetail = () => {
   const getLocationName = async (lat, lon) => {
     try {
       const response = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`
+        `https://nominatim.openstreetmap.org/reverse?format=json&accept-language=en&lat=${latitude}&lon=${longitude}`
       );
 
       if (!response.ok) {

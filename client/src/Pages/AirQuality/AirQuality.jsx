@@ -591,7 +591,7 @@ const generateRecommendations = (hourly, currentIdx) => {
         >
           {aqiStatus.status}
         </span>
-        <p>{aqiStatus.description}</p>
+        <p class="m-4">{aqiStatus.description}</p>
         <div className="buttons">
           <button className="btn primary" onClick={() => toast.info("Alert feature coming soon!")}>
             <Bell size={14} /> Set Alert
