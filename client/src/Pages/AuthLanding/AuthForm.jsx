@@ -120,7 +120,7 @@ export default function AuthForm({ onSuccess }) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
-        className="min-h-screen w-full flex items-center justify-evenly bg-gradient-to-br from-blue-50 via-sky-200 to-cyan-400 p-10"
+        className="min-h-screen w-full flex items-center justify-evenly bg-gradient-to-br from-blue-50 via-sky-200 to-cyan-400 px-4 py-6 sm:px-6 md:p-10"
       >
         <motion.div className="flex flex-col md:flex-row w-full max-w-6xl rounded-3xl shadow-2xl bg-white overflow-hidden">
           {/* Left - Logo */}
