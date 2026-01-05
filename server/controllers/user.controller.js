@@ -75,41 +75,30 @@ export const completeSignup = async (req, res) => {
   }
 };
 // Update user
+// server/controllers/user.controller.js
+
+// server/controllers/user.controller.js
 export const updateUser = async (req, res) => {
   try {
-    const updates = { ...req.body };
+    const { name, state, city, preferences } = req.body;
 
-    // Prevent updates to protected fields
-    const restrictedFields = [
-      "_id",
-      "email",
-      "emailOtp",
-      "emailOtpExpiry",
-      "phoneOtp",
-      "phoneOtpExpiry",
-      "googleId",
-      "isEmailVerified",
-      "isPhoneVerified",
-    ];
-    restrictedFields.forEach((field) => delete updates[field]);
-
-    // Password hashing handled by model pre-save
     const updatedUser = await User.findByIdAndUpdate(
       req.userId,
-      { ...updates, updatedAt: Date.now() },
-      { new: true }
+      { 
+        name, 
+        state, 
+        city, 
+        preferences, 
+        isProfileComplete: true // Force this to true on successful update
+      },
+      { new: true } 
     );
 
-    if (!updatedUser)
-      return res.status(404).json({ message: "User not found" });
-
-    res.json(updatedUser);
+    res.json({ success: true, user: updatedUser }); // Return the updated user
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ success: false, message: err.message });
   }
 };
-
 // Signup with email OTP
 export const signup = async (req, res) => {
   try {

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 
-const base = import.meta.env.VITE_BACKEND_URL  || "http://localhost:5000";
-const Backend = `${base}/api/users`;
+const base = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+const Backend = `${base.replace(/\/$/, "")}/api/users`;
 
 export default function useAuthApi() {
   const { login } = useAuth();
@@ -14,15 +14,17 @@ export default function useAuthApi() {
     setError(null);
 
     try {
-      console.log("📤 Sending to backend:", `${Backend}${url}`, body);
-      const res = await fetch(`${Backend}${url}`, {
+      const targetUrl = `${Backend}/${url.replace(/^\//, "")}`;
+      console.log("📤 API Request:", targetUrl);
+
+      const res = await fetch(targetUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
+
       const data = await res.json();
-      if (!res.ok)
-        throw new Error(data.message || data.error || "Something went wrong");
+      if (!res.ok) throw new Error(data.message || data.error || "Request failed");
       return data;
     } catch (err) {
       setError(err.message);
@@ -35,37 +37,18 @@ export default function useAuthApi() {
   const loginUser = async ({ email, phone, password }) => {
     const payload = email ? { email, password } : { phone, password };
     const data = await apiCall("/login", payload);
-
     if (data.token && data.user) login(data.token, data.user);
     return data;
   };
 
   const signupUser = async ({ name, email, password }) => {
-    const data = await apiCall("/signup", { name, email, password });
-    return data;
+    return await apiCall("/signup", { name, email, password });
   };
 
   const loginWithGoogle = () => {
-    setLoading(true);
-    setError(null);
-    try {
-      window.location.href = `${Backend}/auth/google`;
-    } catch (err) {
-      setError(err.message || "Failed to redirect for Google login");
-      setLoading(false);
-    }
+    window.location.href = `${Backend}/auth/google`;
   };
 
-  // Handle Google OAuth callback
-  const handleGoogleCallback = (token, user) => {
-    if (token && user) {
-      login(token, user);
-      console.log("Google login successful:", user);
-    } else {
-      setError("Google login failed: no token received");
-    }
-    setLoading(false);
-  };
   const verifyOtp = async (email, otp) => {
     return await apiCall("/email/verify-otp", { email, otp });
   };
@@ -73,7 +56,7 @@ export default function useAuthApi() {
   const resendOtp = async (email) => {
     return await apiCall("/signup", { email, resend: true });
   };
-  // Phone OTP
+
   const sendPhoneOtp = async (phone) => {
     return await apiCall("/phone/send-otp", { phone });
   };
@@ -90,13 +73,12 @@ export default function useAuthApi() {
     loginUser,
     signupUser,
     loginWithGoogle,
-    handleGoogleCallback,
     verifyOtp,
     resendOtp,
-    loading,
     sendPhoneOtp,
     verifyPhoneOtp,
     completePhoneSignup,
+    loading,
     error,
   };
 }
