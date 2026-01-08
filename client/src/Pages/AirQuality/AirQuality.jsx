@@ -20,15 +20,18 @@ import {
 } from "lucide-react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useAuth } from "../../context/AuthContext";
 
 export default function AirQualityFlow() {
+    const { user } = useAuth();
+    let userLocation = user?.city || "Pune, India";
   // State management
   const [currentAQI, setCurrentAQI] = useState(null);
-  const [location, setLocation] = useState("Pune, India");
-  const [inputValue, setInputValue] = useState("Pune, India");
-  const [searchLocation, setSearchLocation] = useState("Pune, India");
-  const [lastSuccessfulLocation, setLastSuccessfulLocation] = useState("Pune, India");
-  
+  const [location, setLocation] = useState(userLocation);
+  const [inputValue, setInputValue] = useState(userLocation);
+  const [searchLocation, setSearchLocation] = useState(userLocation);
+  const [lastSuccessfulLocation, setLastSuccessfulLocation] = useState(userLocation);
+
   const [hourlyForecast, setHourlyForecast] = useState([]);
   const [weeklyForecast, setWeeklyForecast] = useState([]);
   const [pollutants, setPollutants] = useState([]);

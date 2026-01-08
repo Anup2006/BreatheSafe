@@ -29,7 +29,7 @@ import { useAuthInit } from "./hooks/useAuthInit.js";
 import DiseaseInfoPage from "./Pages/DiseaseInfo/DiseaseInfo.jsx";
 import ErrorPage from "./Pages/ErrorPage/ErrorPage.jsx";
 import ClimateShowcase from "./ClimateShowcase/ClimateShowcase.jsx";
-
+import AirLab from "./Pages/Simulation/AirLab.jsx";
 import ProfilePage from "./Pages/App/ProfilePage.jsx";  
 // Wrapper to initialize OAuth token detection
 function AppWrapper() {
@@ -62,7 +62,7 @@ const router = createBrowserRouter(
           <Route path="profile" element={<ProfilePage />} />
         </Route>
       </Route>
-
+      <Route path="/airLab" element={<AirLab />} />
       {/* 404 Page */}
       <Route path="*" element={<ErrorPage />} />
     </>

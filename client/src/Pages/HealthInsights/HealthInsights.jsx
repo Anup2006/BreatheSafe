@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import {
   ShieldAlert,
   Sun,
@@ -12,17 +12,19 @@ import {
 } from "lucide-react";
 import { toast } from "react-toastify";
 import "./HealthInsights.css";
-
+import { useAuth } from "../../context/AuthContext";
 const HealthInsights = () => {
+    const { user } = useAuth();
+    let userLocation = user?.city || "Pune, India";
   const [location, setLocation] = useState({
-    name: "Pune",
+    name: userLocation,
     lat: 18.5214,
     lon: 73.8545,
   });
   const [aqiData, setAqiData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [geoLoading, setGeoLoading] = useState(false);
-  const [inputValue, setInputValue] = useState("Pune");
+  const [inputValue, setInputValue] = useState(userLocation);
   const [hasData, setHasData] = useState(false);
   const [error, setError] = useState(null);
 

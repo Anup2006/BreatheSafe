@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import "./ClimateShowcase.css";
 import { useNavigate, Link } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
+import { useAuth } from "../context/AuthContext";
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -27,12 +28,14 @@ ChartJS.register(
 );
 
 export default function ClimateForecaster() {
+    const { user } = useAuth();
+    let userLocation = user?.city || "Pune, India";
   const [location, setLocation] = useState({
-    name: "Pune",
+    name: userLocation,
     lat: 18.5214,
     lon: 73.8545,
   });
-  const [inputValue, setInputValue] = useState("Pune");
+  const [inputValue, setInputValue] = useState(userLocation);
   const [forecastData, setForecastData] = useState(null);
   const [selectedVariables, setSelectedVariables] = useState([
     "temperature_2m_max",

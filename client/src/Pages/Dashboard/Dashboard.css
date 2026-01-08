@@ -190,14 +190,14 @@
   padding: 0 1.5rem 1.5rem;
 }
 
-.grid {
+.air-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
 }
 
 @media (min-width: 768px) {
-  .grid {
+  .air-grid {
     grid-template-columns: repeat(5, 1fr);
   }
 }
@@ -227,5 +227,3 @@
   font-weight: 500;
   color: #1f2937;
 }
-
-

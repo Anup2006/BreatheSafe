@@ -31,21 +31,22 @@ ChartJS.register(
   PointElement,
   Filler
 );
-
 export default function Dashboard() {
   // State management with proper defaults
+  const { user } = useAuth();
+  let userLocation = user?.city || "Pune, India";
+ 
   const [currentAQI, setCurrentAQI] = useState(null);
   const [airQualityData, setAirQualityData] = useState([]);
   const [weeklyTrend, setWeeklyTrend] = useState([]);
   const [forecastData, setForecastData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [hasData, setHasData] = useState(false);
-  const { user } = useAuth();
   // Separate input value from actual search location
-  const [inputValue, setInputValue] = useState("Pune, India");
-  const [searchLocation, setSearchLocation] = useState("Pune, India");
+  const [inputValue, setInputValue] = useState(userLocation);
+  const [searchLocation, setSearchLocation] = useState(userLocation);
   const [lastSuccessfulLocation, setLastSuccessfulLocation] =
-    useState("Pune, India");
+    useState(userLocation);
 
   // Debounce timer ref
   const debounceTimer = useRef(null);
@@ -763,7 +764,7 @@ export default function Dashboard() {
         </div>
 
         <div className="card-content">
-          <div className="grid">
+          <div className="air-grid">
             {airQualityData.map((item, index) => (
               <div key={index} className="grid-item">
                 <div className="value">{item.value}</div>
