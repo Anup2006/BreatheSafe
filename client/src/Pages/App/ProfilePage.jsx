@@ -5,18 +5,38 @@ import { MapPin, Bell, Globe, ShieldCheck, Mail, Phone,Edit } from "lucide-react
 
 export default function ProfilePage() {
   const { user,updateUserProfile } = useAuth();
-  const [inputValue, setInputValue] = useState("Pune, India");
-  const [updateLocation, setUpdateLocation] = useState("Pune, India");
   const [loading, setLoading] = useState(false);
   const [stateInput, setStateInput] = useState("");
   const [cityInput, setCityInput] = useState("");
+
+  const [preferences, setPreferences] = useState({});
 
   useEffect(() => {
     if (user) {
       setStateInput(user.state || "");
       setCityInput(user.city || "");
+
+      setPreferences(user.preferences || {});
     }
   }, [user]);
+
+  const togglePreference = async (key) => {
+    const updatedPrefs = {
+      ...preferences,
+      [key]: !preferences[key],
+    };
+
+    setPreferences(updatedPrefs);
+
+    try {
+      await updateUserProfile({
+        preferences: updatedPrefs,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
 
   const searchRef1 = useRef(null);
   const searchRef2 = useRef(null);
@@ -50,9 +70,7 @@ export default function ProfilePage() {
   };
 
 
-  const activeAlerts = user?.preferences 
-    ? Object.values(user.preferences).filter(v => v === true).length 
-    : 0;
+  const activeAlerts = Object.values(preferences).filter(Boolean).length;
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] p-4 sm:p-6 md:p-10">
@@ -253,8 +271,21 @@ export default function ProfilePage() {
                     <span className="text-xs font-bold text-slate-600 capitalize">
                       {key.replace(/([A-Z])/g, ' $1')}
                     </span>
-                    <div className={`px-3 py-1 rounded-full text-[9px] font-black uppercase ${value ? 'bg-green-100 text-green-600' : 'bg-slate-100 text-slate-400'}`}>
+                    {/* TOGGLE */}
+                    <div className={`px-3 text-center py-1  rounded-full text-[9px] font-black uppercase ${value ? 'bg-green-100 text-green-600' : 'bg-slate-100 text-slate-400'}`}>
                       {value ? "Active" : "Off"}
+                      <button
+                        onClick={() => togglePreference(key)}
+                        className={`mt-1 w-12 h-6 rounded-full flex items-center px-1 transition ${
+                          value ? "bg-green-500" : "bg-slate-300"
+                        }`}
+                      >
+                        <div
+                          className={`w-4 h-4 bg-white rounded-full shadow transform transition ${
+                            value ? "translate-x-6" : ""
+                          }`}
+                        />
+                      </button>
                     </div>
                   </div>
                 )) : (
