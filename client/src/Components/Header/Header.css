@@ -207,3 +207,62 @@
   }
 }
 
+/* Add to your existing CSS */
+
+.profile-container {
+  position: relative;
+}
+
+.avatar-circle {
+  transition: transform 0.2s ease;
+  border: 2px solid transparent;
+}
+
+.avatar-circle:hover {
+  transform: scale(1.05);
+  border-color: #2ec4b6;
+}
+
+/* Ensure the Side Drawer Mobile view also shows the detailed info */
+.mobile-profile-info {
+  padding: 20px;
+  background: #f9fafb;
+  margin: 10px;
+  border-radius: 16px;
+}
+
+.mobile-profile-info p.location {
+  font-size: 12px;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 4px;
+}
+
+.dropdown-item {
+  width: 100%;
+  text-align: left;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.2s ease;
+  border-radius: 12px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: #f8fafc;
+  color: #0ea5e9;
+}
+
+.dropdown-item.text-red-500:hover {
+  background-color: #fef2f2;
+  color: #ef4444;
+}
