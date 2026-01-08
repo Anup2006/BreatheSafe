@@ -61,8 +61,39 @@ const initAuth = async () => {
     setUser(null);
   };
 
+  const updateUserProfile = async (payload) => {
+    const token = localStorage.getItem("token");
+    if (!token) throw new Error("No auth token");
+
+    try {
+      const res = await fetch(`${BACKEND_URL}/update`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Update failed");
+      }
+
+      // 🔥 Update global user state
+      setUser(data.user);
+
+      return data.user;
+    } catch (err) {
+      console.error("Update profile failed:", err);
+      throw err;
+    }
+  };
+
+
   return (
-    <AuthContext.Provider value={{ user, setUser, loading, login, logout }}>
+    <AuthContext.Provider value={{ user, setUser, loading, login, logout,updateUserProfile }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,9 +1,54 @@
 import React from "react";
 import { useAuth } from "../../context/AuthContext";
-import { MapPin, Bell, Globe, ShieldCheck, Mail, Phone } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { MapPin, Bell, Globe, ShieldCheck, Mail, Phone,Edit } from "lucide-react";
 
 export default function ProfilePage() {
-  const { user } = useAuth();
+  const { user,updateUserProfile } = useAuth();
+  const [inputValue, setInputValue] = useState("Pune, India");
+  const [updateLocation, setUpdateLocation] = useState("Pune, India");
+  const [loading, setLoading] = useState(false);
+  const [stateInput, setStateInput] = useState("");
+  const [cityInput, setCityInput] = useState("");
+
+  useEffect(() => {
+    if (user) {
+      setStateInput(user.state || "");
+      setCityInput(user.city || "");
+    }
+  }, [user]);
+
+  const searchRef1 = useRef(null);
+  const searchRef2 = useRef(null);
+
+  // Handle Enter key
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      if (debounceTimer.current) {
+        clearTimeout(debounceTimer.current);
+      }
+      handleUpdate();
+    }
+  };
+
+  // Handle search
+  const handleUpdate = async () => {
+    if (!stateInput.trim() || !cityInput.trim()) return;
+
+    setLoading(true);
+
+    try {
+      await updateUserProfile({
+        state: stateInput,
+        city: cityInput,
+      });
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
 
   const activeAlerts = user?.preferences 
     ? Object.values(user.preferences).filter(v => v === true).length 
@@ -32,7 +77,9 @@ export default function ProfilePage() {
           <div className="w-full lg:w-1/3">
             <div className="bg-white rounded-[2rem] p-6 shadow-md border border-slate-100 text-center lg:sticky lg:top-24">
               <div className="w-24 h-24 bg-gradient-to-tr from-cyan-400 to-blue-500 rounded-full mx-auto flex items-center justify-center text-white text-4xl font-black mb-4">
-                {user?.name?.charAt(0).toUpperCase() || "U"}
+                {user?.avatarUrl ? (
+                      <img src={user.avatarUrl} alt="User" onError={() => setImgError(true)} className="rounded-full w-full h-full object-cover" />
+                  ) : user?.name?.charAt(0).toUpperCase() || "U"}
               </div>
               <h2 className="text-xl font-bold text-slate-800 break-words">{user?.name}</h2>
               <p className="text-slate-400 text-xs mt-1 break-all flex items-center justify-center gap-2">
@@ -64,13 +111,132 @@ export default function ProfilePage() {
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                  <p className="text-[9px] font-black text-slate-400 uppercase mb-1">State</p>
-                  <p className="font-bold text-slate-700">{user?.state || "Not Set"}</p>
+                  <p className="flex flex-row gap-3 text-[9px] font-black text-slate-400 uppercase mb-1">State <Edit onClick={() => searchRef1.current?.focus()}/></p>
+                  <p className="font-bold text-slate-700">{user?.state || "Not Set"} </p>
                 </div>
                 <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                  <p className="text-[9px] font-black text-slate-400 uppercase mb-1">City</p>
-                  <p className="font-bold text-slate-700">{user?.city || "Not Set"}</p>
+                  <p className="flex flex-row gap-3 text-[9px] font-black text-slate-400 uppercase mb-1">City <Edit onClick={() => searchRef2.current?.focus()}/></p>
+                  <p className="font-bold text-slate-700">{user?.city || "Not Set"} </p>
                 </div>
+              </div>
+              <div style={{
+                display: "flex",
+                gap: "0.75rem",
+                marginTop: "1rem",
+                flexWrap: "wrap"
+              }}>
+                <div style={{ position: "relative", flex: "1", minWidth: "250px" }}>
+                  <MapPin 
+                    size={16} 
+                    style={{
+                      position: "absolute",
+                      left: "12px",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      color: "#6B7280"
+                    }}
+                  />
+                  <input
+                    ref={searchRef1}
+                    type="text"
+                    value={stateInput}
+                    onChange={(e) => setStateInput(e.target.value)}
+                    onKeyPress={handleKeyPress}
+                    placeholder="Change location..."
+                    style={{
+                      width: "100%",
+                      padding: "0.75rem 0.75rem 0.75rem 2.5rem",
+                      borderRadius: "8px",
+                      border: "2px solid #E5E7EB",
+                      fontSize: "1rem",
+                      outline: "none",
+                      boxSizing: "border-box"
+                    }}
+                  />
+                  {loading && (
+                    <div style={{
+                      position: "absolute",
+                      right: "12px",
+                      top: "50%",
+                      transform: "translateY(-50%)"
+                    }}>
+                      <div style={{
+                        border: "2px solid #f3f3f3",
+                        borderTop: "2px solid #2EC4B6",
+                        borderRadius: "50%",
+                        width: "16px",
+                        height: "16px",
+                        animation: "spin 1s linear infinite"
+                      }}></div>
+                    </div>
+                  )}
+                </div>
+                <div style={{ position: "relative", flex: "1", minWidth: "250px" }}>
+                  <MapPin 
+                    size={16} 
+                    style={{
+                      position: "absolute",
+                      left: "12px",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      color: "#6B7280"
+                    }}
+                  />
+                  <input
+                  ref={searchRef2}
+                    type="text"
+                    value={cityInput}
+                    onChange={(e) => setCityInput(e.target.value)}
+                    onKeyPress={handleKeyPress}
+                    placeholder="Change location..."
+                    style={{
+                      width: "100%",
+                      padding: "0.75rem 0.75rem 0.75rem 2.5rem",
+                      borderRadius: "8px",
+                      border: "2px solid #E5E7EB",
+                      fontSize: "1rem",
+                      outline: "none",
+                      boxSizing: "border-box"
+                    }}
+                  />
+                  {loading && (
+                    <div style={{
+                      position: "absolute",
+                      right: "12px",
+                      top: "50%",
+                      transform: "translateY(-50%)"
+                    }}>
+                      <div style={{
+                        border: "2px solid #f3f3f3",
+                        borderTop: "2px solid #2EC4B6",
+                        borderRadius: "50%",
+                        width: "16px",
+                        height: "16px",
+                        animation: "spin 1s linear infinite"
+                      }}></div>
+                    </div>
+                  )}
+                </div>
+                <button
+                  onClick={handleUpdate}
+                  disabled={loading}
+                  style={{
+                    padding: "0.75rem 1.5rem",
+                    borderRadius: "8px",
+                    background: loading ? "#9CA3AF" : "linear-gradient(135deg, #2EC4B6 0%, #20A89E 100%)",
+                    color: "white",
+                    border: "none",
+                    cursor: loading ? "not-allowed" : "pointer",
+                    fontSize: "1rem",
+                    fontWeight: "600",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.5rem",
+                    opacity: loading ? 0.7 : 1
+                  }}
+                >
+                  Update
+                </button>
               </div>
             </section>
 

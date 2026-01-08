@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import "./AirQuality.css";
 import {
   AreaChart,
@@ -38,6 +39,9 @@ export default function AirQualityFlow() {
   const [lastUpdate, setLastUpdate] = useState(new Date());
   
   const debounceTimer = useRef(null);
+
+  const navigate = useNavigate();
+
 
   // Function to get coordinates from location name
   const getCoordinates = async (locationName) => {
@@ -593,10 +597,10 @@ const generateRecommendations = (hourly, currentIdx) => {
         </span>
         <p class="m-4">{aqiStatus.description}</p>
         <div className="buttons">
-          <button className="btn primary" onClick={() => toast.info("Alert feature coming soon!")}>
+          <button className="btn primary"  onClick={() => navigate("/app/profile")}>
             <Bell size={14} /> Set Alert
           </button>
-          <button className="btn outline" onClick={() => document.querySelector('input').focus()}>
+          <button className="btn outline" onClick={() => navigate("/app/profile")}>
             <MapPin size={14} /> Change Location
           </button>
         </div>
