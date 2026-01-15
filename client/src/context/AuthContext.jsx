@@ -10,11 +10,14 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const awards = [];
+  const addAward = (award) => {};
+
   useEffect(() => {
     // src/context/AuthContext.jsx
-// Update the initAuth function inside the useEffect
-const initAuth = async () => {
-        const params = new URLSearchParams(window.location.search);
+    // Update the initAuth function inside the useEffect
+    const initAuth = async () => {
+      const params = new URLSearchParams(window.location.search);
       const urlToken = params.get("token");
 
       if (urlToken) {
@@ -22,31 +25,31 @@ const initAuth = async () => {
         // window.history.replaceState({}, document.title, window.location.pathname);
       }
 
-  const token = localStorage.getItem("token");
-  if (!token) {
-    setLoading(false);
-    return;
-  }
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setLoading(false);
+        return;
+      }
 
-  try {
-    const res = await fetch(`${BACKEND_URL}/me`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+      try {
+        const res = await fetch(`${BACKEND_URL}/me`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
 
-    if (res.ok) {
-      const userData = await res.json();
-      // Ensure we are setting the full user object including city/state
-      setUser(userData); 
-      console.log("✅ Auth Sync Success:", userData); // Check your console for this!
-    } else {
-      localStorage.removeItem("token");
-    }
-  } catch (err) {
-    console.error("Auth init failed:", err);
-  } finally {
-    setLoading(false);
-  }
-};
+        if (res.ok) {
+          const userData = await res.json();
+          // Ensure we are setting the full user object including city/state
+          setUser(userData);
+          console.log("✅ Auth Sync Success:", userData); // Check your console for this!
+        } else {
+          localStorage.removeItem("token");
+        }
+      } catch (err) {
+        console.error("Auth init failed:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
     initAuth();
   }, []);
@@ -91,9 +94,19 @@ const initAuth = async () => {
     }
   };
 
-
   return (
-    <AuthContext.Provider value={{ user, setUser, loading, login, logout,updateUserProfile }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        setUser,
+        loading,
+        login,
+        logout,
+        updateUserProfile,
+        addAward,
+        awards,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

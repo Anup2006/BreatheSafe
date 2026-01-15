@@ -7,6 +7,7 @@ import { MapPin, User, LogOut, ChevronDown, Bell } from "lucide-react";
 import "./Header.css";
 
 export default function Header() {
+  const { awards } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate();
@@ -71,18 +72,35 @@ export default function Header() {
                 className="flex items-center gap-2 cursor-pointer group"
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               >
-                <div className="avatar-circle">
-                  {user.avatarUrl && !imgError ? (
-                    <img
-                      src={user.avatarUrl}
-                      alt="User"
-                      onError={() => setImgError(true)}
-                      className="rounded-full w-full h-full object-cover"
-                    />
-                  ) : (
-                    fallback
+                <div className="avatar-wrapper relative">
+                  <div className="avatar-circle">
+                    {user.avatarUrl && !imgError ? (
+                      <img
+                        src={user.avatarUrl}
+                        alt="User"
+                        onError={() => setImgError(true)}
+                        className="rounded-full w-full h-full object-cover"
+                      />
+                    ) : (
+                      fallback
+                    )}
+                  </div>
+
+                  {/* 🏅 Badge overlay */}
+                  {awards && (
+                    <div
+                      className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-[#2ec4b6] flex items-center justify-center shadow-md border border-white"
+                      title="Achievements earned"
+                    >
+                      <img
+                        src="https://img.icons8.com/external-flatart-icons-solid-flatarticons/64/ffffff/external-rank-usa-flatart-icons-solid-flatarticons.png"
+                        alt="Badge"
+                        className="w-3 h-3"
+                      />
+                    </div>
                   )}
                 </div>
+
                 <ChevronDown
                   size={14}
                   className={`text-gray-400 transition-transform ${

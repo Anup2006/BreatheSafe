@@ -1,0 +1,135 @@
+.quiz-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.quiz-header h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #111;
+}
+
+.quiz-subtitle {
+  color: #666;
+  font-size: 0.95rem;
+  margin-top: 0.25rem;
+}
+
+/* AQI CARD */
+.quiz-aqi-card {
+  background: #fff7e6;
+  border-radius: 14px;
+  padding: 1.25rem;
+  text-align: center;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+  margin: 1.5rem 0;
+}
+
+.quiz-aqi-value {
+  font-size: 2.4rem;
+  font-weight: 700;
+}
+
+.quiz-aqi-status {
+  display: inline-block;
+  background: #ffb800;
+  color: white;
+  padding: 0.35rem 1rem;
+  border-radius: 16px;
+  font-weight: 600;
+  margin-top: 0.25rem;
+}
+
+.quiz-aqi-delta.negative {
+  color: #2ec4b6;
+  font-weight: 700;
+}
+
+.quiz-aqi-delta.positive {
+  color: #d64545;
+  font-weight: 700;
+}
+
+/* QUIZ CARD */
+.quiz-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 1.5rem;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+}
+
+.quiz-progress {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.quiz-question {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+}
+
+/* OPTIONS */
+.quiz-options {
+  display: grid;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.quiz-option-btn {
+  padding: 0.9rem 1.2rem;
+  width: 100%;
+  line-height: 1.4;
+  border-radius: 10px;
+  border: 2px solid #2ec4b6;
+  background: #fff;
+  color: #2ec4b6;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.quiz-option-btn:hover {
+  background: #2ec4b6;
+  color: #fff;
+}
+
+/* RESULT */
+.quiz-result-card {
+  background: #e6fffa;
+  border: 1px solid #2ec4b6;
+  border-radius: 14px;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.quiz-result-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #2ec4b6;
+}
+
+.quiz-award-box {
+  margin: 1rem 0;
+  padding: 1rem;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px dashed #2ec4b6;
+}
+
+.quiz-award-box span {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.quiz-primary-btn {
+  background: #2ec4b6;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 0.6rem 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+}

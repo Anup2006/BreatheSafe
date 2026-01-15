@@ -22,15 +22,16 @@ import HealthAssessment from "./Pages/HealthAssessment/HealthAssessment.jsx";
 import HealthReportDetail from "./Pages/HealthReportDetail/HealthReportDetail.jsx";
 import ProtectedRoute from "./utils/ProtectedRoute.jsx";
 import AuthPage from "./Pages/AuthLanding/AuthPage.jsx";
+import BeatTheAqi from "./Pages/BeatTheAQI/BeatTheAQI.jsx";
 // 1. Import the new CompleteProfile component
-import CompleteProfile from "./Pages/AuthLanding/CompleteProfile.jsx"; 
+import CompleteProfile from "./Pages/AuthLanding/CompleteProfile.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import { useAuthInit } from "./hooks/useAuthInit.js";
 import DiseaseInfoPage from "./Pages/DiseaseInfo/DiseaseInfo.jsx";
 import ErrorPage from "./Pages/ErrorPage/ErrorPage.jsx";
 import ClimateShowcase from "./ClimateShowcase/ClimateShowcase.jsx";
 import AirLab from "./Pages/Simulation/AirLab.jsx";
-import ProfilePage from "./Pages/App/ProfilePage.jsx";  
+import ProfilePage from "./Pages/App/ProfilePage.jsx";
 // Wrapper to initialize OAuth token detection
 function AppWrapper() {
   useAuthInit();
@@ -50,7 +51,7 @@ const router = createBrowserRouter(
       <Route element={<ProtectedRoute />}>
         {/* 2. Add the Complete Profile route here */}
         <Route path="/app/complete-profile" element={<CompleteProfile />} />
-        
+
         <Route path="/app" element={<AppWrapper />}>
           <Route index element={<Home />} />
           <Route path="dashboard" element={<Dashboard />} />
@@ -59,6 +60,7 @@ const router = createBrowserRouter(
           <Route path="health-assessment" element={<HealthAssessment />} />
           <Route path="health-report" element={<HealthReportDetail />} />
           <Route path="health-report/:id" element={<HealthReportDetail />} />
+          <Route path="aqi-quiz" element={<BeatTheAqi />} />
           <Route path="profile" element={<ProfilePage />} />
         </Route>
       </Route>
@@ -79,5 +81,3 @@ createRoot(document.getElementById("root")).render(
     </AuthProvider>
   </StrictMode>
 );
-
-
