@@ -22,6 +22,8 @@ const { default: healthReportRoutes } = await import(
   "./routes/healthReport.routes.js"
 );
 
+import "./utils/cron.js";
+
 ConnectDB();
 
 const app = express();
@@ -30,16 +32,17 @@ app.use(express.json());
 //   ? process.env.FRONTEND_URL
 //   : "http://localhost:5173";
 
-  // temp adding tihs
-const allowedOrigins = process.env.NODE_ENV === "production"
-  ? "https://breathe-safe-s2xn.vercel.app"
-  : "http://localhost:5173";
+// temp adding tihs
+const allowedOrigins =
+  process.env.NODE_ENV === "production"
+    ? "https://breathe-safe-s2xn.vercel.app"
+    : "http://localhost:5173";
 
-
- 
-  console.log("CORS allowed origins:", allowedOrigins);
-  console.log("NODE_ENV:", process.env.NODE_ENV);
-app.use(cors({ origin:allowedOrigins || "http://localhost:5173", credentials: true }));
+console.log("CORS allowed origins:", allowedOrigins);
+console.log("NODE_ENV:", process.env.NODE_ENV);
+app.use(
+  cors({ origin: allowedOrigins || "http://localhost:5173", credentials: true })
+);
 app.use(
   session({
     secret: process.env.SESSION_SECRET,

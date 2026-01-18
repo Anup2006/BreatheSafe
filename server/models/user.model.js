@@ -79,7 +79,7 @@ const userSchema = new mongoose.Schema(
     state: { type: String, default: "" },
     city: { type: String, default: "" },
     isProfileComplete: { type: Boolean, default: false },
-    
+
     // Aligned with the 'preferences' object sent by CompleteProfile.jsx
     preferences: {
       airQuality: { type: Boolean, default: true },
