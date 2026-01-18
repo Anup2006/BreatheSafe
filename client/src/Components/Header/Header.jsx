@@ -34,6 +34,7 @@ export default function Header() {
     { name: "Diseases Info", path: "/Diseases-info" },
     { name: "Health Assessment", path: "/app/health-assessment" },
     { name: "Health Report", path: "/app/health-report" },
+    { name: "Simulation", path: "/simulation" },
     { name: "Climate Modal", path: "/ClimateModal" },
   ];
 

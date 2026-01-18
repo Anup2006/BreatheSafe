@@ -10,14 +10,22 @@ const BATCH_SIZE = 2; // 🔹 emails per batch
 const BATCH_DELAY = 1500; // 🔹 delay between batches (ms)
 
 console.log("🧠 AQI cron loaded");
+//dev code every minute
 
-cron.schedule("*/1 * * * *", async () => {
-  console.log("🌅 AQI cron triggered");
+// cron.schedule("*/1 * * * *", async () => {
+//   console.log("🌅 AQI cron triggered");
+
+//   const users = await User.find({
+//     "preferences.airQuality": true,
+//   });
+
+// production code each mornign 8 am
+cron.schedule("0 8 * * *", async () => {
+ console.log("🌅 AQI cron triggered");
 
   const users = await User.find({
     "preferences.airQuality": true,
   });
-
   console.log(`👥 Total users: ${users.length}`);
 
   const batches = chunkArray(users, BATCH_SIZE);
@@ -47,6 +55,7 @@ cron.schedule("*/1 * * * *", async () => {
 
         console.log(`✅ Sent → ${user.email}`);
       } catch (err) {
+        console.log(user.city, err);
         console.error(`❌ Failed → ${user.email}`, err.message);
       }
     }

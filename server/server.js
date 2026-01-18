@@ -22,7 +22,7 @@ const { default: healthReportRoutes } = await import(
   "./routes/healthReport.routes.js"
 );
 
-// import "./utils/cron.js";
+import "./utils/cron.js";
 
 ConnectDB();
 

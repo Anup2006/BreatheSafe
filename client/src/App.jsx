@@ -186,7 +186,7 @@ function App() {
         currentLang = match[1];
       }
     }
-    // ✅ Set Botpress language
+    //   Set Botpress language
     if (window.botpressWebChat) {
       // Send language to bot via event
       window.botpressWebChat.sendEvent({

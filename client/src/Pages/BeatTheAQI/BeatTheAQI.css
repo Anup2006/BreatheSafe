@@ -18,27 +18,34 @@
 
 /* AQI CARD */
 .quiz-aqi-card {
-  background: #fff7e6;
-  border-radius: 14px;
-  padding: 1.25rem;
+  position: relative; 
+  background: #ffffff; 
+  border: 2px solid #f0f0f0;  
+  border-radius: 16px;
+  padding: 1.5rem;
   text-align: center;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   margin: 1.5rem 0;
+  overflow: hidden; 
 }
 
 .quiz-aqi-value {
-  font-size: 2.4rem;
-  font-weight: 700;
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 0.5rem;
 }
 
 .quiz-aqi-status {
   display: inline-block;
-  background: #ffb800;
-  color: white;
-  padding: 0.35rem 1rem;
-  border-radius: 16px;
-  font-weight: 600;
-  margin-top: 0.25rem;
+  background: #f3f4f6;  
+  color: #4b5563;
+  padding: 0.4rem 1.2rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .quiz-aqi-delta.negative {
@@ -132,4 +139,59 @@
   padding: 0.6rem 1.5rem;
   font-weight: 600;
   cursor: pointer;
+}
+.quiz-feedback-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.98); /* Less transparent for cleaner look */
+  border-radius: 14px; /* Matches card radius */
+  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 20;
+}
+.feedback-delta {
+  font-size: 3.5rem;
+  font-weight: 900;
+  margin-bottom: 0.5rem;
+}
+
+.good-choice .feedback-delta { color: #16a34a; } /* Matches new green */
+.bad-choice .feedback-delta { color: #dc2626; } /* Matches new red */
+
+.feedback-text {
+  font-size: 1.1rem;
+  color: #374151;
+  font-weight: 500;
+}
+
+.quiz-progress-bar {
+  width: 100%;
+  height: 6px;
+  background: #eee;
+  border-radius: 3px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #3498db;
+  transition: width 0.3s ease;
+}
+
+/* Disabled state during animation */
+.quiz-option-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
 }

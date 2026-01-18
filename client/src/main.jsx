@@ -64,7 +64,7 @@ const router = createBrowserRouter(
           <Route path="profile" element={<ProfilePage />} />
         </Route>
       </Route>
-      <Route path="/airLab" element={<AirLab />} />
+      <Route path="/simulation" element={<AirLab />} />
       {/* 404 Page */}
       <Route path="*" element={<ErrorPage />} />
     </>
