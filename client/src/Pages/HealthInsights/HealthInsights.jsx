@@ -442,7 +442,7 @@ const { label, bgClass, borderClass, textClass, iconClass } = getAQIStatusColor(
       </div>
 
       {/* --- Historical Trends Placeholder --- */}
-      <div className="insight-card chart-placeholder-card">
+      {/* <div className="insight-card chart-placeholder-card">
         <h3 className="card-heading">Your Recent Exposure & Response</h3>
         <p className="text-gray-600 mb-4">
           This section would feature charts comparing personalized air quality
@@ -451,7 +451,7 @@ const { label, bgClass, borderClass, textClass, iconClass } = getAQIStatusColor(
         <div className="chart-placeholder">
           [Placeholder for detailed Chart showing PM2.5/NO₂ vs. Symptom Logs]
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
